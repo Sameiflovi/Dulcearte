@@ -223,7 +223,7 @@ if (claveBtn) {
    try {
 
   const q = query(
-    collection(db, "Usuarios y claves"),
+    collection(db, "usuarios_y_claves"),
     where("clave", "==", val),
     where("activo", "==", true)
   );
