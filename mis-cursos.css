@@ -1,0 +1,650 @@
+body{
+    background-image: url("Data/fondopc.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+
+@media (max-width: 768px){
+
+    body{
+        background-image: url("Data/fondocel.png");
+        background-attachment: scroll;
+    }
+
+}
+.logo {
+    display: block;
+    width: 500px; /* ancho objetivo en pantallas grandes */
+    max-width: 95%; /* se reduce en pantallas pequeñas */
+    height: auto;
+    margin: 10px auto 0;
+    text-align: center;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.12));
+}
+.back-btn {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 400;
+    display: inline-block;
+    background: rgba(0,0,0,0.65);
+    color: #fff;
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    transition: transform 300ms cubic-bezier(.22,.9,.36,1), box-shadow 300ms ease;
+}
+.back-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(0,0,0,0.22); }
+@media (max-width: 420px) {
+    .back-btn { top: 8px; left: 8px; padding: 6px 8px; font-size: 0.95rem; }
+}
+.inicio{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px; /* control vertical spacing between logo and title */
+}
+.contenido-curso {
+    font-family: 'Arial', sans-serif;
+    color: #a95e2d;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 0 15px;
+}
+/* --- Estilos para las tarjetas de cursos --- */
+/* Mobile-first: barras horizontales de ancho completo (controladas por cada dispositivo) */
+.courses {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    align-items: stretch;
+    max-width: 100%;
+    margin: 12px auto;
+}
+
+.course-card {
+    position: relative;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 120px !important; /* altura por defecto para barra en móviles */
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    background: #ffffffcc; /* más plano, fondo suave */
+    border: 1px solid rgba(0,0,0,0.06);
+    transition: transform .18s ease, box-shadow .18s ease;
+    display: block !important;
+}
+
+.course-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.10);
+}
+
+.course-image {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: #eee;
+}
+
+.course-media {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+
+.course-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Cuando la tarjeta está bloqueada, descoloriza sólo la imagen */
+.course-card.locked .course-media img {
+    filter: grayscale(70%) brightness(0.95);
+    transition: filter .25s ease;
+}
+
+/* Estilo distintivo opcional para el curso de comida mexicana */
+.course-media img[alt="Comida mexicana"] {
+    /* ligero filtro de color para diferenciar */
+    filter: saturate(1.05) contrast(1.03);
+}
+
+/* Efecto cuando no hay imagen: usa la clase .placeholder en el HTML */
+.course-media.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-weight: 600;
+    position: relative;
+    z-index: 0;
+}
+.course-media.placeholder::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(240,240,240,0.6));
+    filter: blur(6px);
+    z-index: 1;
+}
+.course-image { position: relative; }
+
+/* Imagen específica para empanadas: coloque Data/empanadas.png o .jpg */
+.course-media.course-empanadas {
+    background-image: url("Data/empanadas.png");
+}
+
+.course-title {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(255,255,255,0.95);
+    color: #222;
+    padding: 6px 10px;
+    font-weight: 700;
+    border-radius: 6px;
+    font-size: 1rem;
+    z-index: 3;
+}
+
+/* Desktop overrides: tiras horizontales */
+@media (min-width: 560px) {
+    .courses {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 20px;
+        gap: 20px;
+    }
+    .course-card {
+        flex: none;
+        width: 100%;
+        height: 120px;
+        display: block;
+        border-radius: 8px;
+        position: relative;
+        overflow: hidden;
+        background: #ffffffcc;
+    }
+    .course-card:hover {
+        transform: translateY(-4px) scale(1.01);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+    }
+    /* Imagen cubre toda la barra */
+    .course-image {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .course-media {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        background-size: cover;
+        background-position: center;
+    }
+    .course-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    /* Título en esquina izquierda superior */
+    .course-title {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        bottom: auto;
+        transform: none;
+        z-index: 2;
+    }
+}
+/* Ajustes extra para teléfonos estrechos (Huawei Y7 y similares) */
+@media (max-width: 420px) {
+    .courses {
+        gap: 18px; /* más separación entre barras */
+        padding: 14px;
+    }
+    .course-card {
+        height: 140px !important; /* aumentar altura para mejor toque */
+        border-radius: 10px;
+    }
+    .course-title {
+        font-size: 0.95rem;
+        padding: 8px 12px;
+    }
+}
+/*Social Bar*/
+.samei-social-bar{
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    z-index: 120;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ITEMS */
+.samei-social-bar li{
+    position: relative;
+
+    width: 55px;
+    height: 55px;
+
+    transform: rotate(-30deg) skew(25deg);
+}
+
+/* BOTONES */
+.samei-social-bar li a{
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-decoration: none;
+    color: white;
+
+    font-size: 1.4em;
+
+    transition: 0.35s;
+
+    background: var(--softclr);
+
+    box-shadow:
+    -10px 10px 15px rgba(0,0,0,0.15);
+}
+
+/* LADO IZQUIERDO */
+.samei-social-bar li a::before{
+    content: '';
+
+    position: absolute;
+    top: 6px;
+    left: -12px;
+
+    width: 12px;
+    height: 100%;
+
+    background: va
+    r(--sideclr);
+
+    transform: skewY(-45deg);
+
+    transition: 0.35s;
+}
+
+/* PARTE INFERIOR */
+.samei-social-bar li a::after{
+    content: '';
+
+    position: absolute;
+    bottom: -12px;
+    left: -6px;
+
+    width: 100%;
+    height: 12px;
+
+    background: var(--bottomclr);
+
+    transform: skewX(-45deg);
+
+    transition: 0.35s;
+}
+
+/* HOVER */
+.samei-social-bar li:hover a{
+    transform: translate(10px,-10px);
+
+    background: var(--clr1);
+
+    box-shadow:
+    -20px 20px 25px rgba(0,0,0,0.25);
+}
+
+.samei-social-bar li:hover a::before{
+    background: var(--clr1);
+}
+
+.samei-social-bar li:hover a::after{
+    background: var(--clr2);
+}
+
+/* ICONOS */
+.samei-social-bar li a i{
+    transition: 0.35s;
+}
+
+.samei-social-bar li:hover a i{
+    transform: scale(1.15);
+}
+.toast{
+    position: fixed;
+    top: 20px;
+    right: -500px;
+    width: 320px;
+    max-width: calc(100% - 30px);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 12px;
+    background: rgba(45,55,75,.95);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    z-index: 99999;
+    transition: right .5s ease;
+    overflow: hidden;
+}
+
+.toast.show{
+    right: 20px;
+}
+
+.toast-icon{
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 28px;
+    font-weight: bold;
+
+    flex-shrink: 0;
+}
+
+.toast-icon.error{
+    background: #ff3b3b;
+    color: white;
+
+    box-shadow:
+        0 0 15px rgba(255,59,59,.6);
+}
+
+.toast-content h4{
+    margin: 0;
+    color: white;
+    font-size: 18px;
+}
+
+.toast-content p{
+    margin: 4px 0 0;
+    color: #d6d6d6;
+    font-size: 14px;
+}
+
+@media (max-width:768px){
+    .toast{
+        width: calc(100% - 20px);
+        right: -120%;
+        max-width: 280px;
+        padding: 10px;
+    }
+
+    .toast.show{
+        right: 10px;
+    }
+
+    .toast-icon{ width: 40px; height: 40px; font-size: 20px; }
+    .toast-content h4{ font-size: 14px; margin-bottom: 4px; }
+    .toast-content p{ font-size: 12px; }
+}
+
+@media (max-width:480px){
+    .toast{
+        width: calc(100% - 16px);
+        max-width: 260px;
+        padding: 8px;
+        top: 10px;
+    }
+
+    .toast.show{
+        right: 8px;
+    }
+
+    .toast-icon{ width: 36px; height: 36px; font-size: 18px; }
+    .toast-content h4{ font-size: 12px; }
+    .toast-content p{ font-size: 11px; }
+}
+
+.curso-check{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+
+    width: 35px;
+    height: 35px;
+
+    border-radius: 50%;
+
+    background: #22c55e;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.25);
+
+    z-index: 10;
+}
+.curso-check{
+    animation: aparecer .4s ease;
+}
+
+/* Candado cerrado para cursos bloqueados */
+.curso-lock{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    background: #ff3b3b; /* fondo rojo */
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.25);
+
+    z-index: 10;
+}
+.curso-lock{
+    animation: aparecer .4s ease;
+}
+
+/* Asegurar que el candado no reciba filtros/opacidad del padre */
+.curso-lock{
+    filter: none !important;
+    -webkit-filter: none !important;
+    opacity: 1 !important;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+    isolation: isolate;
+}
+
+@keyframes aparecer{
+    from{
+        transform: scale(0);
+        opacity: 0;
+    }
+    to{
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.toast{
+    overflow: hidden;
+}
+
+.toast-progress{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    background: #ff3b30;
+    transform-origin: left;
+}
+
+@keyframes toastTimer{
+
+    from{
+        width: 100%;
+    }
+
+    to{
+        width: 0%;
+    }
+
+}
+
+
+
+.toast-ok{
+    position: fixed;
+    top: 20px;
+    right: -400px;
+    width: 320px;
+    max-width: calc(100% - 30px);
+    background: #1f2937;
+    color: white;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    box-shadow: 0 10px 25px rgba(0,0,0,.3);
+    transition: .4s;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+.toast-ok.show{
+    right: 20px;
+}
+
+@media (max-width:768px){
+    .toast-ok{
+        width: calc(100% - 20px);
+        right: -120%;
+        max-width: 280px;
+        padding: 10px;
+    }
+
+    .toast-ok.show{
+        right: 10px;
+    }
+
+    .toast-icon-ok{ width: 40px; height: 40px; font-size: 20px; }
+    .toast-title{ font-size: 14px; }
+    .toast-message{ font-size: 12px; }
+}
+
+@media (max-width:480px){
+    .toast-ok{
+        width: calc(100% - 16px);
+        max-width: 260px;
+        padding: 8px;
+        top: 10px;
+    }
+
+    .toast-ok.show{
+        right: 8px;
+    }
+
+    .toast-icon-ok{ width: 36px; height: 36px; font-size: 18px; }
+    .toast-title{ font-size: 12px; }
+    .toast-message{ font-size: 11px; }
+}
+
+.toast-icon-ok{
+    width: 55px;
+    height: 55px;
+
+    border-radius: 50%;
+
+    background: #22c55e;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 24px;
+}
+
+.toast-title{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.toast-message{
+    font-size: 14px;
+    opacity: .9;
+}
+
+.toast-content{
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-bottom: 5px;
+}
+
+.toast-ok .toast-progress{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 100%;
+    background: #22c55e;
+    border-radius: 0;
+    margin-top: auto;
+}
+
+/* Allow JS to control the animation duration via inline styles; avoid double-defined animations */

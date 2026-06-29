@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f6d1b1">
+    <title>DulceArte</title>
+    <meta name="description" content="DulceArte - Cursos virtuales de repostería artesanal, creatividad y detalles únicos hechos con amor.">
+    <link rel="icon" href="Data/fotoweb 500 x 500.jpg">
+    <link rel="stylesheet" href="style.css">
+    <meta name="author" content="Sameiflovi">
+    <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    
+<!-- Inicio (logo, descripcion) -->
+    <div class="inicio">
+            <img src="Data/logogrande.jpg" alt="DulceArte" class="logo">
+    <!-- Descripción -->
+    <h2 class="desc">
+        Tu mejor opcion de cursos virtuales en arte cocina y repostería</h2>
+    </div>
+    <!-- Cierre logo y descripcion -->
+    <!-- Clave -->
+    <div class="clavearea">
+
+        <label>Ingresa tu clave aquí</label>
+
+      <div class="clave">
+          <input id="claveInput" type="text" placeholder="XXXX" maxlength="14">
+          <button id="claveBtn" class="botonClave">Entrar</button>
+      </div>
+      <div id="claveMessage" class="clave-message" aria-live="polite"></div>
+    </div>
+<!-- Cierre clave -->
+ <!-- Carrusel de imágenes -->
+    <div class="carousel" id="carrusel">
+        <div class="slides">
+            <div class="diapositiva active" data-title="Curso de Pizzas" data-desc="Aprende a crear pizzas perfectas desde cero." data-whatsapp="59170724244" data-phone="+59170724244"><img src="Data/pizzas 8x8.png" alt="Pizzas 8x8"></div>
+            <div class="diapositiva" data-title="Cupcakes Creativos" data-desc="Técnicas para cupcakes profesionales y decoración." data-whatsapp="59170724244" data-phone="+59170724244"><img src="Data/queques 8x8.png" alt="Imagen 2"></div>
+            <div class="diapositiva" data-title="Repostería Artesanal" data-desc="Recetas y acabados para repostería artesanal." data-whatsapp="59170724244" data-phone="+59170724244"><img src="Data/tacos 8x8.png" alt="Imagen 3"></div>
+            <div class="diapositiva" data-title="Cupcakes Creativos" data-desc="Técnicas para cupcakes profesionales y decoración." data-whatsapp="59170724244" data-phone="+59170724244"><img src="Data/empanadas.png" alt="Curso de Empanadas"></div>
+        </div>
+        <button class="carousel-btn anterior" aria-label="Anterior">&#10094;</button>
+        <button class="carousel-btn siguiente" aria-label="Siguiente">&#10095;</button>
+        <div class="indicadores"></div>
+    </div>
+
+    <!-- Modal popup para descripciones y contacto -->
+    <div class="modal" id="modalDiapositiva" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal-inner" role="document">
+            <button class="modal-close" id="cerrarModal" aria-label="Cerrar">&times;</button>
+            <h3 class="modal-title" id="tituloModal"></h3>
+            <p class="modal-desc" id="descModal"></p>
+            <div class="modal-actions">
+                <a href="#" class="btn whatsapp" id="whatsappModal" target="_blank" rel="noopener">Contactar por WhatsApp</a>
+                <a href="#" class="btn phone" id="telefonoModal">Llamar</a>
+            </div>
+        </div>
+    </div>
+ <a href="Catalogo/catalogo.html?vista=cursos" class="btn-catalogo">
+    🛍️ Ver cursos
+</a>
+    <section class="catalogo-section">
+    <div class="catalogo-header">
+        <h2>🛍️ Catálogo</h2>
+        <p>Descubre otros productos que podrían interesarte.</p>
+    </div>
+
+    <div class="catalogo-grid">
+
+        <a href="https://tu-catalogo.com" class="catalogo-card">
+            <div class="card-image">
+                <img src="https://picsum.photos/600/400?1" alt="Producto 1">
+            </div>
+
+            <div class="card-frosting">
+                <svg viewBox="0 0 500 80" preserveAspectRatio="none">
+                    <path d="M0,40
+                             C30,10 60,10 90,40
+                             C120,70 150,70 180,40
+                             C210,10 240,10 270,40
+                             C300,70 330,70 360,40
+                             C390,10 420,10 450,40
+                             C470,55 485,55 500,40
+                             L500,80 L0,80 Z">
+                    </path>
+                </svg>
+
+                <span>Zapatos<br>Ver catálogo</span>
+            </div>
+        </a>
+
+        <a href="https://tu-catalogo.com" class="catalogo-card">
+            <div class="card-image">
+                <img src="https://picsum.photos/600/400?2" alt="Producto 2">
+            </div>
+
+            <div class="card-frosting">
+                <svg viewBox="0 0 500 80" preserveAspectRatio="none">
+                    <path d="M0,40
+                             C30,10 60,10 90,40
+                             C120,70 150,70 180,40
+                             C210,10 240,10 270,40
+                             C300,70 330,70 360,40
+                             C390,10 420,10 450,40
+                             C470,55 485,55 500,40
+                             L500,80 L0,80 Z">
+                    </path>
+                </svg>
+
+                <span>Ropa<br>Ver catálogo</span>
+            </div>
+        </a>
+   <a href="https://tu-catalogo.com" class="catalogo-card">
+            <div class="card-image">
+                <img src="https://picsum.photos/600/400?3" alt="Producto 2">
+            </div>
+
+            <div class="card-frosting">
+                <svg viewBox="0 0 500 80" preserveAspectRatio="none">
+                    <path d="M0,40
+                             C30,10 60,10 90,40
+                             C120,70 150,70 180,40
+                             C210,10 240,10 270,40
+                             C300,70 330,70 360,40
+                             C390,10 420,10 450,40
+                             C470,55 485,55 500,40
+                             L500,80 L0,80 Z">
+                    </path>
+                </svg>
+
+                <span>Granola<br>Ver catálogo</span>
+            </div>
+        </a>
+    </div>
+</section>
+    <a href="Catalogo/catalogo.html?vista=articulos" class="btn-catalogo">
+    🛍️ Ver catálogo
+</a>
+    <!-- Sobre nosotros -->
+ <div class="about">
+<h1 class="titulo-about">¿Quiénes Somos?</h1>
+
+    <h4 class="desc-about">
+        Somos una empresa dedicada a ofrecer cursos virtuales de
+        <strong>alta calidad</strong>
+        en arte, cocina y repostería.
+        Nuestro equipo de instructores
+        <strong>capacitados</strong>
+        te ayudará a desarrollar tus habilidades y alcanzar tus metas en el mundo del arte culinario.
+    </h4>
+</div>
+<!-- Cierre sobre nosotros -->
+
+   <ul class="samei-social-bar">
+
+    <!-- Facebook -->
+    <li
+    style="
+    --softclr:#7ea6ff;
+    --sideclr:#5f84d8;
+    --bottomclr:#4f74c7;
+    --clr1:#1877f2;     
+    --clr2:#0d5fd1;
+    ">
+        <a href="https://www.facebook.com/profile.php?id=61590101863806"
+        target="_blank"
+        rel="noopener noreferrer">
+            <i class="fa-brands fa-facebook-f"></i>
+        </a>
+    </li>
+
+    <!-- Instagram -->
+    <li
+    style="
+    --softclr:#ff8fc2;
+    --sideclr:#e56ba3;
+    --bottomclr:#cc4f89;
+    --clr1:#ff2f92;
+    --clr2:#ff006a;
+    ">
+        <a href="https://www.instagram.com/dulcearteig/"
+        target="_blank"
+        rel="noopener noreferrer">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+    </li>
+
+    <!-- WhatsApp -->
+    <li
+    style="
+    --softclr:#7ce9a5;
+    --sideclr:#5ccc85;
+    --bottomclr:#41b66f;
+    --clr1:#25d366;
+    --clr2:#17b653;
+    ">
+        <a href="https://wa.me/59170724244"
+        target="_blank"
+        rel="noopener noreferrer">
+            <i class="fa-brands fa-whatsapp"></i>
+        </a>
+    </li>
+
+    <!-- TikTok -->
+    <li
+    style="
+    --softclr:#858484;
+    --sideclr:#5e5d5d;
+    --bottomclr:#5a5a5a;
+    --clr1:#ff0050;
+    --clr2:#00f2ea;
+    ">
+        <a href="https://www.tiktok.com/@dulcearte55"
+        target="_blank"
+        rel="noopener noreferrer">
+            <i class="fa-brands fa-tiktok"></i>
+        </a>
+    </li>
+</ul>
+<div class="version">v26.6.2</div>
+<script type="module"
+src="script.js"></script>
+</body>
+</html>

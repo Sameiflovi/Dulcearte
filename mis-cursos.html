@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis cursos - DulceArte</title>
+    <link rel="stylesheet" href="mis-cursos.css?v=2">
+    <link rel="icon" href="Data/fotoweb 500 x 500.jpg">
+    <meta name="theme-color" content="#f6d1b1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <header class="inicio">
+        <a href="index.html" class="back-btn" aria-label="Volver al inicio">← Inicio</a>
+        <img src="Data/logomiscursos.jpg" alt="DulceArte" class="logo">
+    </header>
+
+    <main>
+        <section class="courses" aria-label="Listado de cursos">
+            <!-- Tarjeta de curso: para cambiar la imagen, sustituye o añade un archivo en Data/ y cambia la ruta en HTML o CSS -->
+            <a class="course-card" data-curso="pizzas" href="cursos/pizzas/pizzas.html" aria-label="Ir al curso de pizzas">
+                <div class="course-image">
+                    <div class="course-media">
+                        <img src="Data/pizzas 8x8.png" alt="Pizzas">
+                    </div>
+                </div>
+                <div class="course-title">Curso de pizzas</div>
+            </a>
+
+            <a class="course-card" data-curso="comida-mexicana" href="cursos/comida-mexicana/comida-m.html" aria-label="Ir al curso de comida mexicana">
+                <div class="course-image">
+                    <div class="course-media">
+                        <img src="Data/tacos 8x8.png" alt="Comida mexicana">
+                    </div>
+                </div>
+                <div class="course-title">Comida mexicana</div>
+            </a>
+
+            <a class="course-card" data-curso="empanadas" href="cursos/empanadas/empanadas.html" aria-label="Ir al curso de empanadas">
+                <div class="course-image">
+                    <div class="course-media">
+                        <img src="Data/empanadas.png" alt="Empanadas">
+                    </div>
+                </div>
+                <div class="course-title">Empanadas</div>
+            </a>
+
+            <a class="course-card" data-curso="proximo" href="#" aria-label="Próximo curso">
+                <div class="course-image">
+                    <div class="course-media placeholder" style="background-color:#f3c4b8"></div>
+                </div>
+                <div class="course-title">Próximo curso</div>
+            </a>
+        </section>
+    </main>
+
+    <ul class="samei-social-bar">
+        <li style="--softclr:#7ea6ff; --sideclr:#5f84d8; --bottomclr:#4f74c7; --clr1:#1877f2; --clr2:#0d5fd1;">
+            <a href="https://www.facebook.com/profile.php?id=61590101863806" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-facebook-f"></i>
+            </a>
+        </li>
+        <li style="--softclr:#ff8fc2; --sideclr:#e56ba3; --bottomclr:#cc4f89; --clr1:#ff2f92; --clr2:#ff006a;">
+            <a href="https://www.instagram.com/dulcearteig/" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+        </li>
+        <li style="--softclr:#7ce9a5; --sideclr:#5ccc85; --bottomclr:#41b66f; --clr1:#25d366; --clr2:#17b653;">
+            <a href="https://wa.me/59170724244" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+        </li>
+        <li style="--softclr:#858484; --sideclr:#5e5d5d; --bottomclr:#5a5a5a; --clr1:#ff0050; --clr2:#00f2ea;">
+            <a href="https://www.tiktok.com/@dulcearte55" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-tiktok"></i>
+            </a>
+        </li>
+    </ul>
+
+    <div class="version">v26.6.4</div>
+    <script src="mis-cursos.js"></script>
+
+    <div id="toast" class="toast">
+        <div class="toast-icon error">✖</div>
+        <div class="toast-content">
+            <h4>Acceso denegado</h4>
+            <p>No tienes acceso a este curso.</p>
+        </div>
+        <div class="toast-progress"></div>
+    </div>
+
+    <div id="toast-ok" class="toast-ok">
+        <div class="toast-icon-ok">
+            <i class="fa-solid fa-lock-open"></i>
+        </div>
+        <div class="toast-content">
+            <div class="toast-title">Acceso concedido</div>
+            <div class="toast-message">Puedes ingresar a este curso.</div>
+            <div class="toast-progress"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,204 @@
+body {
+    background-image: url("../../Data/fondopc.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+} 
+
+@media (max-width: 768px){
+
+    body{
+        background-image: url("../../Data/fondocel.png");
+        background-attachment: scroll;
+    }
+
+}
+.logo {
+    display: block;
+    width: auto; /* ancho objetivo en pantallas grandes */
+    max-width: 500px; /* se reduce en pantallas pequeñas */
+    height: auto;
+    margin: 10px auto 0;
+    text-align: center;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.12));
+}
+.descripcion {
+    font-family: 'Arial', sans-serif;
+    color: #a95e2d;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 0 15px;
+}
+.titulo-curso {
+    font-family: 'Arial', sans-serif;
+    color: #a95e2d;
+    text-align: center;
+    margin: 20px auto;
+}
+
+/* Estilos para el botón 'Volver al Inicio' */
+.btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #fff;
+    background: rgba(0,0,0,0.6);
+    transition: transform 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+/* Ajuste del color según el fondo: color semitransparente sobre el fondo */
+.btn.volver {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 400;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,0,0,0.65);
+    color: #fff;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    transition: transform 300ms cubic-bezier(.22,.9,.36,1), box-shadow 300ms ease;
+}
+
+.btn.volver::before{
+    content: '←';
+    display: inline-block;
+    font-weight: 800;
+    transform: translateY(-1px);
+}
+
+.btn:hover,
+.btn:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+}
+
+/* Efecto más suave en dispositivos táctiles (sin hover) */
+@media (hover: none) {
+    .btn:hover { transform: none; }
+}
+
+@media (max-width: 420px) {
+    .btn.volver { top: 8px; left: 8px; padding: 6px 8px; font-size: 0.95rem; }
+}
+
+/* Mantener accesibilidad: foco visible */
+.btn:focus {
+    outline: 3px solid rgba(246,209,177,0.35);
+    outline-offset: 3px;
+}
+/*Social Bar*/
+.samei-social-bar{
+    display: flex;
+    gap: 30px;
+
+    justify-content: center;
+    align-items: center;
+
+    list-style: none;
+    padding: 0;
+}
+
+/* ITEMS */
+.samei-social-bar li{
+    position: relative;
+
+    width: 55px;
+    height: 55px;
+
+    transform: rotate(-30deg) skew(25deg);
+}
+
+/* BOTONES */
+.samei-social-bar li a{
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-decoration: none;
+    color: white;
+
+    font-size: 1.4em;
+
+    transition: 0.35s;
+
+    background: var(--softclr);
+
+    box-shadow:
+    -10px 10px 15px rgba(0,0,0,0.15);
+}
+
+/* LADO IZQUIERDO */
+.samei-social-bar li a::before{
+    content: '';
+
+    position: absolute;
+    top: 6px;
+    left: -12px;
+
+    width: 12px;
+    height: 100%;
+
+    background: var(--sideclr);
+
+    transform: skewY(-45deg);
+
+    transition: 0.35s;
+}
+
+/* PARTE INFERIOR */
+.samei-social-bar li a::after{
+    content: '';
+
+    position: absolute;
+    bottom: -12px;
+    left: -6px;
+
+    width: 100%;
+    height: 12px;
+
+    background: var(--bottomclr);
+
+    transform: skewX(-45deg);
+
+    transition: 0.35s;
+}
+
+/* HOVER */
+.samei-social-bar li:hover a{
+    transform: translate(10px,-10px);
+
+    background: var(--clr1);
+
+    box-shadow:
+    -20px 20px 25px rgba(0,0,0,0.25);
+}
+
+.samei-social-bar li:hover a::before{
+    background: var(--clr1);
+}
+
+.samei-social-bar li:hover a::after{
+    background: var(--clr2);
+}
+
+/* ICONOS */
+.samei-social-bar li a i{
+    transition: 0.35s;
+}
+
+.samei-social-bar li:hover a i{
+    transform: scale(1.15);
+}

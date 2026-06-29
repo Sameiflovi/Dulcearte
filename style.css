@@ -1,0 +1,759 @@
+
+.logo {
+    display: block;
+    width: 500px; /* ancho objetivo en pantallas grandes */
+    max-width: 95%; /* se reduce en pantallas pequeñas */
+    height: auto;
+    margin: 10px auto 0;
+    text-align: center;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.12));
+}
+.desc {
+    color: #a95e2d;
+    text-align: center;
+    margin: 0; /* reset margins to avoid unexpected gaps */
+    margin-top: 8px; /* controlled spacing below the logo */
+    /* Tipografía responsiva: mínimo legible en móviles, usa vw para escalar y tiene un máximo razonable */
+    font-size: clamp(20px, 5vw, 42px);
+    line-height: 1.05;
+    font-weight: 800;
+    max-width: 98%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 10px;
+    text-shadow:0 0 10px rgba(255,190,140,0.7), 0 0 20px rgba(255,160,120,0.4);
+}
+
+/* Ajustes adicionales para pantallas muy pequeñas para evitar que el título ocupe demasiado espacio */
+@media (max-width: 320px) {
+    .logo { width: 140px; }
+    .desc { font-size: 18px; }
+}
+
+/* Ajustes para pantallas grandes */
+@media (min-width: 1600px) {
+    .logo { width: 420px; }
+    .desc { font-size: 48px; }
+}
+.inicio{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px; /* control vertical spacing between logo and title */
+}
+
+.descripcion{
+    margin-top: 10px;
+    text-align: center;
+}
+/* Cierre de Inicio (logo, descripcion) */
+.clavearea {
+    width: 90%;
+    max-width: 500px;
+    min-height: 60px;
+    margin: auto;
+    text-align: center;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    isolation: isolate;
+    background: transparent;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
+    font-size: 20px;
+    padding: 12px 16px;
+}
+
+.clavearea::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    background: rgba(255,255,255,0.02); /* ligero tinte para suavizar la mezcla */
+    opacity: 1;
+    transition: backdrop-filter 600ms cubic-bezier(.2,.8,.2,1), opacity 600ms cubic-bezier(.2,.8,.2,1), background-color 600ms ease;
+}
+
+/* Fallback si el navegador no soporta backdrop-filter */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .clavearea::before {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: rgba(255,255,255,0.06);
+    }
+}
+
+/* Desactivar blur en pantallas pequeñas por rendimiento */
+@media (max-width: 768px) {
+    .clavearea::before {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: rgba(255,255,255,0.06);
+    }
+}
+
+/* Asegura que el contenido (label, input, button, mensajes) esté sobre el blur */
+.clavearea > * {
+    position: relative;
+    z-index: 1;
+}
+
+.botonClave:focus { outline: 3px solid var(--boton-focus-ring); outline-offset: 2px; }
+
+/* Estilos específicos para el botón de clave (paleta cálida/coral) */
+:root {
+    --boton-bg: #FF7A59;
+    --boton-bg-hover: #ff6743;
+    --boton-bg-active: #e0563a;
+    --boton-color: #ffffff;
+    --boton-focus-ring: rgba(255,122,89,0.28);
+}
+
+.botonClave {
+    background: var(--boton-bg);
+    color: var(--boton-color);
+    border: none;
+    padding: 0.56rem 1rem;
+    border-radius: 18px; /* borde redondeado completo */
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .12s ease, transform .06s ease, box-shadow .12s ease;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+    z-index: 5;
+    flex: 0 0 auto;
+}
+.botonClave:hover { background: var(--boton-bg-hover); box-shadow: 0 6px 18px rgba(255,122,89,0.08); }
+.botonClave:active { background: var(--boton-bg-active); transform: translateY(1px); }
+.botonClave:focus { outline: 3px solid var(--boton-focus-ring); outline-offset: 2px; }
+
+/* Variante para texto oscuro si se necesita sobre fondos claros */
+.botonClave--lighttext { color: #111; background: #FFD700; }
+
+/* Animación: agrandar ligeramente botones principales al pasar el ratón */
+.botonClave, .carousel-btn, .btn, .modal-close{
+    transition: transform .14s cubic-bezier(.2,.9,.2,1), box-shadow .14s ease, background .12s ease;
+    will-change: transform;
+}
+.botonClave:hover, .carousel-btn:hover, .btn:hover, .modal-close:hover{
+    transform: scale(1.06);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+.botonClave:active, .carousel-btn:active, .btn:active, .modal-close:active{
+    transform: scale(0.995) translateY(1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+/* Foco personalizado para el input de clave */
+/* Contenedor y estilo base para input + botón dentro de .clave */
+.clave{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap; /* permitir que el botón pase debajo en pantallas pequeñas */
+}
+.clave input{
+    border-radius: 18px; /* siempre redondeado */
+    border: 1px solid rgba(0,0,0,0.08);
+    padding: 10px 14px;
+    transition: box-shadow 260ms ease, background-color 200ms ease, transform 140ms ease;
+    background: #ffffff;
+    display: inline-block;
+    position: relative;
+    z-index: 5;
+    font-size: 20px;
+    box-sizing: border-box;
+    flex: 1 1 180px; /* crecer, pero permitir envoltura */
+    min-width: 0;
+}
+
+/* Foco personalizado para el input de clave (aura suave) */
+.clave input:focus{
+    outline: none;
+    box-shadow: 0 12px 40px rgba(255, 220, 201, 0.45);
+    background-color: #fff8f5;
+    transform: translateY(-1px);
+}
+
+/* Mensaje de validación debajo del input */
+.clave-message{
+    text-align: center;
+    margin-top: 8px;
+    color: #b86b4b;
+    font-weight: 600;
+    min-height: 18px;
+    padding: 0;
+    border-radius: 0;
+    display: block;
+    box-shadow: none;
+}
+.clave-message.error{ color: #e74c3c; background: transparent; box-shadow: none; }
+.clave-message.info{ color: #2ecc71; background: transparent; box-shadow: none; }
+.clave-message.warn{ color: #b86b4b; background: transparent; box-shadow: none; }
+
+/* Asegurar que el mensaje quede dentro del recuadro .clavearea */
+.clave-message{
+    position: relative;
+    z-index: 10;
+    transform: none;
+    margin-top: 8px;
+}
+
+
+/* Cierre Area Clave */
+
+
+
+/* Estilos para el fondo de la página */
+body{
+    background-image: url("Data/fondopc.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+} 
+
+@media (max-width: 768px){
+
+    body{
+        background-image: url("Data/fondocel.png");
+        background-attachment: scroll;
+    }
+
+}
+/* Cierre de estilos @media = Telefonos celulares */
+/* Estilos para la sección "About" o Quienes somos */
+
+.about {
+    width: 90%;
+    max-width: 500px;
+    min-height: 200px;
+    text-align: center;
+    border-radius: 10px;
+    margin: auto;
+}
+.titulo-about {
+    color: #b86b4b;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-shadow:0 0 10px rgba(255,190,140,0.7), 0 0 20px rgba(255,160,120,0.4);
+}
+
+.desc-about {
+    color: #975a30 ;
+    text-align: center;
+}
+
+/* Estilos para el carrusel */
+.carousel{
+    width: 700px;
+    max-width: 95%;
+    margin: 35px auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    background: rgba(255,255,255,0.6);
+}
+.slides{
+    position: relative;
+    height: 360px;
+}
+.diapositiva{
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: none;
+
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    will-change: opacity;
+}
+
+.diapositiva.active{
+    opacity: 1;
+    z-index: 2;
+    pointer-events: auto;
+}
+.diapositiva img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.carousel-btn{
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0,0,0,0.55);
+        color: #fff;
+        border: none;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-radius: 50%;
+        font-size: 20px;
+        z-index: 5;
+}
+.carousel-btn.anterior{ left: 12px; }
+.carousel-btn.siguiente{ right: 12px; }
+/* Mantener translateY al escalar para que no 'salte' la posición */
+.carousel .carousel-btn:hover{
+    transform: translateY(-50%) scale(1.06);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+.carousel .carousel-btn:active{
+    transform: translateY(calc(-50% + 1px)) scale(0.995);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.indicadores{
+    position: absolute;
+    bottom: 17px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 6;
+}
+.indicadores button{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.8);
+    border: none;
+    cursor: pointer;
+    opacity: 0.9;
+}
+.indicadores button.active{
+    background: #b86b4b;
+    opacity: 1;
+}
+
+@media (max-width: 480px){
+    .slides{ height: 220px; }
+    .carousel-btn{ width: 40px; height: 40px; font-size: 18px; }
+}
+
+/* Centrar el botón cuando .clave se apila en pantallas estrechas */
+@media (max-width: 420px) {
+    .clave{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .clave input{
+        width: 100%;
+        max-width: 380px;
+        flex: 0 0 auto;
+    }
+    .botonClave{
+        width: auto;
+        align-self: center;
+        margin-top: 8px;
+    }
+}
+
+/* Modal popup */
+.modal{
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.45);
+    z-index: 50;
+}
+.modal[aria-hidden="false"]{ display: flex; }
+.modal-inner{
+    background: #fff;
+    padding: 18px 20px;
+    max-width: 420px;
+    width: 95%;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    position: relative;
+}
+.modal-close{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Botón X dentro del área del carrusel: redondito rojo con X blanca y efecto hover */
+.carousel .modal-close{
+    background: #e74c3c;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 1;
+    box-shadow: 0 6px 18px rgba(231,76,60,0.12);
+    transition: transform .14s cubic-bezier(.2,.9,.2,1), box-shadow .14s ease, background .12s ease;
+}
+.carousel .modal-close:hover{
+    transform: scale(1.08);
+    box-shadow: 0 0 20px rgba(231,76,60,0.32), 0 8px 18px rgba(0,0,0,0.06);
+}
+.carousel .modal-close:active{
+    transform: scale(0.98) translateY(1px);
+}
+.modal-title{ color: #b86b4b; margin-top: 4px; }
+.modal-desc{ color: #6b5b50; }
+.modal-actions{ display: flex; gap: 10px; margin-top: 12px; }
+.btn{ padding: 10px 12px; border-radius: 8px; text-decoration: none; color: #fff; font-weight: bold; }
+.whatsapp{ background: #25D366; }
+.phone{ background: #0077cc; }
+
+
+
+
+/* CONTENEDOR */
+.samei-social-bar{
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    z-index: 120; /* no altera apariencia, evita solapamientos */
+    touch-action: manipulation; /* mejora interacción táctil */
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ITEMS */
+.samei-social-bar li{
+    position: relative;
+
+    width: 55px;
+    height: 55px;
+
+    transform: rotate(-30deg) skew(25deg);
+}
+
+/* BOTONES */
+.samei-social-bar li a{
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-decoration: none;
+    color: white;
+
+    font-size: 1.4em;
+
+    transition: 0.35s;
+
+    background: var(--softclr);
+
+    box-shadow:
+    -10px 10px 15px rgba(0,0,0,0.15);
+}
+
+/* LADO IZQUIERDO */
+.samei-social-bar li a::before{
+    content: '';
+
+    position: absolute;
+    top: 6px;
+    left: -12px;
+
+    width: 12px;
+    height: 100%;
+
+    background: var(--sideclr);
+
+    transform: skewY(-45deg);
+
+    transition: 0.35s;
+}
+
+/* PARTE INFERIOR */
+.samei-social-bar li a::after{
+    content: '';
+
+    position: absolute;
+    bottom: -12px;
+    left: -6px;
+
+    width: 100%;
+    height: 12px;
+
+    background: var(--bottomclr);
+
+    transform: skewX(-45deg);
+
+    transition: 0.35s;
+}
+
+/* HOVER */
+.samei-social-bar li:hover a{
+    transform: translate(10px,-10px);
+
+    background: var(--clr1);
+
+    box-shadow:
+    -20px 20px 25px rgba(0,0,0,0.25);
+}
+
+.samei-social-bar li:hover a::before{
+    background: var(--clr1);
+}
+
+.samei-social-bar li:hover a::after{
+    background: var(--clr2);
+}
+
+/* ICONOS */
+.samei-social-bar li a i{
+    transition: 0.35s;
+}
+
+.samei-social-bar li:hover a i{
+    transform: scale(1.15);
+}
+.btn-catalogo{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+
+    padding:14px 28px;
+
+    background:linear-gradient(
+        135deg,
+        #f6d1b1,
+        #ffdcbf
+    );
+
+    color:#7b4d30;
+    font-size:1rem;
+    font-weight:700;
+    text-decoration:none;
+
+    border:none;
+    border-radius:999px;
+
+    box-shadow:
+        0 6px 15px rgba(246,209,177,.45),
+        inset 0 2px 4px rgba(255,255,255,.5);
+
+    position:relative;
+    overflow:hidden;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.btn-catalogo:hover{
+    transform:translateY(-3px);
+    box-shadow:
+        0 10px 25px rgba(246,209,177,.6),
+        inset 0 2px 4px rgba(255,255,255,.6);
+}
+
+.btn-catalogo:active{
+    transform:translateY(0);
+}
+
+.btn-catalogo::before{
+    content:"";
+
+    position:absolute;
+    top:-100%;
+    left:-100%;
+
+    width:250%;
+    height:250%;
+
+    background:
+        linear-gradient(
+            135deg,
+            transparent 45%,
+            rgba(255,255,255,.45) 50%,
+            transparent 55%
+        );
+
+    transition:1s ease;
+}
+
+.btn-catalogo:hover::before{
+    top:100%;
+    left:100%;
+}
+.catalogo-section{
+    padding:60px 20px;
+    max-width:1200px;
+    margin:auto;
+}
+
+.catalogo-header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.catalogo-header h2{
+    font-size:2rem;
+    color:#8b5e3c;
+}
+
+.catalogo-header p{
+    color:#777;
+}
+
+.catalogo-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px;
+}
+
+.catalogo-card{
+    display:block;
+    position:relative;
+    border-radius:25px;
+    overflow:hidden;
+    text-decoration:none;
+    background:white;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.35s ease;
+}
+
+.catalogo-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 18px 35px rgba(0,0,0,.15);
+}
+
+.card-image{
+    height:280px;
+    overflow:hidden;
+}
+
+.card-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.6s;
+}
+
+.catalogo-card:hover img{
+    transform:scale(1.08);
+}
+
+.card-frosting{
+    position:relative;
+    height:80px;
+    background:#f6d1b1;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    padding-bottom:15px;
+}
+
+.card-frosting svg{
+    position:absolute;
+    top:-40px;
+    left:0;
+    width:100%;
+    height:50px;
+}
+
+.card-frosting path{
+    fill:#f6d1b1;
+}
+
+.card-frosting span{
+    color:#7b4d30;
+    font-weight:600;
+}
+
+.catalogo-card::after{
+    content:"";
+    position:absolute;
+    top:-100%;
+    left:-100%;
+    width:80%;
+    height:250%;
+
+    background:
+radial-gradient(
+    circle,
+    rgba(255,255,255,.35),
+    transparent 70%
+);
+filter: blur(10px);
+
+    transform:rotate(0deg);
+    transition:1s ease;
+}
+
+.catalogo-card:hover::after{
+    top:100%;
+    left:100%;
+}
+
+
+/* Tablet */
+
+@media (max-width:900px){
+
+    .catalogo-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .card-image{
+        height:220px;
+    }
+
+}
+
+/* Celular */
+
+@media (max-width:600px){
+
+    .catalogo-grid{
+        grid-template-columns:repeat(3,1fr);
+        gap:12px;
+    }
+
+    .card-image{
+        height:95px;
+    }
+
+    .card-frosting{
+        height:35px;
+        padding-bottom:6px;
+    }
+
+    .card-frosting span{
+        font-size:.7rem;
+    }
+
+    .card-frosting svg{
+        height:25px;
+        top:-18px;
+    }
+
+}
