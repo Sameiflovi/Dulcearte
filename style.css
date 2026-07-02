@@ -757,3 +757,268 @@ filter: blur(10px);
     }
 
 }
+
+/* Responsive final layer */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    min-width: 0;
+    overflow-x: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+img, svg {
+    max-width: 100%;
+    height: auto;
+}
+
+.inicio {
+    width: 100%;
+    padding: 8px 12px 0;
+}
+
+.logo {
+    width: 92vw;
+    max-width: 500px;
+}
+
+.desc {
+    font-size: clamp(1.15rem, 5.8vw, 3rem);
+    line-height: 1.12;
+    overflow-wrap: anywhere;
+}
+
+.clavearea {
+    width: calc(100% - 24px);
+    max-width: 500px;
+    min-height: 0;
+    margin: 16px auto;
+    padding: clamp(10px, 3vw, 16px);
+}
+
+.clave {
+    justify-content: center;
+}
+
+.clave input {
+    width: 100%;
+    min-height: 44px;
+    font-size: clamp(1rem, 4.8vw, 1.25rem);
+}
+
+.botonClave {
+    min-height: 44px;
+    max-width: 100%;
+}
+
+.carousel {
+    width: calc(100% - 24px);
+    max-width: 700px;
+    margin: clamp(18px, 5vw, 35px) auto;
+}
+
+.slides {
+    height: clamp(190px, 52vw, 360px);
+}
+
+.carousel-btn {
+    width: clamp(36px, 10vw, 44px);
+    height: clamp(36px, 10vw, 44px);
+    font-size: clamp(1rem, 5vw, 1.25rem);
+}
+
+.carousel-btn.anterior {
+    left: clamp(6px, 2.5vw, 12px);
+}
+
+.carousel-btn.siguiente {
+    right: clamp(6px, 2.5vw, 12px);
+}
+
+.modal {
+    padding: 12px;
+}
+
+.modal-inner {
+    width: 100%;
+    max-width: 420px;
+    max-height: calc(100vh - 24px);
+    max-height: calc(100svh - 24px);
+    overflow: auto;
+}
+
+.modal-actions {
+    flex-wrap: wrap;
+}
+
+.modal-actions .btn {
+    flex: 1 1 150px;
+    text-align: center;
+}
+
+.about {
+    width: calc(100% - 24px);
+    max-width: 650px;
+    min-height: 0;
+    padding: 8px 0;
+}
+
+.titulo-about {
+    font-size: clamp(1.35rem, 6vw, 2.2rem);
+    line-height: 1.15;
+}
+
+.desc-about {
+    font-size: clamp(1rem, 4.4vw, 1.15rem);
+    line-height: 1.55;
+}
+
+.btn-catalogo {
+    display: flex;
+    width: fit-content;
+    max-width: calc(100% - 32px);
+    margin: 18px auto;
+    padding: clamp(10px, 3.6vw, 14px) clamp(16px, 6vw, 28px);
+    line-height: 1.25;
+    text-align: center;
+    white-space: normal;
+}
+
+.catalogo-section {
+    width: calc(100% - 24px);
+    max-width: 1200px;
+    padding: clamp(32px, 6vw, 60px) 0;
+}
+
+.catalogo-header h2 {
+    font-size: clamp(1.45rem, 6vw, 2rem);
+}
+
+.catalogo-header p {
+    font-size: clamp(.95rem, 3.8vw, 1rem);
+    line-height: 1.45;
+}
+
+.catalogo-grid {
+    display: flex;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: clamp(14px, 3vw, 25px);
+}
+
+.catalogo-card {
+    flex: 1 1 220px;
+    min-width: 0;
+    border-radius: clamp(12px, 4vw, 25px);
+}
+
+@supports (display: grid) {
+    .catalogo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .catalogo-card {
+        flex: initial;
+    }
+}
+
+.card-image {
+    height: 180px;
+    height: clamp(150px, 28vw, 280px);
+}
+
+.card-frosting span {
+    text-align: center;
+    line-height: 1.15;
+}
+
+.samei-social-bar {
+    flex-wrap: wrap;
+    width: calc(100% - 24px);
+    max-width: 520px;
+    gap: 18px;
+    gap: clamp(18px, 7vw, 30px);
+    margin: 26px auto 30px;
+    padding: 0 0 16px 14px;
+}
+
+.samei-social-bar li {
+    width: 42px;
+    height: 42px;
+    width: clamp(42px, 13vw, 55px);
+    height: clamp(42px, 13vw, 55px);
+}
+
+.samei-social-bar li a {
+    font-size: clamp(1.05rem, 5vw, 1.4rem);
+}
+
+@media (min-width: 1200px) {
+    .catalogo-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .catalogo-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card-frosting {
+        min-height: 54px;
+        height: auto;
+        padding: 10px 8px;
+    }
+
+    .card-frosting svg {
+        height: 34px;
+        top: -24px;
+    }
+}
+
+@media (max-width: 360px) {
+    .inicio {
+        padding-inline: 8px;
+    }
+
+    .logo {
+        width: 88vw;
+    }
+
+    .desc {
+        font-size: 1.12rem;
+    }
+
+    .clavearea,
+    .carousel,
+    .about,
+    .catalogo-section {
+        width: calc(100% - 16px);
+    }
+
+    .slides {
+        height: 180px;
+    }
+
+    .carousel {
+        border-radius: 8px;
+    }
+
+    .samei-social-bar {
+        gap: 18px;
+        padding-left: 10px;
+    }
+
+    .samei-social-bar li {
+        width: 40px;
+        height: 40px;
+    }
+}

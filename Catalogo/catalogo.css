@@ -451,7 +451,8 @@ header p{
 
 .popup-producto{
 
-    width:min(90%,700px);
+    width:90%;
+    max-width:700px;
 
     background:white;
 
@@ -616,4 +617,235 @@ header p{
         font-size:.95rem;
     }
 
+}
+
+/* Responsive final layer */
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+header {
+    padding: clamp(22px, 6vw, 34px) 12px 12px;
+}
+
+header h1 {
+    font-size: clamp(1.55rem, 6vw, 2.1rem);
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+}
+
+header p {
+    font-size: clamp(.95rem, 3.8vw, 1rem);
+    line-height: 1.45;
+}
+
+.glass-nav {
+    width: fit-content;
+    max-width: calc(100% - 16px);
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.glass-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.nav-link {
+    padding: clamp(10px, 3.5vw, 12px) clamp(14px, 5vw, 22px);
+    white-space: nowrap;
+    font-size: clamp(.9rem, 3.8vw, 1rem);
+}
+
+.glass-indicator {
+    height: calc(100% - 16px);
+    max-width: calc(50% - 8px);
+}
+
+.categoria-titulo {
+    margin: clamp(28px, 7vw, 40px) 12px 8px;
+    font-size: clamp(1.35rem, 6vw, 1.8rem);
+    line-height: 1.2;
+}
+
+.catalogo {
+    width: calc(100% - 24px);
+    max-width: 1200px;
+    padding: clamp(16px, 4vw, 30px) 0;
+    display: flex;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(14px, 3vw, 25px);
+}
+
+.producto {
+    flex: 1 1 300px;
+    min-width: 0;
+    border-radius: clamp(12px, 4vw, 25px);
+}
+
+@supports (display: grid) {
+    .catalogo {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .producto {
+        flex: initial;
+    }
+}
+
+.imagen {
+    height: 210px;
+    height: clamp(170px, 22vw, 250px);
+}
+
+.info {
+    padding: clamp(12px, 3.4vw, 18px);
+}
+
+.info h3 {
+    font-size: clamp(.95rem, 2.2vw, 1.05rem);
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+
+.precio {
+    font-size: clamp(.95rem, 2.4vw, 1.1rem);
+}
+
+.whatsapp {
+    width: fit-content;
+    max-width: calc(100% - 32px);
+    padding: clamp(11px, 3.6vw, 14px) clamp(16px, 6vw, 28px);
+    text-align: center;
+    line-height: 1.25;
+    white-space: normal;
+}
+
+.samei-social-bar {
+    flex-wrap: wrap;
+    width: calc(100% - 24px);
+    max-width: 520px;
+    gap: 18px;
+    gap: clamp(18px, 7vw, 30px);
+    margin: 28px auto 30px;
+    padding: 0 0 16px 14px;
+}
+
+.samei-social-bar li {
+    width: 42px;
+    height: 42px;
+    width: clamp(42px, 13vw, 55px);
+    height: clamp(42px, 13vw, 55px);
+}
+
+.samei-social-bar li a {
+    font-size: clamp(1.05rem, 5vw, 1.4rem);
+}
+
+.popup-overlay {
+    padding: 12px;
+}
+
+.popup-producto {
+    width: 100%;
+    max-width: 700px;
+    max-height: calc(100vh - 24px);
+    max-height: calc(100svh - 24px);
+    overflow: auto;
+    border-radius: clamp(14px, 4vw, 25px);
+}
+
+.popup-imagen {
+    height: clamp(180px, 44vw, 320px);
+}
+
+.popup-contenido {
+    padding: clamp(16px, 4.8vw, 25px);
+}
+
+.popup-contenido h2 {
+    font-size: clamp(1.25rem, 5vw, 1.7rem);
+    line-height: 1.18;
+    overflow-wrap: anywhere;
+}
+
+.popup-contenido p {
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.popup-botones {
+    flex-wrap: wrap;
+}
+
+.popup-btn {
+    min-width: 180px;
+    max-width: 100%;
+}
+
+@media (max-width: 900px) {
+    .catalogo {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 520px) {
+    .catalogo {
+        grid-template-columns: 1fr;
+        width: calc(100% - 20px);
+    }
+
+    .imagen {
+        height: 190px;
+    }
+
+    .popup-botones {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 360px) {
+    header {
+        padding-inline: 8px;
+    }
+
+    .glass-nav {
+        max-width: calc(100% - 12px);
+        padding: 6px;
+        gap: 4px;
+    }
+
+    .nav-link {
+        padding: 10px 11px;
+        font-size: .88rem;
+    }
+
+    .catalogo {
+        width: calc(100% - 16px);
+    }
+
+    .imagen {
+        height: 170px;
+    }
+
+    .samei-social-bar {
+        gap: 18px;
+        padding-left: 10px;
+    }
+
+    .samei-social-bar li {
+        width: 40px;
+        height: 40px;
+    }
 }

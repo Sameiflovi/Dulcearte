@@ -290,8 +290,7 @@ body{
     width: 12px;
     height: 100%;
 
-    background: va
-    r(--sideclr);
+    background: var(--sideclr);
 
     transform: skewY(-45deg);
 
@@ -648,3 +647,148 @@ body{
 }
 
 /* Allow JS to control the animation duration via inline styles; avoid double-defined animations */
+
+/* Responsive final layer */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.inicio {
+    width: 100%;
+    padding: 48px 12px 0;
+}
+
+.logo {
+    width: 92vw;
+    max-width: 500px;
+}
+
+main {
+    width: calc(100% - 24px);
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.courses {
+    width: 100%;
+    max-width: 1100px;
+    padding: clamp(10px, 2.8vw, 20px) 0;
+    margin: clamp(10px, 3vw, 20px) auto;
+}
+
+.course-card {
+    height: clamp(112px, 30vw, 170px) !important;
+    border-radius: clamp(8px, 2vw, 12px);
+}
+
+.course-title {
+    max-width: calc(100% - 70px);
+    overflow-wrap: anywhere;
+    font-size: clamp(.86rem, 3.3vw, 1rem);
+    line-height: 1.2;
+}
+
+.curso-check,
+.curso-lock {
+    width: clamp(32px, 10vw, 40px);
+    height: clamp(32px, 10vw, 40px);
+    font-size: clamp(.95rem, 4.4vw, 1.25rem);
+}
+
+.samei-social-bar {
+    flex-wrap: wrap;
+    width: calc(100% - 24px);
+    max-width: 520px;
+    gap: 18px;
+    gap: clamp(18px, 7vw, 30px);
+    margin: 26px auto 30px;
+    padding: 0 0 16px 14px;
+}
+
+.samei-social-bar li {
+    width: 42px;
+    height: 42px;
+    width: clamp(42px, 13vw, 55px);
+    height: clamp(42px, 13vw, 55px);
+}
+
+.samei-social-bar li a {
+    font-size: clamp(1.05rem, 5vw, 1.4rem);
+}
+
+.toast,
+.toast-ok {
+    max-width: calc(100vw - 16px);
+}
+
+.toast.show,
+.toast-ok.show {
+    right: max(8px, env(safe-area-inset-right));
+}
+
+@media (min-width: 720px) {
+    .course-card {
+        height: clamp(140px, 17vw, 190px) !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .back-btn {
+        max-width: calc(100% - 16px);
+        white-space: normal;
+        line-height: 1.15;
+    }
+}
+
+@media (max-width: 360px) {
+    .inicio {
+        padding-inline: 8px;
+    }
+
+    .logo {
+        width: 88vw;
+    }
+
+    main {
+        width: calc(100% - 16px);
+    }
+
+    .courses {
+        gap: 14px;
+    }
+
+    .course-card {
+        height: 112px !important;
+    }
+
+    .course-title {
+        left: 8px;
+        bottom: 8px;
+        max-width: calc(100% - 56px);
+        padding: 6px 8px;
+    }
+
+    .samei-social-bar {
+        gap: 18px;
+        padding-left: 10px;
+    }
+
+    .samei-social-bar li {
+        width: 40px;
+        height: 40px;
+    }
+}

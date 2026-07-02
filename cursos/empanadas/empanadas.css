@@ -30,14 +30,26 @@ body {
     margin: 20px auto;
     max-width: 600px;
     padding: 0 15px;
+    text-shadow:0 0 10px rgba(255,190,140,0.7), 0 0 20px rgba(255,160,120,0.4);
 }
 .titulo-curso {
     font-family: 'Arial', sans-serif;
     color: #a95e2d;
     text-align: center;
     margin: 20px auto;
+    text-shadow:0 0 10px rgba(255,190,140,0.7), 0 0 20px rgba(255,160,120,0.4);
 }
 
+.contenido-curso {
+    font-family: 'Arial', sans-serif;
+    color: #361f0f;
+    max-width: 600px;
+    margin: 0 auto 20px;
+    padding: 0 15px;
+    list-style-type: disc; /* estilo de lista con viñetas */
+    padding-left: 20px; /* espacio para las viñetas */
+    text-shadow:0 0 10px rgba(104, 71, 46, 0.7), 0 0 20px rgba(255,160,120,0.4);
+}
 /* Estilos para el botón 'Volver al Inicio' */
 .btn {
     display: inline-block;
@@ -201,4 +213,118 @@ body {
 
 .samei-social-bar li:hover a i{
     transform: scale(1.15);
+}
+
+/* Responsive final layer */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    min-width: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding: 8px 12px 28px;
+    font-family: Arial, sans-serif;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.logo {
+    width: 92vw;
+    max-width: 500px;
+    margin-top: 58px;
+    margin-top: clamp(52px, 10vw, 72px);
+}
+
+.descripcion,
+.titulo-curso,
+.contenido-curso {
+    width: 100%;
+    max-width: 680px;
+}
+
+.descripcion {
+    font-size: clamp(1rem, 4.2vw, 1.12rem);
+    line-height: 1.55;
+    padding: 0;
+}
+
+.titulo-curso {
+    font-size: clamp(1.35rem, 5.8vw, 1.8rem);
+    line-height: 1.2;
+}
+
+.contenido-curso {
+    font-size: clamp(.98rem, 4.1vw, 1.08rem);
+    line-height: 1.5;
+    padding: 0 0 0 1.25rem;
+}
+
+.contenido-curso li {
+    margin-bottom: .72rem;
+    overflow-wrap: anywhere;
+}
+
+.btn.volver {
+    max-width: calc(100% - 16px);
+    white-space: normal;
+    line-height: 1.15;
+}
+
+.samei-social-bar {
+    flex-wrap: wrap;
+    width: calc(100% - 24px);
+    max-width: 520px;
+    gap: 18px;
+    gap: clamp(18px, 7vw, 30px);
+    margin: 28px auto 30px;
+    padding: 0 0 16px 14px;
+}
+
+.samei-social-bar li {
+    width: 42px;
+    height: 42px;
+    width: clamp(42px, 13vw, 55px);
+    height: clamp(42px, 13vw, 55px);
+}
+
+.samei-social-bar li a {
+    font-size: clamp(1.05rem, 5vw, 1.4rem);
+}
+
+@media (max-width: 360px) {
+    body {
+        padding-inline: 8px;
+    }
+
+    .logo {
+        width: 88vw;
+    }
+
+    .descripcion {
+        margin: 16px auto;
+    }
+
+    .contenido-curso {
+        padding-left: 1.1rem;
+    }
+
+    .samei-social-bar {
+        gap: 18px;
+        padding-left: 10px;
+    }
+
+    .samei-social-bar li {
+        width: 40px;
+        height: 40px;
+    }
 }
