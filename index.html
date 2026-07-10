@@ -25,12 +25,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     <!-- Clave -->
     <div class="clavearea">
 
-        <label>Ingresa tu clave aquí</label>
+        <label for="claveInput">Ingresa tu clave aquí</label>
 
       <div class="clave">
-          <input id="claveInput" type="text" placeholder="XXXX" maxlength="14">
+          <input id="claveInput" type="password" placeholder="XXXX" maxlength="14">
           <button id="claveBtn" class="botonClave">Entrar</button>
       </div>
+
+        <label class="remember-label" for="rememberCheck">
+          <input type="checkbox" id="rememberCheck" class="remember-input">
+          Recordar contraseña
+        </label>
+
       <div id="claveMessage" class="clave-message" aria-live="polite"></div>
     </div>
 <!-- Cierre clave -->

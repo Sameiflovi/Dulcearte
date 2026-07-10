@@ -127,7 +127,13 @@
 .botonClave:hover { background: var(--boton-bg-hover); box-shadow: 0 6px 18px rgba(255,122,89,0.08); }
 .botonClave:active { background: var(--boton-bg-active); transform: translateY(1px); }
 .botonClave:focus { outline: 3px solid var(--boton-focus-ring); outline-offset: 2px; }
-
+/* Desactivar efecto hover en dispositivos táctiles (sin capacidad de hover) */
+@media (hover: none) {
+    .botonClave:hover, .carousel-btn:hover, .btn:hover, .modal-close:hover {
+        transform: none;
+        box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+    }
+}
 /* Variante para texto oscuro si se necesita sobre fondos claros */
 .botonClave--lighttext { color: #111; background: #FFD700; }
 
@@ -187,6 +193,33 @@
     border-radius: 0;
     display: block;
     box-shadow: none;
+}
+/* Remember password checkbox */
+.remember-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 14px auto 0;
+    padding: 10px 14px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 122, 89, 0.24);
+    background: rgba(255, 248, 242, 0.95);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+    font-size: 0.95rem;
+    color: #6b5b50;
+    cursor: pointer;
+    user-select: none;
+    max-width: 100%;
+    justify-content: center;
+}
+
+.remember-input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #FF7A59;
+    border-radius: 6px;
+    flex-shrink: 0;
 }
 .clave-message.error{ color: #e74c3c; background: transparent; box-shadow: none; }
 .clave-message.info{ color: #2ecc71; background: transparent; box-shadow: none; }

@@ -214,62 +214,46 @@ if (claveBtn) {
 
   claveBtn.addEventListener('click', async () => {
     const input = document.getElementById('claveInput');
+    const rememberCheck = document.getElementById('rememberCheck');
     const val = input ? input.value.trim() : '';
-    if(!val){
+
+    if (!val) {
       mostrarMensaje('Necesitas poner una clave para ingresar', 'warn');
       return;
     }
-    // Ejemplo: comprobación sencilla
-   try {
 
-  const q = query(
-    collection(db, "usuarios_y_claves"),
-    where("clave", "==", val),
-    where("activo", "==", true)
-  );
+    const shouldRemember = rememberCheck && rememberCheck.checked;
 
-  const querySnapshot = await getDocs(q);
+    try {
+      const q = query(
+        collection(db, "usuarios_y_claves"),
+        where("clave", "==", val),
+        where("activo", "==", true)
+      );
 
-  if (!querySnapshot.empty) {
+      const querySnapshot = await getDocs(q);
 
-    const usuario = querySnapshot.docs[0].data();
+      if (!querySnapshot.empty) {
+        const usuario = querySnapshot.docs[0].data();
 
-    localStorage.setItem(
-      "cursosPermitidos",
-      JSON.stringify(usuario.cursos)
-    );
+        localStorage.setItem("cursosPermitidos", JSON.stringify(usuario.cursos));
+        localStorage.setItem("usuarioActivo", "true");
 
-    localStorage.setItem(
-      "usuarioActivo",
-      "true"
-    );
+        if (shouldRemember) {
+          localStorage.setItem("claveGuardada", val);
+        } else {
+          localStorage.removeItem("claveGuardada");
+        }
 
-    mostrarMensaje('Clave correcta. ¡Bienvenido!', 'info');
-
-    setTimeout(() => {
-      window.location.href = "mis-cursos.html";
-    }, 1000);
-
-  } else {
-
-    mostrarMensaje(
-      'Clave incorrecta, por favor vuelva a intentar',
-      'error'
-    );
-
-  }
-
-} catch(error) {
-
-  console.error(error);
-
-  mostrarMensaje(
-    'Tuvimos un error, intenta nuevamente y si el problema persiste contactanos',
-    'error'
-  );
-
-}
-
+        mostrarMensaje('Clave correcta. ¡Bienvenido!', 'info');
+        setTimeout(() => { window.location.href = "mis-cursos.html"; }, 1000);
+      } else {
+        mostrarMensaje('Clave incorrecta, por favor vuelva a intentar', 'error');
+      }
+    } catch (error) {
+      console.error(error);
+      mostrarMensaje('Error al conectar con la base de datos', 'error');
+    }
   });
 }
 document.querySelectorAll('.catalogo-card').forEach(card => {
