@@ -2,8 +2,19 @@ if (localStorage.getItem("usuarioActivo") !== "true") {
     window.location.href = "index.html";
 }
 
-const cursosPermitidos =
-    JSON.parse(localStorage.getItem("cursosPermitidos")) || [];
+const cursosPermitidos = (() => {
+    const raw = localStorage.getItem("cursosPermitidos");
+
+    if (!raw || raw === "undefined" || raw === "null") return [];
+
+    try {
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+        console.warn("No se pudo leer la lista de cursos permitidos:", error);
+        return [];
+    }
+})();
 
 const contenedorCursos =
     document.querySelector(".courses");

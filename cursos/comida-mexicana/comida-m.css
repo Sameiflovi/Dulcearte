@@ -4,6 +4,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    min-height: 100vh;
 } 
 
 @media (max-width: 768px){
@@ -231,7 +232,7 @@ body {
     min-width: 0;
     min-height: 100vh;
     overflow-x: hidden;
-    padding: 8px 12px 28px;
+    padding: clamp(8px, 2.6vw, 16px) clamp(12px, 4vw, 24px) clamp(28px, 6vw, 48px);
     font-family: Arial, sans-serif;
 }
 
@@ -241,10 +242,8 @@ img {
 }
 
 .logo {
-    width: 92vw;
-    max-width: 500px;
-    margin-top: 58px;
-    margin-top: clamp(52px, 10vw, 72px);
+    width: min(92vw, 500px);
+    margin-top: clamp(44px, 8vw, 72px);
 }
 
 .descripcion,

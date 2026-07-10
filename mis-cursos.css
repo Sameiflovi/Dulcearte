@@ -74,7 +74,7 @@ body{
     position: relative;
     width: 100% !important;
     min-width: 0 !important;
-    height: 120px !important; /* altura por defecto para barra en móviles */
+    height: clamp(112px, 30vw, 140px) !important;
     border-radius: 8px;
     overflow: hidden;
     text-decoration: none;
@@ -161,8 +161,11 @@ body{
     padding: 6px 10px;
     font-weight: 700;
     border-radius: 6px;
-    font-size: 1rem;
+    font-size: clamp(.9rem, 2.8vw, 1rem);
+    line-height: 1.2;
     z-index: 3;
+    max-width: calc(100% - 24px);
+    overflow-wrap: anywhere;
 }
 
 /* Desktop overrides: tiras horizontales */
