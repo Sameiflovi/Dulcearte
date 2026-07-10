@@ -283,3 +283,191 @@ document.querySelectorAll('.catalogo-card').forEach(card => {
     });
 
 });
+(function () {
+  const STORAGE_KEY = "dulcearte_saved_login_password";
+  const DISMISSED_KEY = "dulcearte_save_password_dismissed";
+
+  function maskPassword(password) {
+    if (!password) return "xxxx";
+    return "x".repeat(Math.max(4, Math.min(password.length, 12)));
+  }
+
+  function findSubmitControl(form, passwordInput) {
+    if (form) {
+      return form.querySelector(
+        'button[type="submit"], input[type="submit"], button:not([type])'
+      );
+    }
+
+    const container = passwordInput.closest("section, main, .login, .formulario, .contenedor, div") || document;
+    return container.querySelector(
+      'button[type="submit"], input[type="submit"], button:not([type])'
+    );
+  }
+
+  function submitLogin(form, passwordInput) {
+    const submitControl = findSubmitControl(form, passwordInput);
+
+    if (form && typeof form.requestSubmit === "function") {
+      form.requestSubmit(submitControl || undefined);
+      return;
+    }
+
+    if (submitControl) {
+      submitControl.click();
+      return;
+    }
+
+    if (form) {
+      form.submit();
+    }
+  }
+
+  function savePassword(password) {
+    if (!password) return;
+    localStorage.setItem(STORAGE_KEY, password);
+    localStorage.removeItem(DISMISSED_KEY);
+  }
+
+  function createRememberBox(passwordInput) {
+    const form = passwordInput.closest("form");
+    const box = document.createElement("div");
+    box.className = "remember-password-box";
+    box.setAttribute("aria-live", "polite");
+
+    const savedPassword = localStorage.getItem(STORAGE_KEY);
+
+    if (savedPassword) {
+      box.innerHTML = `
+        <p class="remember-password-text">Tienes una clave guardada para este inicio de sesion.</p>
+        <div class="remember-password-actions">
+          <button type="button" class="remember-password-primary">Iniciar sesion con la clave ${maskPassword(savedPassword)}</button>
+          <button type="button" class="remember-password-link">Olvidar clave</button>
+        </div>
+      `;
+
+      box.querySelector(".remember-password-primary").addEventListener("click", function () {
+        passwordInput.value = savedPassword;
+        passwordInput.dispatchEvent(new Event("input", { bubbles: true }));
+        passwordInput.dispatchEvent(new Event("change", { bubbles: true }));
+        submitLogin(form, passwordInput);
+      });
+
+      box.querySelector(".remember-password-link").addEventListener("click", function () {
+        localStorage.removeItem(STORAGE_KEY);
+        box.remove();
+      });
+
+      return box;
+    }
+
+    box.innerHTML = `
+      <p class="remember-password-text">Quieres guardar esta clave para un proximo inicio de sesion?</p>
+      <div class="remember-password-actions">
+        <button type="button" class="remember-password-primary">Guardar clave</button>
+        <button type="button" class="remember-password-link">Ahora no</button>
+      </div>
+    `;
+    box.hidden = true;
+
+    box.querySelector(".remember-password-primary").addEventListener("click", function () {
+      savePassword(passwordInput.value.trim());
+      box.innerHTML = '<p class="remember-password-text">Clave guardada. La proxima vez podras iniciar sesion con xxxx.</p>';
+    });
+
+    box.querySelector(".remember-password-link").addEventListener("click", function () {
+      localStorage.setItem(DISMISSED_KEY, "1");
+      box.hidden = true;
+    });
+
+    passwordInput.addEventListener("input", function () {
+      const alreadyDismissed = localStorage.getItem(DISMISSED_KEY) === "1";
+      box.hidden = !passwordInput.value.trim() || alreadyDismissed;
+    });
+
+    if (form) {
+      form.addEventListener("submit", function () {
+        if (!localStorage.getItem(STORAGE_KEY)) {
+          savePassword(passwordInput.value.trim());
+        }
+      });
+    }
+
+    return box;
+  }
+
+  function addRememberStyles() {
+    if (document.getElementById("remember-password-styles")) return;
+
+    const style = document.createElement("style");
+    style.id = "remember-password-styles";
+    style.textContent = `
+      .remember-password-box {
+        width: 100%;
+        margin-top: 12px;
+        padding: 12px;
+        border: 1px solid rgba(120, 82, 44, 0.24);
+        border-radius: 8px;
+        background: rgba(255, 248, 238, 0.94);
+        color: #4a2f1c;
+        box-sizing: border-box;
+      }
+
+      .remember-password-box[hidden] {
+        display: none !important;
+      }
+
+      .remember-password-text {
+        margin: 0 0 10px;
+        font-size: 0.92rem;
+        line-height: 1.35;
+      }
+
+      .remember-password-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .remember-password-actions button {
+        min-height: 38px;
+        border-radius: 8px;
+        cursor: pointer;
+        font: inherit;
+      }
+
+      .remember-password-primary {
+        border: 0;
+        padding: 8px 12px;
+        background: #8f5631;
+        color: #fff;
+      }
+
+      .remember-password-link {
+        border: 1px solid rgba(143, 86, 49, 0.35);
+        padding: 8px 10px;
+        background: transparent;
+        color: #6b3f23;
+      }
+    `;
+
+    document.head.appendChild(style);
+  }
+
+  function initRememberPassword() {
+    const passwordInput = document.querySelector('input[type="password"]');
+    if (!passwordInput || passwordInput.dataset.rememberPasswordReady === "true") return;
+
+    passwordInput.dataset.rememberPasswordReady = "true";
+    addRememberStyles();
+
+    const box = createRememberBox(passwordInput);
+    passwordInput.insertAdjacentElement("afterend", box);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initRememberPassword);
+  } else {
+    initRememberPassword();
+  }
+})();
