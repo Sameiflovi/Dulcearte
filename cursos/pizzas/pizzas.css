@@ -113,23 +113,24 @@ body {
 /*Social Bar*/
 .samei-social-bar{
     display: flex;
-    gap: 30px;
-
+    gap: clamp(14px, 4vw, 30px);
     justify-content: center;
     align-items: center;
-
+    flex-wrap: wrap;
     list-style: none;
     padding: 0;
+    margin: 0 auto;
+    width: min(100%, 320px);
+    row-gap: 12px;
 }
 
 /* ITEMS */
 .samei-social-bar li{
     position: relative;
-
-    width: 55px;
-    height: 55px;
-
+    width: clamp(42px, 13vw, 55px);
+    height: clamp(42px, 13vw, 55px);
     transform: rotate(-30deg) skew(25deg);
+    flex: 0 0 auto;
 }
 
 /* BOTONES */
