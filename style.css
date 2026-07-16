@@ -1,66 +1,121 @@
+/* ================================================================
+   DULCEARTE — style.css (index.html)
+   Reorganizado por secciones · sin selectores duplicados
+   ================================================================
+   ÍNDICE:
+   1. Reset y variables
+   2. Estilos globales
+   3. Encabezado (logo, título)
+   4. Área de clave (login)
+   5. Carrusel
+   6. Modal de diapositiva
+   7. Sección "Sobre nosotros"
+   8. Catálogo (vitrina en inicio)
+   9. Barra social
+   10. Responsive / media queries
+   ================================================================ */
 
-.logo {
-    display: block;
-    width: 500px; /* ancho objetivo en pantallas grandes */
-    max-width: 95%; /* se reduce en pantallas pequeñas */
+
+/* ================================================================
+   1. RESET Y VARIABLES
+   ================================================================ */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+:root {
+    --boton-bg: #FF7A59;
+    --boton-bg-hover: #ff6743;
+    --boton-bg-active: #e0563a;
+    --boton-color: #ffffff;
+    --boton-focus-ring: rgba(255, 122, 89, 0.28);
+}
+
+
+/* ================================================================
+   2. ESTILOS GLOBALES
+   ================================================================ */
+body {
+    margin: 0;
+    min-width: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding: clamp(8px, 2.6vw, 16px) clamp(12px, 4vw, 24px) clamp(28px, 6vw, 48px);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background-image: url("Data/fondopc.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+img, svg {
+    max-width: 100%;
     height: auto;
-    margin: 10px auto 0;
-    text-align: center;
-    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.12));
-}
-.desc {
-    color: #a95e2d;
-    text-align: center;
-    margin: 0; /* reset margins to avoid unexpected gaps */
-    margin-top: 8px; /* controlled spacing below the logo */
-    /* Tipografía responsiva: mínimo legible en móviles, usa vw para escalar y tiene un máximo razonable */
-    font-size: clamp(20px, 5vw, 42px);
-    line-height: 1.05;
-    font-weight: 800;
-    max-width: 98%;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 10px;
-    text-shadow:0 0 10px rgba(255,190,140,0.7), 0 0 20px rgba(255,160,120,0.4);
 }
 
-/* Ajustes adicionales para pantallas muy pequeñas para evitar que el título ocupe demasiado espacio */
-@media (max-width: 320px) {
-    .logo { width: 140px; }
-    .desc { font-size: 18px; }
-}
 
-/* Ajustes para pantallas grandes */
-@media (min-width: 1600px) {
-    .logo { width: 420px; }
-    .desc { font-size: 48px; }
-}
-.inicio{
+/* ================================================================
+   3. ENCABEZADO (logo, título)
+   ================================================================ */
+.inicio {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px; /* control vertical spacing between logo and title */
+    gap: 6px;
+    width: 100%;
+    padding: 8px 12px 0;
 }
 
-.descripcion{
+.logo {
+    display: block;
+    width: min(92vw, 500px);
+    height: auto;
+    margin: 10px auto 0;
+    text-align: center;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12));
+}
+
+.desc {
+    color: #a95e2d;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 8px;
+    max-width: 98%;
+    padding: 0 10px;
+    font-size: clamp(1.15rem, 5.8vw, 3rem);
+    line-height: 1.12;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+    /* Una sola capa de resplandor: dos capas duplicaban el volumen visual del texto */
+    text-shadow: 0 0 8px rgba(255, 190, 140, 0.5);
+}
+
+.descripcion {
     margin-top: 10px;
     text-align: center;
 }
-/* Cierre de Inicio (logo, descripcion) */
+
+
+/* ================================================================
+   4. ÁREA DE CLAVE (login)
+   ================================================================ */
 .clavearea {
-    width: 90%;
-    max-width: 500px;
-    min-height: 60px;
-    margin: auto;
+    width: min(100%, 500px);
+    margin: 16px auto;
     text-align: center;
     border-radius: 15px;
     overflow: hidden;
     position: relative;
     isolation: isolate;
     background: transparent;
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.08);
     font-size: 20px;
-    padding: 12px 16px;
+    padding: clamp(10px, 3vw, 16px);
 }
 
 .clavearea::before {
@@ -71,9 +126,11 @@
     pointer-events: none;
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-    background: rgba(255,255,255,0.02); /* ligero tinte para suavizar la mezcla */
+    background: rgba(255, 255, 255, 0.02);
     opacity: 1;
-    transition: backdrop-filter 600ms cubic-bezier(.2,.8,.2,1), opacity 600ms cubic-bezier(.2,.8,.2,1), background-color 600ms ease;
+    transition: backdrop-filter 600ms cubic-bezier(.2, .8, .2, 1),
+                opacity 600ms cubic-bezier(.2, .8, .2, 1),
+                background-color 600ms ease;
 }
 
 /* Fallback si el navegador no soporta backdrop-filter */
@@ -81,34 +138,46 @@
     .clavearea::before {
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
-        background: rgba(255,255,255,0.06);
+        background: rgba(255, 255, 255, 0.06);
     }
 }
 
-/* Desactivar blur en pantallas pequeñas por rendimiento */
-@media (max-width: 768px) {
-    .clavearea::before {
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        background: rgba(255,255,255,0.06);
-    }
-}
-
-/* Asegura que el contenido (label, input, button, mensajes) esté sobre el blur */
+/* El contenido (label, input, botón, mensajes) siempre sobre el blur */
 .clavearea > * {
     position: relative;
     z-index: 1;
 }
 
-.botonClave:focus { outline: 3px solid var(--boton-focus-ring); outline-offset: 2px; }
+.clave {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
 
-/* Estilos específicos para el botón de clave (paleta cálida/coral) */
-:root {
-    --boton-bg: #FF7A59;
-    --boton-bg-hover: #ff6743;
-    --boton-bg-active: #e0563a;
-    --boton-color: #ffffff;
-    --boton-focus-ring: rgba(255,122,89,0.28);
+.clave input {
+    border-radius: 18px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 10px 14px;
+    transition: box-shadow 260ms ease, background-color 200ms ease, transform 140ms ease;
+    background: #ffffff;
+    display: inline-block;
+    position: relative;
+    z-index: 5;
+    box-sizing: border-box;
+    flex: 1 1 180px;
+    min-width: 0;
+    width: 100%;
+    min-height: 44px;
+    font-size: clamp(1rem, 4.8vw, 1.25rem);
+}
+
+.clave input:focus {
+    outline: none;
+    box-shadow: 0 12px 40px rgba(255, 220, 201, 0.45);
+    background-color: #fff8f5;
+    transform: translateY(-1px);
 }
 
 .botonClave {
@@ -116,88 +185,59 @@
     color: var(--boton-color);
     border: none;
     padding: 0.56rem 1rem;
-    border-radius: 18px; /* borde redondeado completo */
+    border-radius: 18px;
     font-weight: 600;
     cursor: pointer;
     transition: background .12s ease, transform .06s ease, box-shadow .12s ease;
-    box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
     z-index: 5;
     flex: 0 0 auto;
-}
-.botonClave:hover { background: var(--boton-bg-hover); box-shadow: 0 6px 18px rgba(255,122,89,0.08); }
-.botonClave:active { background: var(--boton-bg-active); transform: translateY(1px); }
-.botonClave:focus { outline: 3px solid var(--boton-focus-ring); outline-offset: 2px; }
-/* Desactivar efecto hover en dispositivos táctiles (sin capacidad de hover) */
-@media (hover: none) {
-    .botonClave:hover, .carousel-btn:hover, .btn:hover, .modal-close:hover {
-        transform: none;
-        box-shadow: 0 1px 0 rgba(0,0,0,0.04);
-    }
-}
-/* Variante para texto oscuro si se necesita sobre fondos claros */
-.botonClave--lighttext { color: #111; background: #FFD700; }
-
-/* Animación: agrandar ligeramente botones principales al pasar el ratón */
-.botonClave, .carousel-btn, .btn, .modal-close{
-    transition: transform .14s cubic-bezier(.2,.9,.2,1), box-shadow .14s ease, background .12s ease;
-    will-change: transform;
-}
-.botonClave:hover, .carousel-btn:hover, .btn:hover, .modal-close:hover{
-    transform: scale(1.06);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-}
-.botonClave:active, .carousel-btn:active, .btn:active, .modal-close:active{
-    transform: scale(0.995) translateY(1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    min-height: 44px;
+    max-width: 100%;
 }
 
-/* Foco personalizado para el input de clave */
-/* Contenedor y estilo base para input + botón dentro de .clave */
-.clave{
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    flex-wrap: wrap; /* permitir que el botón pase debajo en pantallas pequeñas */
-}
-.clave input{
-    border-radius: 18px; /* siempre redondeado */
-    border: 1px solid rgba(0,0,0,0.08);
-    padding: 10px 14px;
-    transition: box-shadow 260ms ease, background-color 200ms ease, transform 140ms ease;
-    background: #ffffff;
-    display: inline-block;
-    position: relative;
-    z-index: 5;
-    font-size: 20px;
-    box-sizing: border-box;
-    flex: 1 1 180px; /* crecer, pero permitir envoltura */
-    min-width: 0;
+.botonClave:hover {
+    background: var(--boton-bg-hover);
+    box-shadow: 0 6px 18px rgba(255, 122, 89, 0.08);
 }
 
-/* Foco personalizado para el input de clave (aura suave) */
-.clave input:focus{
-    outline: none;
-    box-shadow: 0 12px 40px rgba(255, 220, 201, 0.45);
-    background-color: #fff8f5;
-    transform: translateY(-1px);
+.botonClave:active {
+    background: var(--boton-bg-active);
+    transform: translateY(1px);
 }
 
-/* Mensaje de validación debajo del input */
-.clave-message{
+.botonClave:focus {
+    outline: 3px solid var(--boton-focus-ring);
+    outline-offset: 2px;
+}
+
+/* Variante para texto oscuro sobre fondos claros */
+.botonClave--lighttext {
+    color: #111;
+    background: #FFD700;
+}
+
+.clave-message {
     text-align: center;
     margin-top: 8px;
     color: #b86b4b;
     font-weight: 600;
     min-height: 18px;
     padding: 0;
-    border-radius: 0;
     display: block;
     box-shadow: none;
+    position: relative;
+    z-index: 10;
 }
-/* Remember password checkbox */
+
+.clave-message.error { color: #e74c3c; }
+.clave-message.info  { color: #2ecc71; }
+.clave-message.warn  { color: #b86b4b; }
+
 .remember-label {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     margin: 14px auto 0;
     padding: 10px 14px;
@@ -209,150 +249,120 @@
     color: #6b5b50;
     cursor: pointer;
     user-select: none;
+    width: 100%;
     max-width: 100%;
-    justify-content: center;
 }
 
 .remember-input {
     width: 18px;
     height: 18px;
     cursor: pointer;
-    accent-color: #FF7A59;
+    accent-color: var(--boton-bg);
     border-radius: 6px;
     flex-shrink: 0;
 }
-.clave-message.error{ color: #e74c3c; background: transparent; box-shadow: none; }
-.clave-message.info{ color: #2ecc71; background: transparent; box-shadow: none; }
-.clave-message.warn{ color: #b86b4b; background: transparent; box-shadow: none; }
 
-/* Asegurar que el mensaje quede dentro del recuadro .clavearea */
-.clave-message{
-    position: relative;
-    z-index: 10;
-    transform: none;
-    margin-top: 8px;
+/* Efecto hover/active compartido por los botones principales */
+.botonClave, .carousel-btn, .btn, .modal-close {
+    transition: transform .14s cubic-bezier(.2, .9, .2, 1), box-shadow .14s ease, background .12s ease;
+    will-change: transform;
 }
-
-
-/* Cierre Area Clave */
-
-
-
-/* Estilos para el fondo de la página */
-body{
-    background-image: url("Data/fondopc.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    min-height: 100vh;
-} 
-
-@media (max-width: 768px){
-
-    body{
-        background-image: url("Data/fondocel.png");
-        background-attachment: scroll;
+.botonClave:hover, .carousel-btn:hover, .btn:hover, .modal-close:hover {
+    transform: scale(1.06);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+.botonClave:active, .carousel-btn:active, .btn:active, .modal-close:active {
+    transform: scale(0.995) translateY(1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+/* Sin hover en pantallas táctiles */
+@media (hover: none) {
+    .botonClave:hover, .carousel-btn:hover, .btn:hover, .modal-close:hover {
+        transform: none;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
     }
-
-}
-/* Cierre de estilos @media = Telefonos celulares */
-/* Estilos para la sección "About" o Quienes somos */
-
-.about {
-    width: 90%;
-    max-width: 500px;
-    min-height: 200px;
-    text-align: center;
-    border-radius: 10px;
-    margin: auto;
-}
-.titulo-about {
-    color: #b86b4b;
-    text-align: center;
-    font-weight: bold;
-    letter-spacing: 1px;
-    text-shadow:0 0 10px rgba(255,190,140,0.7), 0 0 20px rgba(255,160,120,0.4);
 }
 
-.desc-about {
-    color: #975a30 ;
-    text-align: center;
-}
 
-/* Estilos para el carrusel */
-.carousel{
-    width: 700px;
-    max-width: 95%;
-    margin: 35px auto;
+/* ================================================================
+   5. CARRUSEL
+   ================================================================ */
+.carousel {
+    width: calc(100% - 24px);
+    max-width: 700px;
+    margin: clamp(18px, 5vw, 35px) auto;
     position: relative;
     overflow: hidden;
     border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-    background: rgba(255,255,255,0.6);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    background: rgba(255, 255, 255, 0.6);
 }
-.slides{
+
+.slides {
     position: relative;
-    height: 360px;
+    height: clamp(190px, 52vw, 360px);
 }
-.diapositiva{
+
+.diapositiva {
     position: absolute;
     inset: 0;
     opacity: 0;
     transition: opacity 0.6s ease;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     pointer-events: none;
-
     backface-visibility: hidden;
     transform: translateZ(0);
     will-change: opacity;
 }
 
-.diapositiva.active{
+.diapositiva.active {
     opacity: 1;
     z-index: 2;
     pointer-events: auto;
 }
-.diapositiva img{
+
+.diapositiva img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
 }
-.carousel-btn{
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: rgba(0,0,0,0.55);
-        color: #fff;
-        border: none;
-        width: 44px;
-        height: 44px;
-        padding: 0;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        border-radius: 50%;
-        font-size: 20px;
-        z-index: 5;
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    border: none;
+    width: clamp(36px, 10vw, 44px);
+    height: clamp(36px, 10vw, 44px);
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: clamp(1rem, 5vw, 1.25rem);
+    z-index: 5;
 }
-.carousel-btn.anterior{ left: 12px; }
-.carousel-btn.siguiente{ right: 12px; }
-/* Mantener translateY al escalar para que no 'salte' la posición */
-.carousel .carousel-btn:hover{
+
+.carousel-btn.anterior  { left: clamp(6px, 2.5vw, 12px); }
+.carousel-btn.siguiente { right: clamp(6px, 2.5vw, 12px); }
+
+/* Mantener translateY al escalar para que no "salte" la posición */
+.carousel .carousel-btn:hover {
     transform: translateY(-50%) scale(1.06);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
-.carousel .carousel-btn:active{
+.carousel .carousel-btn:active {
     transform: translateY(calc(-50% + 1px)) scale(0.995);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
-.indicadores{
+
+.indicadores {
     position: absolute;
     bottom: 17px;
     left: 50%;
@@ -361,75 +371,55 @@ body{
     gap: 8px;
     z-index: 6;
 }
-.indicadores button{
+
+.indicadores button {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.8);
+    background: rgba(255, 255, 255, 0.8);
     border: none;
     cursor: pointer;
     opacity: 0.9;
 }
-.indicadores button.active{
+
+.indicadores button.active {
     background: #b86b4b;
     opacity: 1;
 }
 
-@media (max-width: 480px){
-    .slides{ height: clamp(220px, 54vw, 280px); }
-    .carousel-btn{ width: 40px; height: 40px; font-size: 18px; }
-}
 
-@media (min-width: 1920px){
-    .carousel{ max-width: 900px; }
-    .slides{ height: clamp(420px, 26vw, 560px); }
-}
-
-@media (min-width: 2560px){
-    .carousel{ max-width: 1100px; }
-    .slides{ height: clamp(560px, 24vw, 720px); }
-}
-
-/* Centrar el botón cuando .clave se apila en pantallas estrechas */
-@media (max-width: 420px) {
-    .clave{
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    .clave input{
-        width: 100%;
-        max-width: 380px;
-        flex: 0 0 auto;
-    }
-    .botonClave{
-        width: auto;
-        align-self: center;
-        margin-top: 8px;
-    }
-}
-
-/* Modal popup */
-.modal{
+/* ================================================================
+   6. MODAL DE DIAPOSITIVA (descripción y contacto)
+   ================================================================ */
+.modal {
     position: fixed;
     inset: 0;
     display: none;
     align-items: center;
     justify-content: center;
-    background: rgba(0,0,0,0.45);
+    background: rgba(0, 0, 0, 0.45);
     z-index: 50;
+    padding: 12px;
 }
-.modal[aria-hidden="false"]{ display: flex; }
-.modal-inner{
+
+.modal[aria-hidden="false"] {
+    display: flex;
+}
+
+.modal-inner {
     background: #fff;
     padding: 18px 20px;
+    width: 100%;
     max-width: 420px;
-    width: 95%;
+    max-height: calc(100vh - 24px);
+    max-height: calc(100svh - 24px);
+    overflow: auto;
     border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     position: relative;
 }
-.modal-close{
+
+.modal-close {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -439,8 +429,8 @@ body{
     cursor: pointer;
 }
 
-/* Botón X dentro del área del carrusel: redondito rojo con X blanca y efecto hover */
-.carousel .modal-close{
+/* Botón X dentro del carrusel: redondo, rojo, con efecto hover */
+.carousel .modal-close {
     background: #e74c3c;
     color: #fff;
     width: 40px;
@@ -451,504 +441,133 @@ body{
     border-radius: 50%;
     font-size: 20px;
     line-height: 1;
-    box-shadow: 0 6px 18px rgba(231,76,60,0.12);
-    transition: transform .14s cubic-bezier(.2,.9,.2,1), box-shadow .14s ease, background .12s ease;
+    box-shadow: 0 6px 18px rgba(231, 76, 60, 0.12);
+    transition: transform .14s cubic-bezier(.2, .9, .2, 1), box-shadow .14s ease, background .12s ease;
 }
-.carousel .modal-close:hover{
+.carousel .modal-close:hover {
     transform: scale(1.08);
-    box-shadow: 0 0 20px rgba(231,76,60,0.32), 0 8px 18px rgba(0,0,0,0.06);
+    box-shadow: 0 0 20px rgba(231, 76, 60, 0.32), 0 8px 18px rgba(0, 0, 0, 0.06);
 }
-.carousel .modal-close:active{
+.carousel .modal-close:active {
     transform: scale(0.98) translateY(1px);
 }
-.modal-title{ color: #b86b4b; margin-top: 4px; }
-.modal-desc{ color: #6b5b50; }
-.modal-actions{ display: flex; gap: 10px; margin-top: 12px; }
-.btn{ padding: 10px 12px; border-radius: 8px; text-decoration: none; color: #fff; font-weight: bold; }
-.whatsapp{ background: #25D366; }
-.phone{ background: #0077cc; }
 
-
-
-
-/* CONTENEDOR */
-.samei-social-bar{
-    display: flex;
-    gap: clamp(14px, 4vw, 30px);
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    list-style: none;
-    padding: 0;
-    margin: 0 auto;
-    width: min(100%, 320px);
-    row-gap: 12px;
-    z-index: 120; /* no altera apariencia, evita solapamientos */
-    touch-action: manipulation; /* mejora interacción táctil */
-    -webkit-tap-highlight-color: transparent;
-}
-
-/* ITEMS */
-.samei-social-bar li{
-    position: relative;
-    width: clamp(42px, 13vw, 55px);
-    height: clamp(42px, 13vw, 55px);
-    transform: rotate(-30deg) skew(25deg);
-    flex: 0 0 auto;
-}
-
-/* BOTONES */
-.samei-social-bar li a{
-    position: absolute;
-    inset: 0;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    text-decoration: none;
-    color: white;
-
-    font-size: 1.4em;
-
-    transition: 0.35s;
-
-    background: var(--softclr);
-
-    box-shadow:
-    -10px 10px 15px rgba(0,0,0,0.15);
-}
-
-/* LADO IZQUIERDO */
-.samei-social-bar li a::before{
-    content: '';
-
-    position: absolute;
-    top: 6px;
-    left: -12px;
-
-    width: 12px;
-    height: 100%;
-
-    background: var(--sideclr);
-
-    transform: skewY(-45deg);
-
-    transition: 0.35s;
-}
-
-/* PARTE INFERIOR */
-.samei-social-bar li a::after{
-    content: '';
-
-    position: absolute;
-    bottom: -12px;
-    left: -6px;
-
-    width: 100%;
-    height: 12px;
-
-    background: var(--bottomclr);
-
-    transform: skewX(-45deg);
-
-    transition: 0.35s;
-}
-
-/* HOVER */
-.samei-social-bar li:hover a{
-    transform: translate(10px,-10px);
-
-    background: var(--clr1);
-
-    box-shadow:
-    -20px 20px 25px rgba(0,0,0,0.25);
-}
-
-.samei-social-bar li:hover a::before{
-    background: var(--clr1);
-}
-
-.samei-social-bar li:hover a::after{
-    background: var(--clr2);
-}
-
-/* ICONOS */
-.samei-social-bar li a i{
-    transition: 0.35s;
-}
-
-.samei-social-bar li:hover a i{
-    transform: scale(1.15);
-}
-.btn-catalogo{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-
-    padding:14px 28px;
-
-    background:linear-gradient(
-        135deg,
-        #f6d1b1,
-        #ffdcbf
-    );
-
-    color:#7b4d30;
-    font-size:1rem;
-    font-weight:700;
-    text-decoration:none;
-
-    border:none;
-    border-radius:999px;
-
-    box-shadow:
-        0 6px 15px rgba(246,209,177,.45),
-        inset 0 2px 4px rgba(255,255,255,.5);
-
-    position:relative;
-    overflow:hidden;
-
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease;
-}
-
-.btn-catalogo:hover{
-    transform:translateY(-3px);
-    box-shadow:
-        0 10px 25px rgba(246,209,177,.6),
-        inset 0 2px 4px rgba(255,255,255,.6);
-}
-
-.btn-catalogo:active{
-    transform:translateY(0);
-}
-
-.btn-catalogo::before{
-    content:"";
-
-    position:absolute;
-    top:-100%;
-    left:-100%;
-
-    width:250%;
-    height:250%;
-
-    background:
-        linear-gradient(
-            135deg,
-            transparent 45%,
-            rgba(255,255,255,.45) 50%,
-            transparent 55%
-        );
-
-    transition:1s ease;
-}
-
-.btn-catalogo:hover::before{
-    top:100%;
-    left:100%;
-}
-.catalogo-section{
-    padding:60px 20px;
-    max-width:1200px;
-    margin:auto;
-}
-
-.catalogo-header{
-    text-align:center;
-    margin-bottom:30px;
-}
-
-.catalogo-header h2{
-    font-size:2rem;
-    color:#8b5e3c;
-}
-
-.catalogo-header p{
-    color:#777;
-}
-
-.catalogo-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:25px;
-}
-
-.catalogo-card{
-    display:block;
-    position:relative;
-    border-radius:25px;
-    overflow:hidden;
-    text-decoration:none;
-    background:white;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
-    transition:.35s ease;
-}
-
-.catalogo-card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 18px 35px rgba(0,0,0,.15);
-}
-
-.card-image{
-    height:280px;
-    overflow:hidden;
-}
-
-.card-image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    transition:.6s;
-}
-
-.catalogo-card:hover img{
-    transform:scale(1.08);
-}
-
-.card-frosting{
-    position:relative;
-    height:80px;
-    background:#f6d1b1;
-    display:flex;
-    align-items:flex-end;
-    justify-content:center;
-    padding-bottom:15px;
-}
-
-.card-frosting svg{
-    position:absolute;
-    top:-40px;
-    left:0;
-    width:100%;
-    height:50px;
-}
-
-.card-frosting path{
-    fill:#f6d1b1;
-}
-
-.card-frosting span{
-    color:#7b4d30;
-    font-weight:600;
-}
-
-.catalogo-card::after{
-    content:"";
-    position:absolute;
-    top:-100%;
-    left:-100%;
-    width:80%;
-    height:250%;
-
-    background:
-radial-gradient(
-    circle,
-    rgba(255,255,255,.35),
-    transparent 70%
-);
-filter: blur(10px);
-
-    transform:rotate(0deg);
-    transition:1s ease;
-}
-
-.catalogo-card:hover::after{
-    top:100%;
-    left:100%;
-}
-
-
-/* Tablet */
-
-@media (max-width:900px){
-
-    .catalogo-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .card-image{
-        height:220px;
-    }
-
-}
-
-/* Celular */
-
-@media (max-width:600px){
-
-    .catalogo-grid{
-        grid-template-columns:repeat(3,1fr);
-        gap:12px;
-    }
-
-    .card-image{
-        height:95px;
-    }
-
-    .card-frosting{
-        height:35px;
-        padding-bottom:6px;
-    }
-
-    .card-frosting span{
-        font-size:.7rem;
-    }
-
-    .card-frosting svg{
-        height:25px;
-        top:-18px;
-    }
-
-}
-
-/* Responsive final layer */
-*, *::before, *::after {
-    box-sizing: border-box;
-}
-
-html {
-    -webkit-text-size-adjust: 100%;
-}
-
-body {
-    margin: 0;
-    min-width: 0;
-    overflow-x: hidden;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    padding-bottom: clamp(24px, 6vw, 48px);
-}
-
-img, svg {
-    max-width: 100%;
-    height: auto;
-}
-
-.inicio {
-    width: 100%;
-    padding: 8px 12px 0;
-}
-
-.logo {
-    width: 92vw;
-    max-width: 500px;
-}
-
-.desc {
-    font-size: clamp(1.15rem, 5.8vw, 3rem);
-    line-height: 1.12;
-    overflow-wrap: anywhere;
-}
-
-.clavearea {
-    width: min(100%, 500px);
-    min-height: 0;
-    margin: 16px auto;
-    padding: clamp(10px, 3vw, 16px);
-}
-
-.clave {
-    justify-content: center;
-}
-
-.clave input {
-    width: 100%;
-    min-height: 44px;
-    font-size: clamp(1rem, 4.8vw, 1.25rem);
-}
-
-.botonClave {
-    min-height: 44px;
-    max-width: 100%;
-}
-
-.carousel {
-    width: calc(100% - 24px);
-    max-width: 700px;
-    margin: clamp(18px, 5vw, 35px) auto;
-}
-
-.slides {
-    height: clamp(190px, 52vw, 360px);
-}
-
-.carousel-btn {
-    width: clamp(36px, 10vw, 44px);
-    height: clamp(36px, 10vw, 44px);
-    font-size: clamp(1rem, 5vw, 1.25rem);
-}
-
-.carousel-btn.anterior {
-    left: clamp(6px, 2.5vw, 12px);
-}
-
-.carousel-btn.siguiente {
-    right: clamp(6px, 2.5vw, 12px);
-}
-
-.modal {
-    padding: 12px;
-}
-
-.modal-inner {
-    width: 100%;
-    max-width: 420px;
-    max-height: calc(100vh - 24px);
-    max-height: calc(100svh - 24px);
-    overflow: auto;
-}
+.modal-title { color: #b86b4b; margin-top: 4px; }
+.modal-desc  { color: #6b5b50; }
 
 .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
     flex-wrap: wrap;
 }
-
 .modal-actions .btn {
     flex: 1 1 150px;
     text-align: center;
 }
 
+.btn { padding: 10px 12px; border-radius: 8px; text-decoration: none; color: #fff; font-weight: bold; }
+.whatsapp { background: #25D366; }
+.phone    { background: #0077cc; }
+
+
+/* ================================================================
+   7. SECCIÓN "SOBRE NOSOTROS"
+   ================================================================ */
 .about {
     width: calc(100% - 24px);
     max-width: 650px;
-    min-height: 0;
+    text-align: center;
+    border-radius: 10px;
+    margin: auto;
     padding: 8px 0;
 }
 
 .titulo-about {
+    color: #b86b4b;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 1px;
     font-size: clamp(1.35rem, 6vw, 2.2rem);
     line-height: 1.15;
+    /* Una sola capa de resplandor (ver nota en .desc) */
+    text-shadow: 0 0 8px rgba(255, 190, 140, 0.5);
 }
 
 .desc-about {
+    color: #975a30;
+    text-align: center;
     font-size: clamp(1rem, 4.4vw, 1.15rem);
     line-height: 1.55;
 }
 
+
+/* ================================================================
+   8. CATÁLOGO (vitrina en la página de inicio)
+   ================================================================ */
 .btn-catalogo {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     width: fit-content;
     max-width: calc(100% - 32px);
     margin: 18px auto;
     padding: clamp(10px, 3.6vw, 14px) clamp(16px, 6vw, 28px);
+    background: linear-gradient(135deg, #f6d1b1, #ffdcbf);
+    color: #7b4d30;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    border-radius: 999px;
+    box-shadow: 0 6px 15px rgba(246, 209, 177, .45), inset 0 2px 4px rgba(255, 255, 255, .5);
+    position: relative;
+    overflow: hidden;
     line-height: 1.25;
     text-align: center;
     white-space: normal;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+.btn-catalogo:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(246, 209, 177, .6), inset 0 2px 4px rgba(255, 255, 255, .6);
+}
+.btn-catalogo:active {
+    transform: translateY(0);
+}
+.btn-catalogo::before {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 250%;
+    height: 250%;
+    background: linear-gradient(135deg, transparent 45%, rgba(255, 255, 255, .45) 50%, transparent 55%);
+    transition: 1s ease;
+}
+.btn-catalogo:hover::before {
+    top: 100%;
+    left: 100%;
 }
 
 .catalogo-section {
     width: calc(100% - 24px);
     max-width: 1200px;
+    margin: auto;
     padding: clamp(32px, 6vw, 60px) 0;
 }
 
+.catalogo-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
 .catalogo-header h2 {
     font-size: clamp(1.45rem, 6vw, 2rem);
+    color: #8b5e3c;
 }
-
 .catalogo-header p {
+    color: #777;
     font-size: clamp(.95rem, 3.8vw, 1rem);
     line-height: 1.45;
 }
@@ -960,78 +579,247 @@ img, svg {
 }
 
 .catalogo-card {
+    display: block;
+    position: relative;
     min-width: 0;
     border-radius: clamp(12px, 4vw, 25px);
+    overflow: hidden;
+    text-decoration: none;
+    background: white;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
+    transition: .35s ease;
+}
+.catalogo-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 35px rgba(0, 0, 0, .15);
+}
+/* Brillo diagonal al pasar el mouse */
+.catalogo-card::after {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 80%;
+    height: 250%;
+    background: radial-gradient(circle, rgba(255, 255, 255, .35), transparent 70%);
+    filter: blur(10px);
+    transform: rotate(0deg);
+    transition: 1s ease;
+}
+.catalogo-card:hover::after {
+    top: 100%;
+    left: 100%;
 }
 
 .card-image {
     height: 180px;
     height: clamp(150px, 28vw, 280px);
+    overflow: hidden;
+}
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: .6s;
+}
+.catalogo-card:hover .card-image img {
+    transform: scale(1.08);
 }
 
+.card-frosting {
+    position: relative;
+    height: 80px;
+    background: #f6d1b1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 15px;
+}
+.card-frosting svg {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    width: 100%;
+    height: 50px;
+}
+.card-frosting path {
+    fill: #f6d1b1;
+}
 .card-frosting span {
+    color: #7b4d30;
+    font-weight: 600;
     text-align: center;
     line-height: 1.15;
 }
 
+
+/* ================================================================
+   9. BARRA SOCIAL
+   ================================================================ */
 .samei-social-bar {
+    display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
     width: min(100%, 520px);
     max-width: 520px;
     gap: 18px;
     gap: clamp(18px, 7vw, 30px);
+    row-gap: 12px;
     margin: 26px auto 30px;
-    padding: 0 0 16px 14px;
+    padding: 0 0 16px;
+    z-index: 120;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .samei-social-bar li {
+    position: relative;
     width: clamp(42px, 13vw, 55px);
     height: clamp(42px, 13vw, 55px);
+    transform: rotate(-30deg) skew(25deg);
+    flex: 0 0 auto;
 }
 
 .samei-social-bar li a {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: white;
     font-size: clamp(1.05rem, 5vw, 1.4rem);
+    transition: 0.35s;
+    background: var(--softclr);
+    box-shadow: -10px 10px 15px rgba(0, 0, 0, 0.15);
+}
+
+.samei-social-bar li a::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: -12px;
+    width: 12px;
+    height: 100%;
+    background: var(--sideclr);
+    transform: skewY(-45deg);
+    transition: 0.35s;
+}
+
+.samei-social-bar li a::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: -6px;
+    width: 100%;
+    height: 12px;
+    background: var(--bottomclr);
+    transform: skewX(-45deg);
+    transition: 0.35s;
+}
+
+.samei-social-bar li:hover a {
+    transform: translate(10px, -10px);
+    background: var(--clr1);
+    box-shadow: -20px 20px 25px rgba(0, 0, 0, 0.25);
+}
+.samei-social-bar li:hover a::before { background: var(--clr1); }
+.samei-social-bar li:hover a::after  { background: var(--clr2); }
+
+.samei-social-bar li a i { transition: 0.35s; }
+.samei-social-bar li:hover a i { transform: scale(1.15); }
+
+/* Sin efecto hover en pantallas táctiles (evita que quede "pegado") */
+@media (hover: none) {
+    .samei-social-bar li:hover a,
+    .samei-social-bar li:hover a::before,
+    .samei-social-bar li:hover a::after,
+    .samei-social-bar li:hover a i {
+        transform: none;
+    }
+}
+
+.version {
+    text-align: center;
+    opacity: .5;
+    font-size: .75rem;
+    padding-bottom: 10px;
+}
+
+
+/* ================================================================
+   10. RESPONSIVE / MEDIA QUERIES
+   (de pantallas grandes a pequeñas)
+   ================================================================ */
+
+@media (min-width: 1920px) {
+    .carousel { max-width: 900px; }
+    .slides   { height: clamp(420px, 26vw, 560px); }
+}
+
+@media (min-width: 2560px) {
+    .carousel { max-width: 1100px; }
+    .slides   { height: clamp(560px, 24vw, 720px); }
+}
+
+@media (min-width: 1600px) {
+    .logo { width: 420px; }
 }
 
 @media (min-width: 1200px) {
-    .catalogo-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+    .catalogo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 768px) {
+    body {
+        background-image: url("Data/fondocel.png");
+        background-attachment: scroll;
+    }
+    .clavearea::before {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: rgba(255, 255, 255, 0.06);
     }
 }
 
 @media (max-width: 600px) {
-    .catalogo-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .catalogo-card {
-        max-width: 100%;
-    }
-
+    .catalogo-grid { grid-template-columns: 1fr; }
+    .catalogo-card { max-width: 100%; }
     .card-frosting {
         min-height: 54px;
         height: auto;
         padding: 10px 8px;
     }
+    .card-frosting svg { height: 34px; top: -24px; }
+    .card-frosting span { font-size: .7rem; }
+}
 
-    .card-frosting svg {
-        height: 34px;
-        top: -24px;
+@media (max-width: 480px) {
+    .slides { height: clamp(220px, 54vw, 280px); }
+}
+
+@media (max-width: 420px) {
+    .clave { flex-direction: column; }
+    .clave input { max-width: 380px; flex: 0 0 auto; }
+    .botonClave { width: auto; align-self: center; margin-top: 8px; }
+}
+
+/* Ajuste específico para pantallas de ~400px (p. ej. Samsung J1 Ace) */
+@media (max-width: 400px) {
+    .desc {
+        font-size: clamp(1.05rem, 5.2vw, 1.6rem);
+        font-weight: 600;
+        text-shadow: 0 0 5px rgba(255, 190, 140, 0.35);
     }
 }
 
 @media (max-width: 360px) {
-    .inicio {
-        padding-inline: 8px;
-    }
-
-    .logo {
-        width: 88vw;
-    }
-
-    .desc {
-        font-size: 1.12rem;
-    }
+    body { padding-inline: 8px; }
+    .inicio { padding-inline: 8px; }
+    .logo { width: 88vw; }
+    .desc { font-size: 1.12rem; }
 
     .clavearea,
     .carousel,
@@ -1040,13 +828,8 @@ img, svg {
         width: calc(100% - 16px);
     }
 
-    .slides {
-        height: 180px;
-    }
-
-    .carousel {
-        border-radius: 8px;
-    }
+    .slides    { height: 180px; }
+    .carousel  { border-radius: 8px; }
 
     .samei-social-bar {
         gap: 12px;
@@ -1054,31 +837,15 @@ img, svg {
         padding-left: 0;
         max-width: 100%;
     }
-
     .samei-social-bar li {
         width: clamp(36px, 13vw, 42px);
         height: clamp(36px, 13vw, 42px);
         transform: rotate(-18deg) skew(12deg);
     }
-
-    .samei-social-bar li a::before {
-        top: 3px;
-        left: -7px;
-        width: 7px;
-    }
-
-    .samei-social-bar li a::after {
-        bottom: -7px;
-        left: -3px;
-        height: 7px;
-    }
+    .samei-social-bar li a::before { top: 3px; left: -7px; width: 7px; }
+    .samei-social-bar li a::after  { bottom: -7px; left: -3px; height: 7px; }
 }
 
-@media (hover: none) {
-    .samei-social-bar li:hover a,
-    .samei-social-bar li:hover a::before,
-    .samei-social-bar li:hover a::after,
-    .samei-social-bar li:hover a i {
-        transform: none;
-    }
+@media (max-width: 320px) {
+    .logo { width: 140px; }
 }

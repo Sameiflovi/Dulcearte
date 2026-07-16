@@ -1,69 +1,127 @@
+/* ================================================================
+   DULCEARTE — empanadas.css (cursos/empanadas/empanadas.html)
+   Reorganizado por secciones · sin selectores duplicados
+   ================================================================
+   ÍNDICE:
+   1. Reset y variables
+   2. Estilos globales
+   3. Encabezado (logo)
+   4. Contenido del curso
+   5. Botón volver
+   6. Barra social
+   7. Responsive / media queries
+   ================================================================ */
+
+
+/* ================================================================
+   1. RESET Y VARIABLES
+   ================================================================ */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+
+/* ================================================================
+   2. ESTILOS GLOBALES
+   ================================================================ */
 body {
+    margin: 0;
+    min-width: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+    padding: clamp(8px, 2.6vw, 16px) clamp(12px, 4vw, 24px) clamp(28px, 6vw, 48px);
     background-image: url("../../Data/fondopc.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    min-height: 100vh;
-} 
-
-@media (max-width: 768px){
-
-    body{
-        background-image: url("../../Data/fondocel.png");
-        background-attachment: scroll;
-    }
-
 }
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+
+/* ================================================================
+   3. ENCABEZADO (logo)
+   ================================================================ */
 .logo {
     display: block;
-    width: 150px; /* ancho objetivo en pantallas grandes */
-    max-width: 500px; /* se reduce en pantallas pequeñas */
+    width: min(92vw, 500px);
     height: auto;
-    margin: 10px auto 0;
+    margin: clamp(44px, 8vw, 72px) auto 0;
     text-align: center;
-    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.12));
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12));
 }
+
+
+/* ================================================================
+   4. CONTENIDO DEL CURSO
+   ================================================================ */
 .descripcion {
     font-family: 'Arial', sans-serif;
     color: #a95e2d;
     text-align: center;
     margin: 20px auto;
-    max-width: 600px;
-    padding: 0 15px;
-    text-shadow:0 0 10px rgba(255,190,140,0.7), 0 0 20px rgba(255,160,120,0.4);
+    width: 100%;
+    max-width: 680px;
+    padding: 0;
+    font-size: clamp(1rem, 4.2vw, 1.12rem);
+    line-height: 1.55;
+    /* Sin resplandor: en párrafos de texto corrido restaba legibilidad */
 }
+
 .titulo-curso {
     font-family: 'Arial', sans-serif;
     color: #a95e2d;
     text-align: center;
     margin: 20px auto;
-    text-shadow:0 0 10px rgba(255,190,140,0.7), 0 0 20px rgba(255,160,120,0.4);
+    width: 100%;
+    max-width: 680px;
+    font-size: clamp(1.35rem, 5.8vw, 1.8rem);
+    line-height: 1.2;
+    /* Una sola capa de resplandor, como en el título de inicio */
+    text-shadow: 0 0 8px rgba(255, 190, 140, 0.5);
 }
 
 .contenido-curso {
     font-family: 'Arial', sans-serif;
     color: #361f0f;
-    max-width: 600px;
+    width: 100%;
+    max-width: 680px;
     margin: 0 auto 20px;
-    padding: 0 15px;
-    list-style-type: disc; /* estilo de lista con viñetas */
-    padding-left: 20px; /* espacio para las viñetas */
-    text-shadow:0 0 10px rgba(104, 71, 46, 0.7), 0 0 20px rgba(255,160,120,0.4);
+    padding: 0 0 0 1.25rem;
+    list-style-type: disc;
+    font-size: clamp(.98rem, 4.1vw, 1.08rem);
+    line-height: 1.5;
+    /* Sin resplandor: es texto de lista, debe leerse con claridad */
 }
-/* Estilos para el botón 'Volver al Inicio' */
+.contenido-curso li {
+    margin-bottom: .72rem;
+    overflow-wrap: anywhere;
+}
+
+
+/* ================================================================
+   5. BOTÓN VOLVER
+   ================================================================ */
 .btn {
     display: inline-block;
     padding: 10px 18px;
     border-radius: 8px;
     text-decoration: none;
     color: #fff;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
     transition: transform 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
-/* Ajuste del color según el fondo: color semitransparente sobre el fondo */
 .btn.volver {
     position: fixed;
     top: 12px;
@@ -72,17 +130,19 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(0,0,0,0.65);
+    background: rgba(0, 0, 0, 0.65);
     color: #fff;
     padding: 8px 10px;
     border-radius: 8px;
     font-weight: 700;
     text-decoration: none;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-    transition: transform 300ms cubic-bezier(.22,.9,.36,1), box-shadow 300ms ease;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    transition: transform 300ms cubic-bezier(.22, .9, .36, 1), box-shadow 300ms ease;
+    max-width: calc(100% - 16px);
+    white-space: normal;
+    line-height: 1.15;
 }
-
-.btn.volver::before{
+.btn.volver::before {
     content: '←';
     display: inline-block;
     font-weight: 800;
@@ -92,39 +152,41 @@ body {
 .btn:hover,
 .btn:focus {
     transform: translateY(-1px);
-    box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+}
+.btn:focus {
+    outline: 3px solid rgba(246, 209, 177, 0.35);
+    outline-offset: 3px;
 }
 
-/* Efecto más suave en dispositivos táctiles (sin hover) */
+/* Sin animación en dispositivos táctiles (sin hover) */
 @media (hover: none) {
     .btn:hover { transform: none; }
 }
 
-@media (max-width: 420px) {
-    .btn.volver { top: 8px; left: 8px; padding: 6px 8px; font-size: 0.95rem; }
-}
 
-/* Mantener accesibilidad: foco visible */
-.btn:focus {
-    outline: 3px solid rgba(246,209,177,0.35);
-    outline-offset: 3px;
-}
-/*Social Bar*/
-.samei-social-bar{
+/* ================================================================
+   6. BARRA SOCIAL
+   ================================================================ */
+.samei-social-bar {
     display: flex;
-    gap: clamp(14px, 4vw, 30px);
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
     list-style: none;
-    padding: 0;
-    margin: 0 auto;
-    width: min(100%, 320px);
+    width: calc(100% - 24px);
+    max-width: 520px;
+    gap: 18px;
+    gap: clamp(18px, 7vw, 30px);
     row-gap: 12px;
+    margin: 28px auto 30px;
+    padding: 0 0 16px;
+    z-index: 120;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* ITEMS */
-.samei-social-bar li{
+.samei-social-bar li {
     position: relative;
     width: clamp(42px, 13vw, 55px);
     height: clamp(42px, 13vw, 55px);
@@ -132,199 +194,91 @@ body {
     flex: 0 0 auto;
 }
 
-/* BOTONES */
-.samei-social-bar li a{
+.samei-social-bar li a {
     position: absolute;
     inset: 0;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     text-decoration: none;
     color: white;
-
-    font-size: 1.4em;
-
+    font-size: clamp(1.05rem, 5vw, 1.4rem);
     transition: 0.35s;
-
     background: var(--softclr);
-
-    box-shadow:
-    -10px 10px 15px rgba(0,0,0,0.15);
+    box-shadow: -10px 10px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* LADO IZQUIERDO */
-.samei-social-bar li a::before{
+.samei-social-bar li a::before {
     content: '';
-
     position: absolute;
     top: 6px;
     left: -12px;
-
     width: 12px;
     height: 100%;
-
     background: var(--sideclr);
-
     transform: skewY(-45deg);
-
     transition: 0.35s;
 }
 
-/* PARTE INFERIOR */
-.samei-social-bar li a::after{
+.samei-social-bar li a::after {
     content: '';
-
     position: absolute;
     bottom: -12px;
     left: -6px;
-
     width: 100%;
     height: 12px;
-
     background: var(--bottomclr);
-
     transform: skewX(-45deg);
-
     transition: 0.35s;
 }
 
-/* HOVER */
-.samei-social-bar li:hover a{
-    transform: translate(10px,-10px);
-
+.samei-social-bar li:hover a {
+    transform: translate(10px, -10px);
     background: var(--clr1);
+    box-shadow: -20px 20px 25px rgba(0, 0, 0, 0.25);
+}
+.samei-social-bar li:hover a::before { background: var(--clr1); }
+.samei-social-bar li:hover a::after  { background: var(--clr2); }
 
-    box-shadow:
-    -20px 20px 25px rgba(0,0,0,0.25);
+.samei-social-bar li a i { transition: 0.35s; }
+.samei-social-bar li:hover a i { transform: scale(1.15); }
+
+
+/* ================================================================
+   7. RESPONSIVE / MEDIA QUERIES
+   (de pantallas grandes a pequeñas)
+   ================================================================ */
+
+@media (max-width: 768px) {
+    body {
+        background-image: url("../../Data/fondocel.png");
+        background-attachment: scroll;
+    }
 }
 
-.samei-social-bar li:hover a::before{
-    background: var(--clr1);
+@media (max-width: 420px) {
+    .btn.volver {
+        top: 8px;
+        left: 8px;
+        padding: 6px 8px;
+        font-size: 0.95rem;
+    }
 }
 
-.samei-social-bar li:hover a::after{
-    background: var(--clr2);
-}
-
-/* ICONOS */
-.samei-social-bar li a i{
-    transition: 0.35s;
-}
-
-.samei-social-bar li:hover a i{
-    transform: scale(1.15);
-}
-
-/* Responsive final layer */
-*, *::before, *::after {
-    box-sizing: border-box;
-}
-
-html {
-    -webkit-text-size-adjust: 100%;
-}
-
-body {
-    margin: 0;
-    min-width: 0;
-    min-height: 100vh;
-    overflow-x: hidden;
-    padding: clamp(8px, 2.6vw, 16px) clamp(12px, 4vw, 24px) clamp(28px, 6vw, 48px);
-    font-family: Arial, sans-serif;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-}
-
-.logo {
-    width: min(92vw, 500px);
-    margin-top: clamp(44px, 8vw, 72px);
-}
-
-.descripcion,
-.titulo-curso,
-.contenido-curso {
-    width: 100%;
-    max-width: 680px;
-}
-
-.descripcion {
-    font-size: clamp(1rem, 4.2vw, 1.12rem);
-    line-height: 1.55;
-    padding: 0;
-}
-
-.titulo-curso {
-    font-size: clamp(1.35rem, 5.8vw, 1.8rem);
-    line-height: 1.2;
-}
-
-.contenido-curso {
-    font-size: clamp(.98rem, 4.1vw, 1.08rem);
-    line-height: 1.5;
-    padding: 0 0 0 1.25rem;
-}
-
-.contenido-curso li {
-    margin-bottom: .72rem;
-    overflow-wrap: anywhere;
-}
-
-.btn.volver {
-    max-width: calc(100% - 16px);
-    white-space: normal;
-    line-height: 1.15;
-}
-
-.samei-social-bar {
-    flex-wrap: wrap;
-    width: calc(100% - 24px);
-    max-width: 520px;
-    gap: 18px;
-    gap: clamp(18px, 7vw, 30px);
-    margin: 28px auto 30px;
-    padding: 0 0 16px 14px;
-}
-
-.samei-social-bar li {
-    width: 42px;
-    height: 42px;
-    width: clamp(42px, 13vw, 55px);
-    height: clamp(42px, 13vw, 55px);
-}
-
-.samei-social-bar li a {
-    font-size: clamp(1.05rem, 5vw, 1.4rem);
+@media (max-width: 400px) {
+    .titulo-curso {
+        text-shadow: 0 0 5px rgba(255, 190, 140, 0.35);
+    }
 }
 
 @media (max-width: 360px) {
-    body {
-        padding-inline: 8px;
-    }
-
-    .logo {
-        width: 88vw;
-    }
-
-    .descripcion {
-        margin: 16px auto;
-    }
-
-    .contenido-curso {
-        padding-left: 1.1rem;
-    }
-
+    body { padding-inline: 8px; }
+    .logo { width: 88vw; }
+    .descripcion { margin: 16px auto; }
+    .contenido-curso { padding-left: 1.1rem; }
     .samei-social-bar {
         gap: 18px;
-        padding-left: 10px;
+        padding-left: 0;
     }
-
-    .samei-social-bar li {
-        width: 40px;
-        height: 40px;
-    }
+    .samei-social-bar li { width: 40px; height: 40px; }
 }

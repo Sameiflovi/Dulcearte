@@ -1,627 +1,56 @@
-:root{
-    --principal:#f6d1b1;
-    --principal-hover:#f2c39a;
-    --texto:#6f4a35;
-    --fondo:#fffaf7;
+/* ================================================================
+   DULCEARTE — catalogo.css (Catalogo/catalogo.html)
+   Reorganizado por secciones · sin selectores duplicados
+   ================================================================
+   ÍNDICE:
+   1. Reset y variables
+   2. Estilos globales
+   3. Encabezado y botón volver
+   4. Navegación "glass"
+   5. Grid de productos
+   6. Popup de producto
+   7. Barra social
+   8. Animaciones
+   9. Responsive / media queries
+   ================================================================ */
+
+
+/* ================================================================
+   1. RESET Y VARIABLES
+   ================================================================ */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-/* =========================
-   BODY
-========================= */
-
-body{
-    font-family:Arial, sans-serif;
-    color:var(--texto);
-
-    background-image:url("../Data/fondopc.jpg");
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-    background-attachment:fixed;
-    min-height:100vh;
-}
-
-@media (max-width: 768px){
-
-    body{
-        background-image: url("../Data/fondocel.png");
-        background-attachment: scroll;
-    }
-
-}
-
-/* =========================
-   HEADER
-========================= */
-header{
-    padding:25px;
-    text-align:center;
-
-    
-    top:0;
-    z-index:100;
-}
-
-header h1{
-    font-size:2rem;
-}
-
-header p{
-    margin-top:8px;
-    opacity:.8;
-}
-
-/* =========================
-   LIQUID GLASS NAV
-========================= */
-
-.glass-nav{
-    position:sticky;
-    top: 10px;
-
-    width:max-content;
-
-    margin:20px auto;
-
-    display:flex;
-    gap:8px;
-
-    padding:8px;
-
-    border-radius:999px;
-
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-
-    overflow:hidden;
-    position:sticky;
-    background:
-        rgba(255,255,255,.18);
-
-    border:
-        1px solid rgba(255,255,255,.3);
-
-    box-shadow:
-        0 8px 32px rgba(0,0,0,.08);
-
-    z-index:200;
-}
-
-.categoria-titulo{
-    text-align:center;
-    margin:40px 0 10px;
-    font-size:1.8rem;
-    color:var(--texto);
-}
-
-.nav-link{
-    position:relative;
-
-    padding:12px 22px;
-
-    border-radius:999px;
-
-    text-decoration:none;
-
-    color:var(--texto);
-
-    font-weight:600;
-
-    transition:.35s;
-
-    z-index:2;
-}
-
-.nav-link:hover{
-    color:#4f2e1f;
-}
-
-.glass-indicator{
-    position:absolute;
-
-    top:8px;
-    left:8px;
-
-    width:105px;
-    height:44px;
-
-    border-radius:999px;
-
-    background:
-        rgba(255,255,255,.35);
-
-    backdrop-filter:blur(15px);
-
-    transition:.45s cubic-bezier(.22,1,.36,1);
-
-    z-index:1;
-}
-/* =========================
-   SOCIAL BAR
-========================= */
-
-.samei-social-bar{
-    display:flex;
-    gap:clamp(14px, 4vw, 30px);
-    justify-content:center;
-    align-items:center;
-    flex-wrap:wrap;
-    list-style:none;
-    padding:0;
-    margin:0 auto;
-    width:min(100%, 320px);
-    row-gap:12px;
-    z-index:120;
-    touch-action:manipulation;
-    -webkit-tap-highlight-color:transparent;
-}
-
-.samei-social-bar li{
-    position:relative;
-    width:clamp(42px, 13vw, 55px);
-    height:clamp(42px, 13vw, 55px);
-    transform:rotate(-30deg) skew(25deg);
-    flex:0 0 auto;
-}
-
-.samei-social-bar li a{
-    position:absolute;
-    inset:0;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    text-decoration:none;
-    color:white;
-
-    font-size:1.4em;
-
-    background:var(--softclr);
-
-    transition:.35s;
-
-    box-shadow:
-    -10px 10px 15px rgba(0,0,0,.15);
-}
-
-.samei-social-bar li a::before{
-    content:"";
-
-    position:absolute;
-    top:6px;
-    left:-12px;
-
-    width:12px;
-    height:100%;
-
-    background:var(--sideclr);
-
-    transform:skewY(-45deg);
-
-    transition:.35s;
-}
-
-.samei-social-bar li a::after{
-    content:"";
-
-    position:absolute;
-    bottom:-12px;
-    left:-6px;
-
-    width:100%;
-    height:12px;
-
-    background:var(--bottomclr);
-
-    transform:skewX(-45deg);
-
-    transition:.35s;
-}
-
-.samei-social-bar li:hover a{
-    transform:translate(10px,-10px);
-
-    background:var(--clr1);
-
-    box-shadow:
-    -20px 20px 25px rgba(0,0,0,.25);
-}
-
-.samei-social-bar li:hover a::before{
-    background:var(--clr1);
-}
-
-.samei-social-bar li:hover a::after{
-    background:var(--clr2);
-}
-
-.samei-social-bar li a i{
-    transition:.35s;
-}
-
-.samei-social-bar li:hover a i{
-    transform:scale(1.15);
-}
-
-/* =========================
-   CATÁLOGO
-========================= */
-
-.catalogo{
-    max-width:1200px;
-    margin:auto;
-
-    padding:clamp(16px,4vw,30px) 20px;
-
-    display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
-
-    gap:clamp(14px,3vw,25px);
-}
-
-.producto{
-    position:relative;
-
-    background:white;
-
-    border-radius:25px;
-    overflow:hidden;
-
-    text-decoration:none;
-    color:inherit;
-
-    box-shadow:
-    0 10px 20px rgba(0,0,0,.08);
-
-    transition:.3s;
-}
-
-.producto:hover{
-    transform:translateY(-8px);
-
-    box-shadow:
-    0 18px 35px rgba(0,0,0,.12);
-}
-
-.imagen{
-    height:250px;
-    overflow:hidden;
-}
-
-.imagen img{
-    width:100%;
-    height:100%;
-
-    object-fit:cover;
-
-    transition:.5s;
-}
-
-.producto:hover img{
-    transform:scale(1.08);
-}
-
-/* BRILLO DIAGONAL */
-
-.producto::before{
-    content:"";
-
-    position:absolute;
-
-    top:-120%;
-    left:-120%;
-
-    width:220%;
-    height:220%;
-
-    background:
-    linear-gradient(
-        135deg,
-        transparent 45%,
-        rgba(255,255,255,.35) 50%,
-        transparent 55%
-    );
-
-    transition:1s;
-}
-
-.producto:hover::before{
-    top:100%;
-    left:100%;
-}
-
-/* INFO PRODUCTO */
-
-.info{
-    padding:18px;
-    text-align:center;
-}
-
-.info h3{
-    margin-bottom:8px;
-}
-
-.precio{
-    font-weight:bold;
-    font-size:1.1rem;
-
-    color:#d47b3f;
-}
-
-/* BOTÓN WHATSAPP */
-
-.whatsapp{
-    display:block;
-
-    width:max-content;
-
-    margin:30px auto;
-
-    background:var(--principal);
-    color:var(--texto);
-
-    padding:14px 28px;
-
-    border-radius:999px;
-
-    text-decoration:none;
-    font-weight:bold;
-
-    transition:.3s;
-}
-
-.whatsapp:hover{
-    background:var(--principal-hover);
-}
-
-/* =========================
-   MÓVIL
-========================= */
-
-@media (max-width:768px){
-    .catalogo{
-        grid-template-columns:repeat(2,minmax(0,1fr));
-        gap:12px;
-    }
-
-    .imagen{
-        height:140px;
-    }
-
-    .info{
-        padding:10px;
-    }
-
-    .info h3{
-        font-size:.9rem;
-    }
-
-    .precio{
-        font-size:.8rem;
-    }
-
-    header h1{
-        font-size:1.6rem;
-    }
-
-}
-/* =========================
-   POPUP
-========================= */
-
-.popup-overlay{
-
-    position:fixed;
-    inset:0;
-
-    background:rgba(0,0,0,.5);
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    opacity:0;
-    visibility:hidden;
-
-    transition:.35s;
-
-    z-index:9999;
-}
-
-.popup-overlay.activo{
-
-    opacity:1;
-    visibility:visible;
-}
-
-.popup-producto{
-
-    width:90%;
-    max-width:700px;
-
-    background:white;
-
-    border-radius:25px;
-
-    overflow:hidden;
-
-    position:relative;
-
-    animation:popupEntrada .35s ease;
-}
-
-@keyframes popupEntrada{
-
-    from{
-        transform:scale(.9);
-        opacity:0;
-    }
-
-    to{
-        transform:scale(1);
-        opacity:1;
-    }
-}
-
-.popup-imagen{
-
-    height:320px;
-}
-
-.popup-imagen img{
-
-    width:100%;
-    height:100%;
-
-    object-fit:cover;
-}
-
-.popup-contenido{
-
-    padding:25px;
-}
-
-.popup-precio{
-
-    font-size:1.4rem;
-    font-weight:bold;
-
-    color:#d47b3f;
-
-    margin-top:15px;
-}
-
-.popup-descripcion{
-
-    margin-top:10px;
-}
-
-.popup-botones{
-
-    display:flex;
-    gap:10px;
-
-    margin-top:20px;
-}
-
-.popup-btn{
-
-    flex:1;
-
-    text-align:center;
-
-    padding:14px;
-
-    border-radius:999px;
-
-    text-decoration:none;
-
-    font-weight:bold;
-}
-
-.marketplace{
-
-    background:#1877f2;
-    color:white;
-}
-
-.whatsapp-btn{
-
-    background:#25d366;
-    color:white;
-}
-
-.popup-cerrar{
-
-    position:absolute;
-    top:15px;
-    right:15px;
-
-    width:40px;
-    height:40px;
-
-    border:none;
-
-    border-radius:50%;
-
-    cursor:pointer;
-
-    background:white;
-
-    font-size:1.2rem;
-}
-
-@media(max-width:768px){
-
-    .popup-imagen{
-
-        height:220px;
-    }
-
-    .popup-botones{
-
-        flex-direction:column;
-    }
-
-}
-
-.back-btn {
-    position: fixed;
-    top: 12px;
-    left: 12px;
-    z-index: 400;
-    display: none;
-
-    background: rgba(0,0,0,0.65);
-    color: #fff;
-
-    padding: 8px 10px;
-    border-radius: 8px;
-
-    text-decoration: none;
-    font-weight: 700;
-
-    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-
-    transition:
-        transform 300ms cubic-bezier(.22,.9,.36,1),
-        box-shadow 300ms ease;
-}
-
-.back-btn:hover{
-    transform: translateY(-1px);
-    box-shadow: 0 10px 24px rgba(0,0,0,0.22);
-}
-
-@media (max-width:420px){
-
-    .back-btn{
-        top:8px;
-        left:8px;
-        padding:6px 8px;
-        font-size:.95rem;
-    }
-
-}
-
-/* Responsive final layer */
 html {
+    scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
 }
 
+:root {
+    --principal: #f6d1b1;
+    --principal-hover: #f2c39a;
+    --texto: #6f4a35;
+    --fondo: #fffaf7;
+}
+
+
+/* ================================================================
+   2. ESTILOS GLOBALES
+   ================================================================ */
 body {
+    font-family: Arial, sans-serif;
+    color: var(--texto);
     min-width: 0;
+    min-height: 100vh;
     overflow-x: hidden;
+    background-image: url("../Data/fondopc.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 img {
@@ -629,127 +58,243 @@ img {
     height: auto;
 }
 
+
+/* ================================================================
+   3. ENCABEZADO Y BOTÓN VOLVER
+   ================================================================ */
 header {
+    text-align: center;
     padding: clamp(22px, 6vw, 34px) 12px 12px;
 }
-
 header h1 {
     font-size: clamp(1.55rem, 6vw, 2.1rem);
     line-height: 1.15;
     overflow-wrap: anywhere;
 }
-
 header p {
+    margin-top: 8px;
+    opacity: .8;
     font-size: clamp(.95rem, 3.8vw, 1rem);
     line-height: 1.45;
 }
 
-.glass-nav {
-    width: fit-content;
-    max-width: calc(100% - 16px);
-    overflow-x: auto;
-    scrollbar-width: none;
+/* Solo visible si se llega desde index.html (lo activa catalogo.js) */
+.back-btn {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 400;
+    display: none;
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    transition: transform 300ms cubic-bezier(.22, .9, .36, 1), box-shadow 300ms ease;
+}
+.back-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
 }
 
+
+/* ================================================================
+   4. NAVEGACIÓN "GLASS"
+   ================================================================ */
+.glass-nav {
+    position: sticky;
+    top: 10px;
+    width: fit-content;
+    max-width: calc(100% - 16px);
+    margin: 20px auto;
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 999px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, .18);
+    border: 1px solid rgba(255, 255, 255, .3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, .08);
+    z-index: 200;
+}
 .glass-nav::-webkit-scrollbar {
     display: none;
 }
 
 .nav-link {
+    position: relative;
     padding: clamp(10px, 3.5vw, 12px) clamp(14px, 5vw, 22px);
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--texto);
+    font-weight: 600;
     white-space: nowrap;
     font-size: clamp(.9rem, 3.8vw, 1rem);
+    transition: .35s;
+    z-index: 2;
+}
+.nav-link:hover {
+    color: #4f2e1f;
 }
 
 .glass-indicator {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 105px;
     height: calc(100% - 16px);
     max-width: calc(50% - 8px);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .35);
+    backdrop-filter: blur(15px);
+    transition: .45s cubic-bezier(.22, 1, .36, 1);
+    z-index: 1;
 }
 
 .categoria-titulo {
+    text-align: center;
     margin: clamp(28px, 7vw, 40px) 12px 8px;
     font-size: clamp(1.35rem, 6vw, 1.8rem);
     line-height: 1.2;
+    color: var(--texto);
 }
 
+
+/* ================================================================
+   5. GRID DE PRODUCTOS
+   ================================================================ */
 .catalogo {
     width: calc(100% - 24px);
     max-width: 1200px;
+    margin: auto;
     padding: clamp(16px, 4vw, 30px) 0;
     display: flex;
     flex-wrap: wrap;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(14px, 3vw, 25px);
 }
-
-.producto {
-    flex: 1 1 300px;
-    min-width: 0;
-    border-radius: clamp(12px, 4vw, 25px);
-}
-
+/* Grid real para navegadores compatibles (con respaldo flex para equipos muy antiguos) */
 @supports (display: grid) {
     .catalogo {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
+}
 
+.producto {
+    position: relative;
+    flex: 1 1 300px;
+    min-width: 0;
+    background: white;
+    border-radius: clamp(12px, 4vw, 25px);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .08);
+    transition: .3s;
+}
+@supports (display: grid) {
     .producto {
         flex: initial;
     }
+}
+.producto:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 35px rgba(0, 0, 0, .12);
+}
+/* Brillo diagonal al pasar el mouse */
+.producto::before {
+    content: "";
+    position: absolute;
+    top: -120%;
+    left: -120%;
+    width: 220%;
+    height: 220%;
+    background: linear-gradient(135deg, transparent 45%, rgba(255, 255, 255, .35) 50%, transparent 55%);
+    transition: 1s;
+}
+.producto:hover::before {
+    top: 100%;
+    left: 100%;
 }
 
 .imagen {
     height: 210px;
     height: clamp(170px, 22vw, 250px);
+    overflow: hidden;
+}
+.imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: .5s;
+}
+.producto:hover .imagen img {
+    transform: scale(1.08);
 }
 
 .info {
     padding: clamp(12px, 3.4vw, 18px);
+    text-align: center;
 }
-
 .info h3 {
+    margin-bottom: 8px;
     font-size: clamp(.95rem, 2.2vw, 1.05rem);
     line-height: 1.25;
     overflow-wrap: anywhere;
 }
 
 .precio {
+    font-weight: bold;
+    color: #d47b3f;
     font-size: clamp(.95rem, 2.4vw, 1.1rem);
 }
 
+/* Botón flotante de WhatsApp al pie del catálogo */
 .whatsapp {
+    display: block;
     width: fit-content;
     max-width: calc(100% - 32px);
+    margin: 30px auto;
+    background: var(--principal);
+    color: var(--texto);
     padding: clamp(11px, 3.6vw, 14px) clamp(16px, 6vw, 28px);
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: bold;
     text-align: center;
     line-height: 1.25;
     white-space: normal;
+    transition: .3s;
+}
+.whatsapp:hover {
+    background: var(--principal-hover);
 }
 
-.samei-social-bar {
-    flex-wrap: wrap;
-    width: calc(100% - 24px);
-    max-width: 520px;
-    gap: 18px;
-    gap: clamp(18px, 7vw, 30px);
-    margin: 28px auto 30px;
-    padding: 0 0 16px 14px;
-}
 
-.samei-social-bar li {
-    width: 42px;
-    height: 42px;
-    width: clamp(42px, 13vw, 55px);
-    height: clamp(42px, 13vw, 55px);
-}
-
-.samei-social-bar li a {
-    font-size: clamp(1.05rem, 5vw, 1.4rem);
-}
-
+/* ================================================================
+   6. POPUP DE PRODUCTO
+   ================================================================ */
 .popup-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 12px;
+    background: rgba(0, 0, 0, .5);
+    opacity: 0;
+    visibility: hidden;
+    transition: .35s;
+    z-index: 9999;
+}
+.popup-overlay.activo {
+    opacity: 1;
+    visibility: visible;
 }
 
 .popup-producto {
@@ -758,36 +303,177 @@ header p {
     max-height: calc(100vh - 24px);
     max-height: calc(100svh - 24px);
     overflow: auto;
+    background: white;
     border-radius: clamp(14px, 4vw, 25px);
+    position: relative;
+    animation: popupEntrada .35s ease;
 }
 
 .popup-imagen {
     height: clamp(180px, 44vw, 320px);
 }
+.popup-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
 .popup-contenido {
     padding: clamp(16px, 4.8vw, 25px);
 }
-
 .popup-contenido h2 {
     font-size: clamp(1.25rem, 5vw, 1.7rem);
     line-height: 1.18;
     overflow-wrap: anywhere;
 }
-
 .popup-contenido p {
     line-height: 1.5;
     overflow-wrap: anywhere;
 }
 
+.popup-precio {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #d47b3f;
+    margin-top: 15px;
+}
+
+.popup-descripcion {
+    margin-top: 10px;
+}
+
 .popup-botones {
+    display: flex;
     flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .popup-btn {
+    flex: 1;
     min-width: 180px;
     max-width: 100%;
+    text-align: center;
+    padding: 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: bold;
 }
+.marketplace {
+    background: #1877f2;
+    color: white;
+}
+.whatsapp-btn {
+    background: #25d366;
+    color: white;
+}
+
+.popup-cerrar {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    background: white;
+    font-size: 1.2rem;
+}
+
+
+/* ================================================================
+   7. BARRA SOCIAL
+   ================================================================ */
+.samei-social-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    width: calc(100% - 24px);
+    max-width: 520px;
+    gap: 18px;
+    gap: clamp(18px, 7vw, 30px);
+    row-gap: 12px;
+    margin: 28px auto 30px;
+    padding: 0 0 16px;
+    z-index: 120;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.samei-social-bar li {
+    position: relative;
+    width: clamp(42px, 13vw, 55px);
+    height: clamp(42px, 13vw, 55px);
+    transform: rotate(-30deg) skew(25deg);
+    flex: 0 0 auto;
+}
+
+.samei-social-bar li a {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-size: clamp(1.05rem, 5vw, 1.4rem);
+    transition: .35s;
+    background: var(--softclr);
+    box-shadow: -10px 10px 15px rgba(0, 0, 0, .15);
+}
+
+.samei-social-bar li a::before {
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: -12px;
+    width: 12px;
+    height: 100%;
+    background: var(--sideclr);
+    transform: skewY(-45deg);
+    transition: .35s;
+}
+
+.samei-social-bar li a::after {
+    content: "";
+    position: absolute;
+    bottom: -12px;
+    left: -6px;
+    width: 100%;
+    height: 12px;
+    background: var(--bottomclr);
+    transform: skewX(-45deg);
+    transition: .35s;
+}
+
+.samei-social-bar li:hover a {
+    transform: translate(10px, -10px);
+    background: var(--clr1);
+    box-shadow: -20px 20px 25px rgba(0, 0, 0, .25);
+}
+.samei-social-bar li:hover a::before { background: var(--clr1); }
+.samei-social-bar li:hover a::after  { background: var(--clr2); }
+
+.samei-social-bar li a i { transition: .35s; }
+.samei-social-bar li:hover a i { transform: scale(1.15); }
+
+
+/* ================================================================
+   8. ANIMACIONES
+   ================================================================ */
+@keyframes popupEntrada {
+    from { transform: scale(.9); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+
+/* ================================================================
+   9. RESPONSIVE / MEDIA QUERIES
+   (de pantallas grandes a pequeñas)
+   ================================================================ */
 
 @media (max-width: 900px) {
     .catalogo {
@@ -795,51 +481,48 @@ header p {
     }
 }
 
+@media (max-width: 768px) {
+    body {
+        background-image: url("../Data/fondocel.png");
+        background-attachment: scroll;
+    }
+}
+
 @media (max-width: 520px) {
     .catalogo {
         grid-template-columns: 1fr;
-        width: calc(100% - 20px);        padding-inline: 10px;    }
-
-    .imagen {
-        height: 190px;
+        width: calc(100% - 20px);
+        padding-inline: 10px;
     }
+    .imagen { height: 190px; }
+    .popup-botones { flex-direction: column; }
+}
 
-    .popup-botones {
-        flex-direction: column;
+@media (max-width: 420px) {
+    .back-btn {
+        top: 8px;
+        left: 8px;
+        padding: 6px 8px;
+        font-size: .95rem;
     }
 }
 
 @media (max-width: 360px) {
-    header {
-        padding-inline: 8px;
-    }
-
+    header { padding-inline: 8px; }
     .glass-nav {
         max-width: calc(100% - 12px);
         padding: 6px;
         gap: 4px;
     }
-
     .nav-link {
         padding: 10px 11px;
         font-size: .88rem;
     }
-
-    .catalogo {
-        width: calc(100% - 16px);
-    }
-
-    .imagen {
-        height: 170px;
-    }
-
+    .catalogo { width: calc(100% - 16px); }
+    .imagen { height: 170px; }
     .samei-social-bar {
         gap: 18px;
-        padding-left: 10px;
+        padding-left: 0;
     }
-
-    .samei-social-bar li {
-        width: 40px;
-        height: 40px;
-    }
+    .samei-social-bar li { width: 40px; height: 40px; }
 }

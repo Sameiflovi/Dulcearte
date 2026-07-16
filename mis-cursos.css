@@ -1,93 +1,132 @@
-body{
+/* ================================================================
+   DULCEARTE — mis-cursos.css
+   Reorganizado por secciones · sin selectores duplicados
+   ================================================================
+   ÍNDICE:
+   1. Reset y variables
+   2. Estilos globales
+   3. Encabezado (logo, botón volver)
+   4. Tarjetas de cursos
+   5. Notificaciones toast
+   6. Barra social
+   7. Animaciones
+   8. Responsive / media queries
+   ================================================================ */
+
+
+/* ================================================================
+   1. RESET Y VARIABLES
+   ================================================================ */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+
+/* ================================================================
+   2. ESTILOS GLOBALES
+   ================================================================ */
+body {
+    margin: 0;
+    min-width: 0;
+    overflow-x: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     background-image: url("Data/fondopc.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
 }
 
-@media (max-width: 768px){
-
-    body{
-        background-image: url("Data/fondocel.png");
-        background-attachment: scroll;
-    }
-
+img {
+    max-width: 100%;
+    height: auto;
 }
+
+main {
+    width: calc(100% - 24px);
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+
+/* ================================================================
+   3. ENCABEZADO (logo, botón volver)
+   ================================================================ */
+.inicio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    padding: 48px 12px 0; /* espacio extra: el back-btn fijo queda encima */
+}
+
 .logo {
     display: block;
-    width: 500px; /* ancho objetivo en pantallas grandes */
-    max-width: 95%; /* se reduce en pantallas pequeñas */
+    width: min(92vw, 500px);
     height: auto;
     margin: 10px auto 0;
     text-align: center;
-    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.12));
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12));
 }
+
 .back-btn {
     position: fixed;
     top: 12px;
     left: 12px;
     z-index: 400;
     display: inline-block;
-    background: rgba(0,0,0,0.65);
+    background: rgba(0, 0, 0, 0.65);
     color: #fff;
     padding: 8px 10px;
     border-radius: 8px;
     text-decoration: none;
     font-weight: 700;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-    transition: transform 300ms cubic-bezier(.22,.9,.36,1), box-shadow 300ms ease;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    transition: transform 300ms cubic-bezier(.22, .9, .36, 1), box-shadow 300ms ease;
 }
-.back-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(0,0,0,0.22); }
-@media (max-width: 420px) {
-    .back-btn { top: 8px; left: 8px; padding: 6px 8px; font-size: 0.95rem; }
+.back-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
 }
-.inicio{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px; /* control vertical spacing between logo and title */
-}
-.contenido-curso {
-    font-family: 'Arial', sans-serif;
-    color: #a95e2d;
-    text-align: center;
-    margin: 20px auto;
-    max-width: 600px;
-    padding: 0 15px;
-}
-/* --- Estilos para las tarjetas de cursos --- */
-/* Mobile-first: barras horizontales de ancho completo (controladas por cada dispositivo) */
+
+
+/* ================================================================
+   4. TARJETAS DE CURSOS
+   ================================================================ */
+
+/* Mobile-first: grid de 2 columnas (antes forzaba 1 sola columna) */
 .courses {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
     padding: 12px;
-    align-items: stretch;
-    max-width: 100%;
-    margin: 12px auto;
+    width: 100%;
+    max-width: 1100px;
+    margin: clamp(10px, 3vw, 20px) auto;
 }
 
 .course-card {
     position: relative;
     width: 100% !important;
     min-width: 0 !important;
-    height: clamp(112px, 30vw, 140px) !important;
-    border-radius: 8px;
+    height: clamp(112px, 30vw, 170px) !important;
+    border-radius: clamp(8px, 2vw, 12px);
     overflow: hidden;
     text-decoration: none;
     color: inherit;
-    background: #ffffffcc; /* más plano, fondo suave */
-    border: 1px solid rgba(0,0,0,0.06);
+    background: #ffffffcc;
+    border: 1px solid rgba(0, 0, 0, 0.06);
     transition: transform .18s ease, box-shadow .18s ease;
     display: block !important;
 }
-
 .course-card:hover {
     transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.10);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.10);
 }
 
 .course-image {
@@ -107,7 +146,6 @@ body{
     background-position: center !important;
     background-repeat: no-repeat !important;
 }
-
 .course-media img {
     width: 100%;
     height: 100%;
@@ -123,11 +161,10 @@ body{
 
 /* Estilo distintivo opcional para el curso de comida mexicana */
 .course-media img[alt="Comida mexicana"] {
-    /* ligero filtro de color para diferenciar */
     filter: saturate(1.05) contrast(1.03);
 }
 
-/* Efecto cuando no hay imagen: usa la clase .placeholder en el HTML */
+/* Curso sin imagen todavía: usa la clase .placeholder en el HTML */
 .course-media.placeholder {
     display: flex;
     align-items: center;
@@ -141,13 +178,12 @@ body{
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(240,240,240,0.6));
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(240, 240, 240, 0.6));
     filter: blur(6px);
     z-index: 1;
 }
-.course-image { position: relative; }
 
-/* Imagen específica para empanadas: coloque Data/empanadas.png o .jpg */
+/* Imagen específica para empanadas */
 .course-media.course-empanadas {
     background-image: url("Data/empanadas.png");
 }
@@ -156,351 +192,57 @@ body{
     position: absolute;
     bottom: 12px;
     left: 12px;
-    background: rgba(255,255,255,0.95);
+    background: rgba(255, 255, 255, 0.95);
     color: #222;
     padding: 6px 10px;
     font-weight: 700;
     border-radius: 6px;
-    font-size: clamp(.9rem, 2.8vw, 1rem);
+    font-size: clamp(.86rem, 3.3vw, 1rem);
     line-height: 1.2;
     z-index: 3;
-    max-width: calc(100% - 24px);
+    max-width: calc(100% - 70px);
     overflow-wrap: anywhere;
 }
 
-/* Desktop overrides: tiras horizontales */
-@media (min-width: 560px) {
-    .courses {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 20px;
-        gap: 20px;
-    }
-    .course-card {
-        flex: none;
-        width: 100%;
-        height: 120px;
-        display: block;
-        border-radius: 8px;
-        position: relative;
-        overflow: hidden;
-        background: #ffffffcc;
-    }
-    .course-card:hover {
-        transform: translateY(-4px) scale(1.01);
-        box-shadow: 0 12px 24px rgba(0,0,0,0.12);
-    }
-    /* Imagen cubre toda la barra */
-    .course-image {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-    }
-    .course-media {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-        background-size: cover;
-        background-position: center;
-    }
-    .course-media img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-    /* Título en esquina izquierda superior */
-    .course-title {
-        position: absolute;
-        top: 12px;
-        left: 12px;
-        bottom: auto;
-        transform: none;
-        z-index: 2;
-    }
-}
-/* Ajustes extra para teléfonos estrechos (Huawei Y7 y similares) */
-@media (max-width: 420px) {
-    .courses {
-        gap: 18px; /* más separación entre barras */
-        padding: 14px;
-    }
-    .course-card {
-        height: 140px !important; /* aumentar altura para mejor toque */
-        border-radius: 10px;
-    }
-    .course-title {
-        font-size: 0.95rem;
-        padding: 8px 12px;
-    }
-}
-/*Social Bar*/
-.samei-social-bar{
-    display: flex;
-    gap: clamp(14px, 4vw, 30px);
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    list-style: none;
-    padding: 0;
-    margin: 0 auto;
-    width: min(100%, 320px);
-    row-gap: 12px;
-    z-index: 120;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-}
-
-/* ITEMS */
-.samei-social-bar li{
-    position: relative;
-    width: clamp(42px, 13vw, 55px);
-    height: clamp(42px, 13vw, 55px);
-    transform: rotate(-30deg) skew(25deg);
-    flex: 0 0 auto;
-}
-
-/* BOTONES */
-.samei-social-bar li a{
-    position: absolute;
-    inset: 0;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    text-decoration: none;
-    color: white;
-
-    font-size: 1.4em;
-
-    transition: 0.35s;
-
-    background: var(--softclr);
-
-    box-shadow:
-    -10px 10px 15px rgba(0,0,0,0.15);
-}
-
-/* LADO IZQUIERDO */
-.samei-social-bar li a::before{
-    content: '';
-
-    position: absolute;
-    top: 6px;
-    left: -12px;
-
-    width: 12px;
-    height: 100%;
-
-    background: var(--sideclr);
-
-    transform: skewY(-45deg);
-
-    transition: 0.35s;
-}
-
-/* PARTE INFERIOR */
-.samei-social-bar li a::after{
-    content: '';
-
-    position: absolute;
-    bottom: -12px;
-    left: -6px;
-
-    width: 100%;
-    height: 12px;
-
-    background: var(--bottomclr);
-
-    transform: skewX(-45deg);
-
-    transition: 0.35s;
-}
-
-/* HOVER */
-.samei-social-bar li:hover a{
-    transform: translate(10px,-10px);
-
-    background: var(--clr1);
-
-    box-shadow:
-    -20px 20px 25px rgba(0,0,0,0.25);
-}
-
-.samei-social-bar li:hover a::before{
-    background: var(--clr1);
-}
-
-.samei-social-bar li:hover a::after{
-    background: var(--clr2);
-}
-
-/* ICONOS */
-.samei-social-bar li a i{
-    transition: 0.35s;
-}
-
-.samei-social-bar li:hover a i{
-    transform: scale(1.15);
-}
-.toast{
-    position: fixed;
-    top: 20px;
-    right: -500px;
-    width: 320px;
-    max-width: calc(100% - 30px);
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    padding: 12px;
-    background: rgba(45,55,75,.95);
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: 12px;
-    backdrop-filter: blur(8px);
-    box-shadow: 0 10px 30px rgba(0,0,0,.35);
-    z-index: 99999;
-    transition: right .5s ease;
-    overflow: hidden;
-}
-
-.toast.show{
-    right: 20px;
-}
-
-.toast-icon{
-    width: 58px;
-    height: 58px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    font-size: 28px;
-    font-weight: bold;
-
-    flex-shrink: 0;
-}
-
-.toast-icon.error{
-    background: #ff3b3b;
-    color: white;
-
-    box-shadow:
-        0 0 15px rgba(255,59,59,.6);
-}
-
-.toast-content h4{
-    margin: 0;
-    color: white;
-    font-size: 18px;
-}
-
-.toast-content p{
-    margin: 4px 0 0;
-    color: #d6d6d6;
-    font-size: 14px;
-}
-
-@media (max-width:768px){
-    .toast{
-        width: calc(100% - 20px);
-        right: -120%;
-        max-width: 280px;
-        padding: 10px;
-    }
-
-    .toast.show{
-        right: 10px;
-    }
-
-    .toast-icon{ width: 40px; height: 40px; font-size: 20px; }
-    .toast-content h4{ font-size: 14px; margin-bottom: 4px; }
-    .toast-content p{ font-size: 12px; }
-}
-
-@media (max-width:480px){
-    .toast{
-        width: calc(100% - 16px);
-        max-width: 260px;
-        padding: 8px;
-        top: 10px;
-    }
-
-    .toast.show{
-        right: 8px;
-    }
-
-    .toast-icon{ width: 36px; height: 36px; font-size: 18px; }
-    .toast-content h4{ font-size: 12px; }
-    .toast-content p{ font-size: 11px; }
-}
-
-.curso-check{
+/* Insignia verde: curso desbloqueado */
+.curso-check {
     position: absolute;
     bottom: 10px;
     right: 10px;
-
-    width: 35px;
-    height: 35px;
-
+    width: clamp(32px, 10vw, 40px);
+    height: clamp(32px, 10vw, 40px);
     border-radius: 50%;
-
     background: #22c55e;
     color: white;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
-    font-size: 20px;
+    font-size: clamp(.95rem, 4.4vw, 1.25rem);
     font-weight: bold;
-
-    box-shadow: 0 4px 12px rgba(0,0,0,.25);
-
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
     z-index: 10;
-}
-.curso-check{
     animation: aparecer .4s ease;
 }
 
-/* Candado cerrado para cursos bloqueados */
-.curso-lock{
+/* Insignia roja: curso bloqueado */
+.curso-lock {
     position: absolute;
     bottom: 10px;
     right: 10px;
-
-    width: 40px;
-    height: 40px;
-
+    width: clamp(32px, 10vw, 40px);
+    height: clamp(32px, 10vw, 40px);
     border-radius: 50%;
-
-    background: #ff3b3b; /* fondo rojo */
+    background: #ff3b3b;
     color: white;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
-    font-size: 18px;
+    font-size: clamp(.95rem, 4.4vw, 1.25rem);
     font-weight: 700;
-
-    box-shadow: 0 4px 12px rgba(0,0,0,.25);
-
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
     z-index: 10;
-}
-.curso-lock{
     animation: aparecer .4s ease;
-}
-
-/* Asegurar que el candado no reciba filtros/opacidad del padre */
-.curso-lock{
+    /* Evita que el candado herede el filtro/opacidad de la tarjeta bloqueada */
     filter: none !important;
     -webkit-filter: none !important;
     opacity: 1 !important;
@@ -510,22 +252,69 @@ body{
     isolation: isolate;
 }
 
-@keyframes aparecer{
-    from{
-        transform: scale(0);
-        opacity: 0;
-    }
-    to{
-        transform: scale(1);
-        opacity: 1;
-    }
-}
 
-.toast{
+/* ================================================================
+   5. NOTIFICACIONES TOAST (deslizan desde la derecha)
+   ================================================================ */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: -500px;
+    width: 320px;
+    max-width: calc(100vw - 16px);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+    background: rgba(45, 55, 75, .95);
+    border: 1px solid rgba(255, 255, 255, .12);
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+    z-index: 99999;
+    transition: right .5s ease;
     overflow: hidden;
 }
+.toast.show {
+    right: max(8px, env(safe-area-inset-right));
+}
 
-.toast-progress{
+.toast-icon {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 28px;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+.toast-icon.error {
+    background: #ff3b3b;
+    color: white;
+    box-shadow: 0 0 15px rgba(255, 59, 59, .6);
+}
+
+.toast-content {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 5px;
+}
+.toast-content h4 {
+    margin: 0;
+    color: white;
+    font-size: 18px;
+}
+.toast-content p {
+    margin: 4px 0 0;
+    color: #d6d6d6;
+    font-size: 14px;
+}
+
+.toast-progress {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -535,26 +324,12 @@ body{
     transform-origin: left;
 }
 
-@keyframes toastTimer{
-
-    from{
-        width: 100%;
-    }
-
-    to{
-        width: 0%;
-    }
-
-}
-
-
-
-.toast-ok{
+.toast-ok {
     position: fixed;
     top: 20px;
     right: -400px;
     width: 320px;
-    max-width: calc(100% - 30px);
+    max-width: calc(100vw - 16px);
     background: #1f2937;
     color: white;
     border-radius: 12px;
@@ -562,86 +337,36 @@ body{
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 0;
-    box-shadow: 0 10px 25px rgba(0,0,0,.3);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .3);
     transition: .4s;
     z-index: 9999;
     overflow: hidden;
 }
-
-.toast-ok.show{
-    right: 20px;
+.toast-ok.show {
+    right: max(8px, env(safe-area-inset-right));
 }
 
-@media (max-width:768px){
-    .toast-ok{
-        width: calc(100% - 20px);
-        right: -120%;
-        max-width: 280px;
-        padding: 10px;
-    }
-
-    .toast-ok.show{
-        right: 10px;
-    }
-
-    .toast-icon-ok{ width: 40px; height: 40px; font-size: 20px; }
-    .toast-title{ font-size: 14px; }
-    .toast-message{ font-size: 12px; }
-}
-
-@media (max-width:480px){
-    .toast-ok{
-        width: calc(100% - 16px);
-        max-width: 260px;
-        padding: 8px;
-        top: 10px;
-    }
-
-    .toast-ok.show{
-        right: 8px;
-    }
-
-    .toast-icon-ok{ width: 36px; height: 36px; font-size: 18px; }
-    .toast-title{ font-size: 12px; }
-    .toast-message{ font-size: 11px; }
-}
-
-.toast-icon-ok{
+.toast-icon-ok {
     width: 55px;
     height: 55px;
-
     border-radius: 50%;
-
     background: #22c55e;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     font-size: 24px;
 }
 
-.toast-title{
+.toast-title {
     font-size: 18px;
     font-weight: bold;
 }
-
-.toast-message{
+.toast-message {
     font-size: 14px;
     opacity: .9;
 }
 
-.toast-content{
-    flex: 1;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    padding-bottom: 5px;
-}
-
-.toast-ok .toast-progress{
+.toast-ok .toast-progress {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -651,100 +376,114 @@ body{
     border-radius: 0;
     margin-top: auto;
 }
+/* Nota: la duración de la animación de la barra la controla script.js/mis-cursos.js
+   directamente por estilo en línea (evita animaciones duplicadas). */
 
-/* Allow JS to control the animation duration via inline styles; avoid double-defined animations */
 
-/* Responsive final layer */
-*, *::before, *::after {
-    box-sizing: border-box;
-}
-
-html {
-    -webkit-text-size-adjust: 100%;
-}
-
-body {
-    min-width: 0;
-    overflow-x: hidden;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-}
-
-.inicio {
-    width: 100%;
-    padding: 48px 12px 0;
-}
-
-.logo {
-    width: 92vw;
-    max-width: 500px;
-}
-
-main {
-    width: calc(100% - 24px);
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-.courses {
-    width: 100%;
-    max-width: 1100px;
-    padding: clamp(10px, 2.8vw, 20px) 0;
-    margin: clamp(10px, 3vw, 20px) auto;
-}
-
-.course-card {
-    height: clamp(112px, 30vw, 170px) !important;
-    border-radius: clamp(8px, 2vw, 12px);
-}
-
-.course-title {
-    max-width: calc(100% - 70px);
-    overflow-wrap: anywhere;
-    font-size: clamp(.86rem, 3.3vw, 1rem);
-    line-height: 1.2;
-}
-
-.curso-check,
-.curso-lock {
-    width: clamp(32px, 10vw, 40px);
-    height: clamp(32px, 10vw, 40px);
-    font-size: clamp(.95rem, 4.4vw, 1.25rem);
-}
-
+/* ================================================================
+   6. BARRA SOCIAL
+   ================================================================ */
 .samei-social-bar {
+    display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
     width: calc(100% - 24px);
     max-width: 520px;
     gap: 18px;
     gap: clamp(18px, 7vw, 30px);
+    row-gap: 12px;
     margin: 26px auto 30px;
-    padding: 0 0 16px 14px;
+    padding: 0 0 16px;
+    z-index: 120;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .samei-social-bar li {
-    width: 42px;
-    height: 42px;
+    position: relative;
     width: clamp(42px, 13vw, 55px);
     height: clamp(42px, 13vw, 55px);
+    transform: rotate(-30deg) skew(25deg);
+    flex: 0 0 auto;
 }
 
 .samei-social-bar li a {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: white;
     font-size: clamp(1.05rem, 5vw, 1.4rem);
+    transition: 0.35s;
+    background: var(--softclr);
+    box-shadow: -10px 10px 15px rgba(0, 0, 0, 0.15);
 }
 
-.toast,
-.toast-ok {
-    max-width: calc(100vw - 16px);
+.samei-social-bar li a::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: -12px;
+    width: 12px;
+    height: 100%;
+    background: var(--sideclr);
+    transform: skewY(-45deg);
+    transition: 0.35s;
 }
 
-.toast.show,
-.toast-ok.show {
-    right: max(8px, env(safe-area-inset-right));
+.samei-social-bar li a::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: -6px;
+    width: 100%;
+    height: 12px;
+    background: var(--bottomclr);
+    transform: skewX(-45deg);
+    transition: 0.35s;
 }
+
+.samei-social-bar li:hover a {
+    transform: translate(10px, -10px);
+    background: var(--clr1);
+    box-shadow: -20px 20px 25px rgba(0, 0, 0, 0.25);
+}
+.samei-social-bar li:hover a::before { background: var(--clr1); }
+.samei-social-bar li:hover a::after  { background: var(--clr2); }
+
+.samei-social-bar li a i { transition: 0.35s; }
+.samei-social-bar li:hover a i { transform: scale(1.15); }
+
+.version {
+    text-align: center;
+    opacity: .5;
+    font-size: .75rem;
+    padding-bottom: 10px;
+}
+
+
+/* ================================================================
+   7. ANIMACIONES
+   ================================================================ */
+@keyframes aparecer {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+@keyframes toastTimer {
+    from { width: 100%; }
+    to   { width: 0%; }
+}
+
+
+/* ================================================================
+   8. RESPONSIVE / MEDIA QUERIES
+   (de pantallas grandes a pequeñas)
+   ================================================================ */
 
 @media (min-width: 720px) {
     .course-card {
@@ -752,35 +491,71 @@ main {
     }
 }
 
+/* Desktop: tiras horizontales de ancho completo en vez de grid de 2 columnas */
+@media (min-width: 560px) {
+    .courses {
+        grid-template-columns: 1fr;
+        padding: 20px;
+        gap: 20px;
+    }
+    .course-title {
+        top: 12px;
+        left: 12px;
+        bottom: auto;
+        transform: none;
+        z-index: 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .toast, .toast-ok { padding: 10px; }
+    .toast-icon { width: 40px; height: 40px; font-size: 20px; }
+    .toast-content h4 { font-size: 14px; margin-bottom: 4px; }
+    .toast-content p { font-size: 12px; }
+    .toast-icon-ok { width: 40px; height: 40px; font-size: 20px; }
+    .toast-title { font-size: 14px; }
+    .toast-message { font-size: 12px; }
+}
+
+@media (max-width: 480px) {
+    .toast, .toast-ok { top: 10px; padding: 8px; }
+    .toast-icon { width: 36px; height: 36px; font-size: 18px; }
+    .toast-content h4 { font-size: 12px; }
+    .toast-content p { font-size: 11px; }
+    .toast-icon-ok { width: 36px; height: 36px; font-size: 18px; }
+    .toast-title { font-size: 12px; }
+    .toast-message { font-size: 11px; }
+}
+
+/* Teléfonos angostos (Huawei Y7, Samsung J1 Ace y similares) */
 @media (max-width: 420px) {
     .back-btn {
+        top: 8px;
+        left: 8px;
+        padding: 6px 8px;
+        font-size: 0.95rem;
         max-width: calc(100% - 16px);
         white-space: normal;
         line-height: 1.15;
     }
+    .courses {
+        gap: 10px;
+        padding: 10px;
+    }
+    .course-title {
+        font-size: 0.95rem;
+        padding: 8px 12px;
+    }
 }
 
 @media (max-width: 360px) {
-    .inicio {
-        padding-inline: 8px;
-    }
+    body { padding-inline: 8px; }
+    .inicio { padding-inline: 8px; }
+    .logo { width: 88vw; }
+    main { width: calc(100% - 16px); }
 
-    .logo {
-        width: 88vw;
-    }
-
-    main {
-        width: calc(100% - 16px);
-    }
-
-    .courses {
-        gap: 14px;
-    }
-
-    .course-card {
-        height: 112px !important;
-    }
-
+    .courses { gap: 8px; }
+    .course-card { height: 112px !important; }
     .course-title {
         left: 8px;
         bottom: 8px;
@@ -788,13 +563,18 @@ main {
         padding: 6px 8px;
     }
 
-    .samei-social-bar {
-        gap: 18px;
-        padding-left: 10px;
+    .curso-check,
+    .curso-lock {
+        width: 32px;
+        height: 32px;
+        font-size: .95rem;
     }
 
-    .samei-social-bar li {
-        width: 40px;
-        height: 40px;
+    .samei-social-bar {
+        gap: 12px;
+        row-gap: 10px;
+        padding-left: 0;
+        max-width: 100%;
     }
+    .samei-social-bar li { width: 40px; height: 40px; }
 }
