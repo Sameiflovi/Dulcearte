@@ -496,7 +496,13 @@ document.querySelectorAll('.catalogo-card').forEach(card => {
     addRememberStyles();
 
     const box = createRememberBox(passwordInput);
-    passwordInput.insertAdjacentElement("afterend", box);
+    const passwordRow = passwordInput.closest(".clave");
+
+    if (passwordRow) {
+      passwordRow.insertAdjacentElement("afterend", box);
+    } else {
+      passwordInput.insertAdjacentElement("afterend", box);
+    }
 
     if (box && !box.hidden) {
       requestAnimationFrame(() => box.classList.add("is-visible"));
