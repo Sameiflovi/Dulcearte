@@ -187,6 +187,21 @@ const claveBtn = document.getElementById('claveBtn');
 if (claveBtn) {
   const mensajeClave = document.getElementById('claveMessage');
   const inputClave = document.getElementById('claveInput');
+  const togglePassword = document.getElementById('togglePassword');
+
+  if (togglePassword && inputClave) {
+    togglePassword.addEventListener('click', () => {
+      const isPassword = inputClave.type === 'password';
+      inputClave.type = isPassword ? 'text' : 'password';
+      togglePassword.setAttribute('aria-pressed', String(isPassword));
+      togglePassword.innerHTML = isPassword
+        ? '<i class="fa-regular fa-eye-slash"></i>'
+        : '<i class="fa-regular fa-eye"></i>';
+      togglePassword.setAttribute('aria-label', isPassword ? 'Ocultar contraseña' : 'Mostrar contraseña');
+      inputClave.focus();
+    });
+  }
+
   // Permitir enviar con Enter desde el campo de texto
   if (inputClave) {
     inputClave.addEventListener('keydown', (e) => {
@@ -273,7 +288,7 @@ document.querySelectorAll('.catalogo-card').forEach(card => {
 
   function maskPassword(password) {
     if (!password) return "xxxx";
-    return "x".repeat(Math.max(4, Math.min(password.length, 12)));
+    return password;
   }
 
   function findSubmitControl(form, passwordInput) {
@@ -355,18 +370,28 @@ document.querySelectorAll('.catalogo-card').forEach(card => {
     box.hidden = true;
 
     box.querySelector(".remember-password-primary").addEventListener("click", function () {
-      savePassword(passwordInput.value.trim());
-      box.innerHTML = '<p class="remember-password-text">Clave guardada. La proxima vez podras iniciar sesion con xxxx.</p>';
+      const savedPassword = passwordInput.value.trim();
+      savePassword(savedPassword);
+      box.innerHTML = `<p class="remember-password-text">Clave guardada. La proxima vez podras iniciar sesion con ${maskPassword(savedPassword)}.</p>`;
     });
 
     box.querySelector(".remember-password-link").addEventListener("click", function () {
       localStorage.setItem(DISMISSED_KEY, "1");
+      box.classList.remove("is-visible");
       box.hidden = true;
     });
 
     passwordInput.addEventListener("input", function () {
       const alreadyDismissed = localStorage.getItem(DISMISSED_KEY) === "1";
-      box.hidden = !passwordInput.value.trim() || alreadyDismissed;
+      const shouldShow = Boolean(passwordInput.value.trim()) && !alreadyDismissed;
+
+      if (shouldShow) {
+        box.hidden = false;
+        requestAnimationFrame(() => box.classList.add("is-visible"));
+      } else {
+        box.classList.remove("is-visible");
+        box.hidden = true;
+      }
     });
 
     if (form) {
@@ -386,15 +411,33 @@ document.querySelectorAll('.catalogo-card').forEach(card => {
     const style = document.createElement("style");
     style.id = "remember-password-styles";
     style.textContent = `
+      @keyframes rememberPasswordIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
       .remember-password-box {
         width: 100%;
         margin-top: 12px;
-        padding: 12px;
+        padding: 14px;
         border: 1px solid rgba(120, 82, 44, 0.24);
-        border-radius: 8px;
-        background: rgba(255, 248, 238, 0.94);
+        border-radius: 14px;
+        background: linear-gradient(135deg, rgba(255, 248, 238, 0.98), rgba(255, 241, 227, 0.96));
         color: #4a2f1c;
         box-sizing: border-box;
+        box-shadow: 0 12px 28px rgba(120, 82, 44, 0.12);
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+      }
+
+      .remember-password-box.is-visible {
+        animation: rememberPasswordIn 320ms cubic-bezier(.2, .8, .2, 1) forwards;
       }
 
       .remember-password-box[hidden] {
@@ -404,7 +447,8 @@ document.querySelectorAll('.catalogo-card').forEach(card => {
       .remember-password-text {
         margin: 0 0 10px;
         font-size: 0.92rem;
-        line-height: 1.35;
+        line-height: 1.4;
+        font-weight: 600;
       }
 
       .remember-password-actions {
@@ -415,22 +459,28 @@ document.querySelectorAll('.catalogo-card').forEach(card => {
 
       .remember-password-actions button {
         min-height: 38px;
-        border-radius: 8px;
+        border-radius: 999px;
         cursor: pointer;
         font: inherit;
+        transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+      }
+
+      .remember-password-actions button:hover {
+        transform: translateY(-1px);
       }
 
       .remember-password-primary {
         border: 0;
         padding: 8px 12px;
-        background: #8f5631;
+        background: linear-gradient(135deg, #8f5631, #b86b4b);
         color: #fff;
+        box-shadow: 0 8px 16px rgba(143, 86, 49, 0.16);
       }
 
       .remember-password-link {
-        border: 1px solid rgba(143, 86, 49, 0.35);
+        border: 1px solid rgba(143, 86, 49, 0.25);
         padding: 8px 10px;
-        background: transparent;
+        background: rgba(255, 255, 255, 0.7);
         color: #6b3f23;
       }
     `;
@@ -447,6 +497,10 @@ document.querySelectorAll('.catalogo-card').forEach(card => {
 
     const box = createRememberBox(passwordInput);
     passwordInput.insertAdjacentElement("afterend", box);
+
+    if (box && !box.hidden) {
+      requestAnimationFrame(() => box.classList.add("is-visible"));
+    }
   }
 
   if (document.readyState === "loading") {

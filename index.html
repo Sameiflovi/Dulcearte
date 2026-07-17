@@ -6,7 +6,9 @@
     <meta name="theme-color" content="#f6d1b1">
     <title>DulceArte</title>
     <meta name="description" content="DulceArte - Cursos virtuales de repostería artesanal, creatividad y detalles únicos hechos con amor.">
-    <link rel="icon" href="Data/fotoweb 500 x 500.jpg">
+    <link rel="icon" href="Data/fotoweb 500 x 500.jpg" type="image/png">
+    <link rel="alternate icon" href="Data/fotoweb 500 x 500.jpg" type="image/png">
+    <link rel="apple-touch-icon" href="Data/fotoweb 500 x 500.jpg">
     <link rel="stylesheet" href="style.css">
     <meta name="author" content="Sameiflovi">
     <link rel="stylesheet"
@@ -16,7 +18,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     
 <!-- Inicio (logo, descripcion) -->
     <div class="inicio">
-            <img src="Data/logogrande.jpg" alt="DulceArte" class="logo">
+            <img src="Data/logogrande.svg" alt="DulceArte" class="logo">
     <!-- Descripción -->
     <h2 class="desc">
         Tu mejor opcion de cursos virtuales en arte cocina y repostería</h2>
@@ -28,7 +30,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         <label for="claveInput">Ingresa tu clave aquí</label>
 
       <div class="clave">
-          <input id="claveInput" type="password" placeholder="XXXX" maxlength="14">
+          <div class="clave-input-wrap">
+              <input id="claveInput" type="password" placeholder="XXXX" maxlength="14">
+              <button type="button" id="togglePassword" class="toggle-password" aria-label="Mostrar contraseña" aria-pressed="false">
+                  <i class="fa-regular fa-eye"></i>
+              </button>
+          </div>
           <button id="claveBtn" class="botonClave">Entrar</button>
       </div>
 
