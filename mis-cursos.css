@@ -465,6 +465,14 @@ main {
     padding-bottom: 10px;
 }
 
+@media (hover: none) {
+    .samei-social-bar li:hover a,
+    .samei-social-bar li:hover a::before,
+    .samei-social-bar li:hover a::after,
+    .samei-social-bar li:hover a i {
+        transform: none;
+    }
+}
 
 /* ================================================================
    7. ANIMACIONES

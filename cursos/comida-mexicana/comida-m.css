@@ -282,3 +282,11 @@ img {
     }
     .samei-social-bar li { width: 40px; height: 40px; }
 }
+@media (hover: none) {
+    .samei-social-bar li:hover a,
+    .samei-social-bar li:hover a::before,
+    .samei-social-bar li:hover a::after,
+    .samei-social-bar li:hover a i {
+        transform: none;
+    }
+}
