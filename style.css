@@ -675,7 +675,7 @@ img, svg {
 
 .catalogo-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(14px, 3vw, 25px);
 }
 
@@ -886,7 +886,7 @@ img, svg {
 }
 
 @media (max-width: 600px) {
-    .catalogo-grid { grid-template-columns: 1fr; }
+    .catalogo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
     .catalogo-card { max-width: 100%; }
     .card-frosting {
         min-height: 54px;
@@ -894,7 +894,7 @@ img, svg {
         padding: 10px 8px;
     }
     .card-frosting svg { height: 34px; top: -24px; }
-    .card-frosting span { font-size: .7rem; }
+    .card-frosting span { font-size: .66rem; }
 }
 
 @media (max-width: 480px) {
@@ -920,7 +920,7 @@ img, svg {
     body { padding-inline: 8px; }
     .inicio { padding-inline: 8px; }
     .logo { width: 88vw; }
-    .desc { font-size: 1.12rem; }
+    .desc { font-size: .98rem; line-height: 1.08; }
 
     .clavearea,
     .carousel,
@@ -933,14 +933,14 @@ img, svg {
     .carousel  { border-radius: 8px; }
 
     .samei-social-bar {
-        gap: 12px;
+        gap: 10px;
         row-gap: 10px;
         padding-left: 0;
         max-width: 100%;
     }
     .samei-social-bar li {
-        width: clamp(36px, 13vw, 42px);
-        height: clamp(36px, 13vw, 42px);
+        width: 36px;
+        height: 36px;
         transform: rotate(-18deg) skew(12deg);
     }
     .samei-social-bar li a::before { top: 3px; left: -7px; width: 7px; }
@@ -949,4 +949,14 @@ img, svg {
 
 @media (max-width: 320px) {
     .logo { width: 140px; }
+    body { padding-inline: 6px; }
+    .desc { font-size: .9rem; }
+    .catalogo-section { width: 100%; }
+    .catalogo-grid { gap: 8px; }
+    .card-image { height: 112px; }
+    .card-frosting { min-height: 48px; padding: 8px 4px; }
+    .card-frosting span { font-size: .58rem; }
+    .samei-social-bar { gap: 8px; max-width: 240px; }
+    .samei-social-bar li { width: 32px; height: 32px; }
+    .samei-social-bar li a { font-size: .95rem; box-shadow: -6px 6px 10px rgba(0,0,0,.14); }
 }

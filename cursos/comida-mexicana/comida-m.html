@@ -12,7 +12,8 @@
     <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body>
+<body class="course-locked" data-course="comida-mexicana">
+    <div class="course-gate" role="alert">Validando acceso al curso...</div>
       <img src="../../Data/SVG/logocm.svg" alt="DulceArte" class="logo">
     <p class="descripcion">Aprende a preparar deliciosas comidas mexicanas con nuestras recetas y técnicas exclusivas. En este curso virtual, te enseñaremos desde los ingredientes más sabrosos hasta los platos más tradicionales para que puedas disfrutar de una auténtica experiencia culinaria mexicana en cualquier momento.</p>
     <h2 class="titulo-curso">Contenido del Curso:</h2>
@@ -92,5 +93,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     </li>
 </ul>
 <div class="version">v26.7.1</div>
+    <noscript><style>body.course-locked > :not(.course-gate){display:none!important} .course-gate{display:flex!important}</style><div class="course-gate no-script" role="alert">Para proteger este curso, JavaScript debe estar activado. Si ya compraste el curso, vuelve a activar scripts e ingresa desde la página principal.</div></noscript>
+    <script src="comida-m.js" defer></script>
 </body>
 </html>

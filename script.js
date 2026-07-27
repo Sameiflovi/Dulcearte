@@ -361,11 +361,11 @@ function initLoginFlow() {
         localStorage.setItem("usuarioActivo", "true");
 
         if (shouldRemember) {
-          localStorage.setItem("claveGuardada", value);
-          logEvent("Usuario guardó la clave para próximos ingresos");
+          localStorage.setItem("recordarAcceso", "true");
+          logEvent("Usuario eligió recordar el acceso sin guardar la clave en texto plano");
         } else {
-          localStorage.removeItem("claveGuardada");
-          logEvent("Usuario decidió no guardar la clave");
+          localStorage.removeItem("recordarAcceso");
+          logEvent("Usuario decidió no recordar el acceso");
         }
 
         mostrarMensaje("Clave correcta. ¡Bienvenido!", "info");
@@ -384,151 +384,11 @@ function initLoginFlow() {
   });
 }
 
-function initRememberPassword() {
-  const passwordInput = document.querySelector('input[type="password"]');
-  if (!passwordInput || passwordInput.dataset.rememberPasswordReady === "true") return;
-
-  passwordInput.dataset.rememberPasswordReady = "true";
-  addRememberStyles();
-
-  const form = passwordInput.closest("form");
-  const box = createRememberBox(passwordInput);
-  const passwordRow = passwordInput.closest(".clave");
-
-  if (passwordRow) {
-    passwordRow.insertAdjacentElement("afterend", box);
-  } else {
-    passwordInput.insertAdjacentElement("afterend", box);
-  }
-
-  if (box && !box.hidden) {
-    window.requestAnimationFrame(() => box.classList.add("is-visible"));
-  }
-}
-
-function savePassword(password) {
-  if (!password) return;
-  localStorage.setItem("dulcearte_saved_login_password", password);
-  localStorage.removeItem("dulcearte_save_password_dismissed");
-  logEvent("Se guardó la contraseña en el navegador");
-}
-
-function createRememberBox(passwordInput) {
-  const form = passwordInput.closest("form");
-  const box = document.createElement("div");
-  box.className = "remember-password-box";
-  box.setAttribute("aria-live", "polite");
-
-  const savedPassword = localStorage.getItem("dulcearte_saved_login_password");
-
-  if (savedPassword) {
-    box.innerHTML = `
-      <p class="remember-password-text">Tienes una clave guardada para este inicio de sesión.</p>
-      <div class="remember-password-actions">
-        <button type="button" class="remember-password-primary">Iniciar sesión con la clave ${savedPassword}</button>
-        <button type="button" class="remember-password-link">Olvidar clave</button>
-      </div>
-    `;
-
-    box.querySelector(".remember-password-primary").addEventListener("click", () => {
-      passwordInput.value = savedPassword;
-      passwordInput.dispatchEvent(new Event("input", { bubbles: true }));
-      passwordInput.dispatchEvent(new Event("change", { bubbles: true }));
-      logEvent("Usuario reutilizó la clave guardada");
-      if (form && typeof form.requestSubmit === "function") {
-        form.requestSubmit();
-      } else if (form) {
-        form.submit();
-      }
-    });
-
-    box.querySelector(".remember-password-link").addEventListener("click", () => {
-      localStorage.removeItem("dulcearte_saved_login_password");
-      logEvent("Usuario olvidó la clave guardada");
-      box.remove();
-    });
-
-    return box;
-  }
-
-  box.innerHTML = `
-    <p class="remember-password-text">¿Quieres guardar esta clave para un próximo inicio de sesión?</p>
-    <div class="remember-password-actions">
-      <button type="button" class="remember-password-primary">Guardar clave</button>
-      <button type="button" class="remember-password-link">Ahora no</button>
-    </div>
-  `;
-  box.hidden = true;
-
-  box.querySelector(".remember-password-primary").addEventListener("click", () => {
-    const currentValue = passwordInput.value.trim();
-    savePassword(currentValue);
-    box.innerHTML = '<p class="remember-password-text">Clave guardada. La próxima vez podrás iniciar sesión más rápido.</p>';
-    logEvent("Usuario guardó la clave", { valueLength: currentValue.length });
-  });
-
-  box.querySelector(".remember-password-link").addEventListener("click", () => {
-    localStorage.setItem("dulcearte_save_password_dismissed", "1");
-    box.classList.remove("is-visible");
-    box.hidden = true;
-    logEvent("Usuario cerró la sugerencia de guardar la clave");
-  });
-
-  passwordInput.addEventListener("input", () => {
-    const alreadyDismissed = localStorage.getItem("dulcearte_save_password_dismissed") === "1";
-    const shouldShow = Boolean(passwordInput.value.trim()) && !alreadyDismissed;
-
-    if (shouldShow) {
-      box.hidden = false;
-      window.requestAnimationFrame(() => box.classList.add("is-visible"));
-    } else {
-      box.classList.remove("is-visible");
-      box.hidden = true;
-    }
-  });
-
-  if (form) {
-    form.addEventListener("submit", () => {
-      if (!localStorage.getItem("dulcearte_saved_login_password")) {
-        savePassword(passwordInput.value.trim());
-      }
-    });
-  }
-
-  return box;
-}
-
-function addRememberStyles() {
-  if (document.getElementById("remember-password-styles")) return;
-
-  const style = document.createElement("style");
-  style.id = "remember-password-styles";
-  style.textContent = `
-    @keyframes rememberPasswordIn {
-      from { opacity: 0; transform: translateY(8px) scale(0.98); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .remember-password-box {
-      width: 100%; margin-top: 12px; padding: 14px; border: 1px solid rgba(120, 82, 44, 0.24); border-radius: 14px; background: linear-gradient(135deg, rgba(255, 248, 238, 0.98), rgba(255, 241, 227, 0.96)); color: #4a2f1c; box-sizing: border-box; box-shadow: 0 12px 28px rgba(120, 82, 44, 0.12); opacity: 0; transform: translateY(8px) scale(0.98);
-    }
-    .remember-password-box.is-visible { animation: rememberPasswordIn 320ms cubic-bezier(.2, .8, .2, 1) forwards; }
-    .remember-password-box[hidden] { display: none !important; }
-    .remember-password-text { margin: 0 0 10px; font-size: 0.92rem; line-height: 1.4; font-weight: 600; }
-    .remember-password-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-    .remember-password-actions button { min-height: 38px; border-radius: 999px; cursor: pointer; font: inherit; transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease; }
-    .remember-password-actions button:hover { transform: translateY(-1px); }
-    .remember-password-primary { border: 0; padding: 8px 12px; background: linear-gradient(135deg, #8f5631, #b86b4b); color: #fff; box-shadow: 0 8px 16px rgba(143, 86, 49, 0.16); }
-    .remember-password-link { border: 1px solid rgba(143, 86, 49, 0.25); padding: 8px 10px; background: rgba(255, 255, 255, 0.7); color: #6b3f23; }
-  `;
-  document.head.appendChild(style);
-}
-
 function initializeAppShell() {
   logEvent("Aplicación cargada");
   initCarousel();
   initModal();
   initLoginFlow();
-  initRememberPassword();
 }
 
 initFirebase();

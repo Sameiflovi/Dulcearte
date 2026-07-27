@@ -291,3 +291,41 @@ img {
         transform: none;
     }
 }
+/* Bloqueo visual mientras se valida el acceso del curso.
+   Nota: en GitHub Pages esto solo reduce accesos casuales; la protección real debe estar en servidor. */
+.course-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+    color: #6b3f23;
+    font-weight: 800;
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    background: linear-gradient(135deg, #fff7f0, #f6d1b1);
+}
+body.course-locked {
+    overflow: hidden;
+}
+body.course-locked > :not(.course-gate):not(script):not(noscript) {
+    display: none !important;
+}
+
+@media (max-width: 360px) {
+    .descripcion { font-size: .9rem; line-height: 1.4; }
+    .titulo-curso { font-size: 1.15rem; line-height: 1.15; }
+    .contenido-curso { font-size: .88rem; line-height: 1.35; }
+    .btn.volver { font-size: .82rem; max-width: calc(100% - 16px); }
+    .samei-social-bar { gap: 12px; row-gap: 10px; max-width: 260px; }
+    .samei-social-bar li {
+        width: 36px;
+        height: 36px;
+        transform: rotate(-18deg) skew(12deg);
+    }
+    .samei-social-bar li a { font-size: 1rem; box-shadow: -6px 6px 10px rgba(0, 0, 0, 0.14); }
+    .samei-social-bar li a::before { top: 3px; left: -7px; width: 7px; }
+    .samei-social-bar li a::after { bottom: -7px; left: -3px; height: 7px; }
+}

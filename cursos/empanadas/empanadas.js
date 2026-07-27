@@ -3,23 +3,20 @@
 
     function logEvent(message, detail) {
         if (typeof console === "undefined") return;
-        if (detail === undefined) {
-            console.log(`${DEBUG_PREFIX} ${message}`);
-        } else {
-            console.log(`${DEBUG_PREFIX} ${message}`, detail);
-        }
+        if (detail === undefined) console.log(`${DEBUG_PREFIX} ${message}`);
+        else console.log(`${DEBUG_PREFIX} ${message}`, detail);
     }
 
     function logWarning(message, detail) {
         if (typeof console === "undefined") return;
-        if (detail === undefined) {
-            console.warn(`${DEBUG_PREFIX} ${message}`);
-        } else {
-            console.warn(`${DEBUG_PREFIX} ${message}`, detail);
-        }
+        if (detail === undefined) console.warn(`${DEBUG_PREFIX} ${message}`);
+        else console.warn(`${DEBUG_PREFIX} ${message}`, detail);
     }
 
-    const courseKey = "empanadas";
+    const courseKey = document.body?.dataset.course || "";
+    const gate = document.querySelector(".course-gate");
+    const redirectToCourses = () => { window.location.replace("../../mis-cursos.html"); };
+
     const allowedCourses = (() => {
         const raw = localStorage.getItem("cursosPermitidos");
         if (!raw || raw === "undefined" || raw === "null") return [];
@@ -34,20 +31,20 @@
 
     logEvent("Se cargó la página del curso", { courseKey });
 
-    if (!allowedCourses.includes(courseKey)) {
+    if (localStorage.getItem("usuarioActivo") !== "true" || !allowedCourses.includes(courseKey)) {
         logWarning("Acceso denegado al curso", { courseKey, allowedCourses });
-        window.location.href = "../../mis-cursos.html";
+        if (gate) gate.textContent = "No tienes acceso a este curso. Redirigiendo...";
+        window.setTimeout(redirectToCourses, 250);
         return;
     }
 
+    document.body.classList.remove("course-locked");
+    if (gate) gate.remove();
+
     const backButton = document.querySelector(".btn.volver");
-    backButton?.addEventListener("click", () => {
-        logEvent("Usuario hizo clic en volver a mis cursos");
-    });
+    backButton?.addEventListener("click", () => logEvent("Usuario hizo clic en volver a mis cursos"));
 
     document.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", () => {
-            logEvent("Click en enlace del curso", { href: link.href });
-        });
+        link.addEventListener("click", () => logEvent("Click en enlace del curso", { href: link.href }));
     });
 })();
