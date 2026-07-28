@@ -58,6 +58,7 @@
         <div
             class="producto"
 
+            data-producto-id="vasos-fanta"
             data-img="Data/vasos_fanta/fanta_1.png"
             data-titulo="🥤🔥 Set de 6 Vasos Fanta - ¡Y de Coleccion! 🔥🥤"
             data-precio="Bs 100"
@@ -86,6 +87,7 @@
         <div
             class="producto"
 
+            data-producto-id="angeles-porcelana"
             data-img="Data/angeles_porcelana/angel_1.png"
             data-titulo="✨👼 Angelitos de Porcelana — Set de 3 | 11.5 cm | Vintage 👼✨"
             data-precio="Bs 500"
@@ -119,6 +121,7 @@ Cada angelito tiene su instrumento:
         <div
             class="producto"
 
+            data-producto-id="bombonera-cristal"
             data-img="Data/bombonera/bombonera_1.png"
             data-titulo="✨ ¡Pieza Única! Bombonera de Cristal de Roca del 1953 ✨"
             data-precio="Bs 300"
@@ -146,6 +149,7 @@ Cada angelito tiene su instrumento:
         <div
             class="producto"
 
+            data-producto-id="cubiertos-japon"
             data-img="Data/cubiertos_japon/cubiertos_1.png"
             data-titulo="¡Transforma tu mesa con este elegante Juego de Cubiertos de Japón! 🇯🇵✨🍽️"
             data-precio="Bs 200"
@@ -171,6 +175,7 @@ Perfecto para coleccionistas o como un regalo único 🎁 ¡No te lo puedes perd
         <div
             class="producto"
 
+            data-producto-id="cucharas-wellner"
             data-img="Data/cuchara_wellner/cuchara_1.png"
             data-titulo="¡Cucharas de Colección que No Puedes Dejar Pasar! 🥄✨"
             data-precio="Bs 100"
@@ -200,6 +205,7 @@ No dejes pasar esta oportunidad de adquirir unas cucharas únicas que resaltan c
         <div
             class="producto"
 
+            data-producto-id="tenedor-cruz"
             data-img="Data/tenedor_cruz/tenedor_1.png"
             data-titulo="🌟 ¡Tenedor vintage con diseño único y detalles de cruz! 🌟"
             data-precio="Bs 70"
@@ -224,6 +230,7 @@ Este tenedor de ensalada individual es parte de la colección "Fantasy" (1941-19
         <div
             class="producto"
 
+            data-producto-id="cucharas-maryland"
             data-img="Data/cucharas_maryland/cuchara_1.png"
             data-titulo="¡Cucharas Conmemorativas de la Universidad de Maryland! 🥄🎓"
             data-precio="Bs 250"
@@ -251,6 +258,7 @@ Presentamos un exclusivo juego de cubiertos conmemorativos fabricado por Oneida 
         <div
             class="producto"
 
+            data-producto-id="postreros-cristal"
             data-img="Data/postreros/postreros_1.png"
             data-titulo="Hermosos postreros de cristal"
             data-precio="Bs 70"
@@ -308,6 +316,7 @@ Presentamos un exclusivo juego de cubiertos conmemorativos fabricado por Oneida 
         <div
             class="producto"
 
+            data-producto-id="curso-reposteria"
             data-img="../Data/pizzas%208x8.webp"
             data-titulo="Curso de Repostería"
             data-precio="Bs 120"
@@ -330,6 +339,7 @@ Presentamos un exclusivo juego de cubiertos conmemorativos fabricado por Oneida 
         <div
             class="producto"
 
+            data-producto-id="curso-empanadas"
             data-img="../Data/empanadas.webp"
             data-titulo="Curso de Empanadas"
             data-precio="Bs 100"
@@ -408,7 +418,16 @@ Presentamos un exclusivo juego de cubiertos conmemorativos fabricado por Oneida 
             </button>
 
             <div class="popup-imagen">
+                <button class="popup-nav popup-prev" id="popupPrev" type="button" aria-label="Anterior imagen">&#10094;</button>
                 <img id="popupImg" src="" alt="">
+                <button class="popup-nav popup-next" id="popupNext" type="button" aria-label="Siguiente imagen">&#10095;</button>
+
+                <div class="popup-gallery-controls">
+                    <div class="popup-counter">
+                        <span id="popupImageIndex">1</span> / <span id="popupImageTotal">1</span>
+                    </div>
+                    <div class="popup-thumbnails" id="popupThumbnails"></div>
+                </div>
             </div>
 
             <div class="popup-contenido">
@@ -463,7 +482,7 @@ Presentamos un exclusivo juego de cubiertos conmemorativos fabricado por Oneida 
         v26.7.1
     </div>
 
-    <script src="catalogo.js"></script>
+    <script src="catalogo.js?v=26.7.5"></script>
 
 </body>
 </html>

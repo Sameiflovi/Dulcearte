@@ -676,7 +676,10 @@ img, svg {
 .catalogo-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(14px, 3vw, 25px);
+    gap: clamp(12px, 3vw, 25px);
+}
+.catalogo-grid[aria-busy="true"] > .catalogo-card {
+    display: none;
 }
 
 .catalogo-card {
@@ -713,8 +716,7 @@ img, svg {
 }
 
 .card-image {
-    height: 180px;
-    height: clamp(150px, 28vw, 280px);
+    aspect-ratio: 4 / 3;
     overflow: hidden;
 }
 .card-image img {
@@ -729,12 +731,13 @@ img, svg {
 
 .card-frosting {
     position: relative;
-    height: 80px;
+    min-height: clamp(64px, 14vw, 80px);
     background: #f6d1b1;
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    padding-bottom: 15px;
+    box-sizing: border-box;
+    padding: 10px 12px 14px;
 }
 .card-frosting svg {
     position: absolute;
@@ -886,15 +889,18 @@ img, svg {
 }
 
 @media (max-width: 600px) {
-    .catalogo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    .catalogo-card { max-width: 100%; }
-    .card-frosting {
-        min-height: 54px;
-        height: auto;
-        padding: 10px 8px;
+    .catalogo-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(8px, 2.8vw, 12px);
     }
-    .card-frosting svg { height: 34px; top: -24px; }
-    .card-frosting span { font-size: .66rem; }
+    .catalogo-card { max-width: 100%; }
+    .card-image { aspect-ratio: 4 / 3.2; }
+    .card-frosting {
+        min-height: clamp(56px, 16vw, 70px);
+        padding: 8px 8px 10px;
+    }
+    .card-frosting svg { height: 32px; top: -22px; }
+    .card-frosting span { font-size: clamp(.66rem, 2.5vw, .8rem); }
 }
 
 @media (max-width: 480px) {
@@ -932,6 +938,17 @@ img, svg {
     .slides    { height: 180px; }
     .carousel  { border-radius: 8px; }
 
+    .catalogo-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+    .card-image { aspect-ratio: 4 / 3.5; }
+    .card-frosting {
+        min-height: 62px;
+        padding: 8px 8px 10px;
+    }
+    .card-frosting span { font-size: .78rem; }
+
     .samei-social-bar {
         gap: 10px;
         row-gap: 10px;
@@ -952,10 +969,11 @@ img, svg {
     body { padding-inline: 6px; }
     .desc { font-size: .9rem; }
     .catalogo-section { width: 100%; }
-    .catalogo-grid { gap: 8px; }
-    .card-image { height: 112px; }
-    .card-frosting { min-height: 48px; padding: 8px 4px; }
-    .card-frosting span { font-size: .58rem; }
+    .catalogo-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+    .card-image { aspect-ratio: 4 / 3.6; }
     .samei-social-bar { gap: 8px; max-width: 240px; }
     .samei-social-bar li { width: 32px; height: 32px; }
     .samei-social-bar li a { font-size: .95rem; box-shadow: -6px 6px 10px rgba(0,0,0,.14); }
