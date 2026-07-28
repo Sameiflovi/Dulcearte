@@ -302,7 +302,7 @@ header p {
     max-width: 700px;
     max-height: calc(100vh - 24px);
     max-height: calc(100svh - 24px);
-    overflow: auto;
+    overflow: hidden;
     background: white;
     border-radius: clamp(14px, 4vw, 25px);
     position: relative;
@@ -312,8 +312,6 @@ header p {
 .popup-imagen {
     position: relative;
     height: clamp(180px, 44vw, 320px);
-    overflow: hidden;
-    border-radius: clamp(14px, 4vw, 25px) clamp(14px, 4vw, 25px) 0 0;
 }
 .popup-imagen img {
     width: 100%;
