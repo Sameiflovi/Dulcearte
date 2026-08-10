@@ -18,41 +18,82 @@
     </header>
 
     <main>
-        <section class="courses" aria-label="Listado de cursos">
-            <!-- Tarjeta de curso: para cambiar la imagen, sustituye o añade un archivo en Data/ y cambia la ruta en HTML o CSS -->
-            <a class="course-card" data-curso="pizzas" href="cursos/pizzas/pizzas.html" aria-label="Ir al curso de pizzas">
-                <div class="course-image">
-                    <div class="course-media">
-                        <img src="Data/Fondos-Archivos de DulceArte/pizzas 8x8.png">
-                    </div>
-                </div>
-                <div class="course-title">Curso de pizzas</div>
-            </a>
+        <nav class="glass-nav">
+            <a href="#cursos" class="nav-link active">🎂 Cursos</a>
+            <a href="#recetarios" class="nav-link">📖 Recetarios</a>
+            <div class="glass-indicator"></div>
+        </nav>
 
-            <a class="course-card" data-curso="comida-mexicana" href="cursos/comida-mexicana/comida-m.html" aria-label="Ir al curso de comida mexicana">
-                <div class="course-image">
-                    <div class="course-media">
-                        <img src="Data/Fondos-Archivos de DulceArte/tacos 8x8.png" alt="Comida mexicana">
+        <section id="seccion-cursos">
+            <h2 class="categoria-titulo" id="cursos">🎂 Cursos</h2>
+            <section class="courses" aria-label="Listado de cursos">
+                <!-- Tarjeta de curso: para cambiar la imagen, sustituye o añade un archivo en Data/ y cambia la ruta en HTML o CSS -->
+                <a class="course-card" data-curso="pizzas" href="cursos/pizzas/pizzas.html" aria-label="Ir al curso de pizzas">
+                    <div class="course-image">
+                        <div class="course-media">
+                            <img src="Data/Fondos-Archivos de DulceArte/pizzas 8x8.png" alt="Curso de pizzas">
+                        </div>
                     </div>
-                </div>
-                <div class="course-title">Comida mexicana</div>
-            </a>
+                    <div class="course-title">Curso de pizzas</div>
+                </a>
 
-            <a class="course-card" data-curso="empanadas" href="cursos/empanadas/empanadas.html" aria-label="Ir al curso de empanadas">
-                <div class="course-image">
-                    <div class="course-media">
-                        <img src="Data/Fondos-Archivos de DulceArte/empanadas.png" alt="Empanadas">
+                <a class="course-card" data-curso="comida-mexicana" href="cursos/comida-mexicana/comida-m.html" aria-label="Ir al curso de comida mexicana">
+                    <div class="course-image">
+                        <div class="course-media">
+                            <img src="Data/Fondos-Archivos de DulceArte/tacos 8x8.png" alt="Comida mexicana">
+                        </div>
                     </div>
-                </div>
-                <div class="course-title">Empanadas</div>
-            </a>
+                    <div class="course-title">Comida mexicana</div>
+                </a>
 
-            <a class="course-card" data-curso="proximo" href="#" aria-label="Próximo curso">
-                <div class="course-image">
-                    <div class="course-media placeholder" style="background-color:#f3c4b8"></div>
-                </div>
-                <div class="course-title">Próximo curso</div>
-            </a>
+                <a class="course-card" data-curso="empanadas" href="cursos/empanadas/empanadas.html" aria-label="Ir al curso de empanadas">
+                    <div class="course-image">
+                        <div class="course-media">
+                            <img src="Data/Fondos-Archivos de DulceArte/empanadas.png" alt="Empanadas">
+                        </div>
+                    </div>
+                    <div class="course-title">Empanadas</div>
+                </a>
+
+                <a class="course-card" data-curso="proximo" href="#" aria-label="Próximo curso">
+                    <div class="course-image">
+                        <div class="course-media placeholder" style="background-color:#f3c4b8"></div>
+                    </div>
+                    <div class="course-title">Próximo curso</div>
+                </a>
+            </section>
+        </section>
+
+        <section id="seccion-recetarios">
+            <h2 class="categoria-titulo" id="recetarios">📖 Recetarios</h2>
+            <section class="courses recetario-list" aria-label="Listado de recetarios">
+                <article class="course-card recetario-card" data-recetario="pizzas" aria-label="Recetario de pizzas">
+                    <div class="course-image">
+                        <div class="course-media">
+                            <img src="Data/Fondos-Archivos de DulceArte/pizzas 8x8.png" alt="Recetario de pizzas">
+                        </div>
+                    </div>
+                    <div class="course-title">Recetario de pizzas</div>
+                </article>
+
+                <article class="course-card recetario-card" data-recetario="empanadas" aria-label="Recetario de empanadas">
+                    <div class="course-image">
+                        <div class="course-media">
+                            <img src="Data/Fondos-Archivos de DulceArte/empanadas.png" alt="Recetario de empanadas">
+                        </div>
+                    </div>
+                    <div class="course-title">Recetario de empanadas</div>
+                </article>
+
+                <article class="course-card recetario-card" data-recetario="comida-mexicana" aria-label="Recetario de comida mexicana">
+                    <div class="course-image">
+                        <div class="course-media">
+                            <img src="Data/Fondos-Archivos de DulceArte/tacos 8x8.png" alt="Recetario de comida mexicana">
+                        </div>
+                    </div>
+                    <div class="course-title">Comida mexicana</div>
+                </article>
+            </section>
         </section>
     </main>
 

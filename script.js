@@ -371,7 +371,7 @@ function initLoginFlow() {
         mostrarMensaje("Clave correcta. ¡Bienvenido!", "info");
         logEvent("Acceso concedido", { cursos: usuario.cursos || [] });
         window.setTimeout(() => {
-          window.location.href = "mis-cursos.html";
+          window.location.href = "mis-cursos.html#cursos";
         }, 1000);
       } else {
         logWarning("Clave incorrecta o usuario inactivo", { valueLength: value.length });

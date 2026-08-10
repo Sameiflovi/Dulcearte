@@ -48,10 +48,143 @@ img {
 
 main {
     width: calc(100% - 24px);
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
+/* ================================================================
+   3. NAVBAR GLASS / CATEGORÍAS DEL CATÁLOGO
+   ================================================================ */
+.glass-nav {
+    position: sticky;
+    top: 10px;
+    width: fit-content;
+    max-width: calc(100% - 16px);
+    margin: 20px auto;
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 999px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, .18);
+    border: 1px solid rgba(255, 255, 255, .3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, .08);
+    z-index: 200;
+}
+.glass-nav::-webkit-scrollbar { display: none; }
+
+.nav-link {
+    position: relative;
+    padding: clamp(10px, 3.5vw, 12px) clamp(14px, 5vw, 22px);
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--texto, #6f4a35);
+    font-weight: 600;
+    white-space: nowrap;
+    font-size: clamp(.9rem, 3.8vw, 1rem);
+    transition: .35s;
+    z-index: 2;
+}
+.nav-link:hover { color: #4f2e1f; }
+.nav-link.active { color: #4f2e1f; }
+
+.glass-indicator {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 150px;
+    height: calc(100% - 16px);
+    max-width: calc(50% - 8px);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .35);
+    backdrop-filter: blur(15px);
+    transition: .45s cubic-bezier(.22, 1, .36, 1);
+    z-index: 1;
+}
+
+.categoria-titulo {
+    text-align: center;
+    margin: clamp(28px, 7vw, 40px) 12px 8px;
+    font-size: clamp(1.35rem, 6vw, 1.8rem);
+    line-height: 1.2;
+    color: var(--texto, #6f4a35);
+}
+
+/* ================================================================
+   4. GRID DE RECETARIOS / PRODUCTOS DE LA PÁGINA
+   ================================================================ */
+.catalogo-mis-cursos {
+    width: 100%;
+    margin: auto;
+    padding: clamp(16px, 4vw, 30px) 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(14px, 3vw, 25px);
+}
+
+@supports (display: grid) {
+    .catalogo-mis-cursos {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.catalogo-card {
+    position: relative;
+    flex: 1 1 300px;
+    min-width: 0;
+    background: white;
+    border-radius: clamp(12px, 4vw, 25px);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .08);
+    transition: .3s;
+}
+
+@supports (display: grid) {
+    .catalogo-card {
+        flex: initial;
+    }
+}
+
+.catalogo-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 35px rgba(0, 0, 0, .12);
+}
+
+.catalogo-image {
+    height: clamp(170px, 22vw, 250px);
+    overflow: hidden;
+}
+.catalogo-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: .5s;
+}
+.catalogo-card:hover .catalogo-image img {
+    transform: scale(1.08);
+}
+
+.catalogo-info {
+    padding: clamp(12px, 3.4vw, 18px);
+    text-align: center;
+}
+.catalogo-info h3 {
+    margin-bottom: 8px;
+    font-size: clamp(.95rem, 2.2vw, 1.05rem);
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+.catalogo-info .precio {
+    font-weight: bold;
+    color: #d47b3f;
+    font-size: clamp(.95rem, 2.4vw, 1.1rem);
+}
 
 /* ================================================================
    3. ENCABEZADO (logo, botón volver)
@@ -108,6 +241,10 @@ main {
     width: 100%;
     max-width: 1100px;
     margin: clamp(10px, 3vw, 20px) auto;
+}
+
+.recetario-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .course-card {
@@ -488,6 +625,29 @@ main {
 }
 
 
+@media (max-width: 900px) {
+    .catalogo-mis-cursos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .catalogo-mis-cursos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: calc(100% - 20px);
+        padding-inline: 10px;
+        gap: 12px;
+    }
+    .catalogo-card { min-width: 0; }
+    .catalogo-image { height: clamp(160px, 38vw, 220px); }
+}
+
+@media (max-width: 420px) {
+    .catalogo-mis-cursos {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* ================================================================
    8. RESPONSIVE / MEDIA QUERIES
    (de pantallas grandes a pequeñas)
@@ -499,19 +659,69 @@ main {
     }
 }
 
-/* Desktop: tiras horizontales de ancho completo en vez de grid de 2 columnas */
-@media (min-width: 560px) {
+/* Pantallas de escritorio/mapa de catálogo: cursos en una barra larga */
+@media (min-width: 561px) {
     .courses {
         grid-template-columns: 1fr;
         padding: 20px;
         gap: 20px;
     }
+
+    .recetario-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
     .course-title {
         top: 12px;
         left: 12px;
         bottom: auto;
         transform: none;
         z-index: 2;
+    }
+}
+
+/* Teléfonos normales: cursos en barras, una columna y fondo completo */
+@media (max-width: 768px) and (min-width: 361px) {
+    .courses {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 14px;
+    }
+
+    .recetario-list {
+        grid-template-columns: 1fr;
+    }
+
+    .course-card {
+        height: clamp(126px, 25vw, 170px) !important;
+    }
+
+    .course-title {
+        top: 12px;
+        left: 12px;
+        bottom: auto;
+        transform: none;
+        z-index: 2;
+    }
+}
+
+/* Teléfonos extremadamente pequeños: 2 columnas como máximo */
+@media (max-width: 360px) {
+    .courses,
+    .recetario-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .course-card {
+        height: clamp(102px, 29vw, 146px) !important;
+    }
+
+    .course-title {
+        font-size: 0.78rem;
+        padding: 6px 8px;
+        max-width: calc(100% - 44px);
     }
 }
 
