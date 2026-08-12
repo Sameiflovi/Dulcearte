@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recetario - DulceArte</title>
+
+    <!-- Apuntando al CSS correcto de esta sección -->
+    <link rel="stylesheet" href="seccion-fast-food.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         ENCABEZADO
+    ========================== -->
+    <a href="../../index.html" class="back-btn" id="backBtn" style="display: inline-block;" aria-label="Volver al inicio">
+        ← Inicio
+    </a>
+
+    <header>
+        <h1>🍔 Recetario de Comida Rápida</h1>
+        <p>Aprende a preparar los mejores antojos urbanos de forma profesional.</p>
+    </header>
+
+    <!-- =========================
+         NAVBAR GLASS
+    ========================== -->
+    <nav class="glass-nav">
+        <a href="#recetas" class="nav-link active">
+            🍟 Recetas
+        </a>
+        <a href="#proximamente" class="nav-link">
+            ✨ Próximamente
+        </a>
+        <div class="glass-indicator"></div>
+    </nav>
+
+    <!-- =========================
+         RECETAS DISPONIBLES
+    ========================== -->
+    <section id="seccion-articulos">
+        <h2 class="categoria-titulo" id="recetas">
+            🔥 Nuestras Recetas
+        </h2>
+
+        <section class="catalogo">
+
+            <!-- RECETA 1: Pollo a la Broaster -->
+            <a href="../pollo-broaster/pollo-broaster.html" class="producto">
+                <div class="imagen">
+                    <img src="../pollo-broaster/media/pollo_broaster1.png" alt="Pollo a la Broaster">
+                </div>
+                <div class="info">
+                    <h3>🍗 Pollo a la Broaster Profesional</h3>
+                    <div class="precio">⏳ 45 min</div>
+                </div>
+            </a>
+
+            <!-- RECETA 2: Hamburguesa (Ejemplo de estructura) -->
+            <a href="#hamburguesa" class="producto">
+                <div class="imagen">
+                    <img src="../../Data/pizzas 8x8.webp" alt="Hamburguesas"> <!-- Cambiar por img real -->
+                </div>
+                <div class="info">
+                    <h3>🍔 Hamburguesas Gourmet</h3>
+                    <div class="precio">⏳ 25 min</div>
+                </div>
+            </a>
+
+            <!-- RECETA 3: Salchipapa (Ejemplo de estructura) -->
+            <a href="#salchipapas" class="producto">
+                <div class="imagen">
+                    <img src="../../Data/empanadas.webp" alt="Salchipapas"> <!-- Cambiar por img real -->
+                </div>
+                <div class="info">
+                    <h3>🍟 Salchipapas Especiales</h3>
+                    <div class="precio">⏳ 20 min</div>
+                </div>
+            </a>
+
+        </section>
+    </section>
+
+    <!-- =========================
+         BOTÓN WHATSAPP / CONTACTO
+    ========================== -->
+    <a class="whatsapp" href="https://wa.me/59170724244" target="_blank">
+        📱 ¿Tienes dudas? Consúltanos por WhatsApp
+    </a>
+
+    <!-- =========================
+         REDES SOCIALES
+    ========================== -->
+    <ul class="samei-social-bar">
+        <li style="--softclr:#7ea6ff; --sideclr:#5f84d8; --bottomclr:#4f74c7; --clr1:#1877f2; --clr2:#0d5fd1;">
+            <a href="https://www.facebook.com/profile.php?id=61590101863806" target="_blank">
+                <i class="fa-brands fa-facebook-f"></i>
+            </a>
+        </li>
+        <li style="--softclr:#ff8fc2; --sideclr:#e56ba3; --bottomclr:#cc4f89; --clr1:#ff2f92; --clr2:#ff006a;">
+            <a href="https://www.instagram.com/dulcearteig/" target="_blank">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+        </li>
+        <li style="--softclr:#7ce9a5; --sideclr:#5ccc85; --bottomclr:#41b66f; --clr1:#25d366; --clr2:#17b653;">
+            <a href="https://wa.me/59170724244" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+        </li>
+        <li style="--softclr:#858484; --sideclr:#5e5d5d; --bottomclr:#5a5a5a; --clr1:#ff0050; --clr2:#00f2ea;">
+            <a href="https://www.tiktok.com/@dulcearte55" target="_blank">
+                <i class="fa-brands fa-tiktok"></i>
+            </a>
+        </li>
+    </ul>
+
+    <!-- =========================
+         PIE DE PÁGINA
+    ========================== -->
+    <div class="version">
+        v26.8.1
+    </div>
+
+    <!-- Enlazado al JS local de comida rápida -->
+    <script src="seccion-fast-food.js"></script>
+
+</body>
+</html>

@@ -71,9 +71,9 @@
 
     logEvent("Cursos permitidos cargados", cursosPermitidos);
 
-    const contenedorCursos = document.querySelector(".courses");
-    const tarjetasCursos = Array.from(document.querySelectorAll(".course-card[data-curso]"));
-    const tarjetasRecetarios = Array.from(document.querySelectorAll(".recetario-card"));
+    const contenedorCursos = document.querySelector("#seccion-cursos .courses");
+    const tarjetasCursos = Array.from(document.querySelectorAll("#seccion-cursos .course-card[data-curso]"));
+    const tarjetasRecetarios = Array.from(document.querySelectorAll("#seccion-recetarios .recetario-card[data-curso]"));
 
     if (!contenedorCursos) {
         logWarning("No se encontró el contenedor de cursos");
@@ -102,7 +102,7 @@
         }
     });
 
-    tarjetasCursos.forEach((tarjeta) => {
+    const aplicarControlAcceso = (tarjeta, permiteRedireccion = true) => {
         const curso = tarjeta.dataset.curso;
         const tieneAcceso = cursosPermitidos.includes(curso);
 
@@ -113,11 +113,11 @@
             lock.classList.add("curso-lock");
             lock.innerHTML = '<i class="fa-solid fa-lock"></i>';
             tarjeta.appendChild(lock);
-            logEvent("Curso bloqueado", { curso });
+            logEvent("Tarjeta bloqueada", { curso, recetario: tarjeta.classList.contains("recetario-card") });
 
             tarjeta.addEventListener("click", (event) => {
                 event.preventDefault();
-                logWarning("Usuario intentó entrar a un curso sin acceso", { curso });
+                logWarning("Usuario intentó entrar a un curso/recetario sin acceso", { curso, href: tarjeta.href || tarjeta.getAttribute("href") });
                 mostrarToast();
             });
         } else {
@@ -125,48 +125,31 @@
             check.classList.add("curso-check");
             check.innerHTML = '<i class="fa-solid fa-lock-open"></i>';
             tarjeta.appendChild(check);
-            logEvent("Curso habilitado", { curso });
+            logEvent("Tarjeta habilitada", { curso, recetario: tarjeta.classList.contains("recetario-card") });
 
-            tarjeta.addEventListener("click", (event) => {
-                event.preventDefault();
-                logEvent("Usuario intentó abrir un curso permitido", { curso, href: tarjeta.href });
-                mostrarToastOK(2);
-                if (window.redirectTimer) {
-                    window.clearTimeout(window.redirectTimer);
-                }
-                window.redirectTimer = window.setTimeout(() => {
-                    logEvent("Redirigiendo al curso", { curso, href: tarjeta.href });
-                    window.location.href = tarjeta.href;
-                }, 2899);
-            });
+            if (permiteRedireccion) {
+                tarjeta.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    logEvent("Usuario intentó abrir un curso permitido", { curso, href: tarjeta.href });
+                    mostrarToastOK(2);
+                    if (window.redirectTimer) {
+                        window.clearTimeout(window.redirectTimer);
+                    }
+                    window.redirectTimer = window.setTimeout(() => {
+                        logEvent("Redirigiendo al curso", { curso, href: tarjeta.href });
+                        window.location.href = tarjeta.href;
+                    }, 2899);
+                });
+            }
         }
+    };
+
+    tarjetasCursos.forEach((tarjeta) => {
+        aplicarControlAcceso(tarjeta, true);
     });
 
     tarjetasRecetarios.forEach((tarjeta) => {
-        const recetario = tarjeta.dataset.recetario;
-        const tieneAcceso = cursosPermitidos.includes(recetario) || cursosPermitidos.includes("recetarios") || cursosPermitidos.includes("recetario") || cursosPermitidos.includes("comida-mexicana");
-
-        if (!tieneAcceso) {
-            tarjeta.style.opacity = "0.6";
-            tarjeta.classList.add("locked");
-            const lock = document.createElement("div");
-            lock.classList.add("curso-lock");
-            lock.innerHTML = '<i class="fa-solid fa-lock"></i>';
-            tarjeta.appendChild(lock);
-            logEvent("Recetario bloqueado", { recetario });
-
-            tarjeta.addEventListener("click", (event) => {
-                event.preventDefault();
-                logWarning("Usuario intentó abrir un recetario sin acceso", { recetario });
-                mostrarToast();
-            });
-        } else {
-            const check = document.createElement("div");
-            check.classList.add("curso-check");
-            check.innerHTML = '<i class="fa-solid fa-lock-open"></i>';
-            tarjeta.appendChild(check);
-            logEvent("Recetario habilitado", { recetario });
-        }
+        aplicarControlAcceso(tarjeta, true);
     });
 
     function mostrarToast() {
