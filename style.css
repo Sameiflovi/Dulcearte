@@ -75,7 +75,7 @@ img, svg {
     display: block;
     width: min(92vw, 500px);
     height: auto;
-    margin: 10px auto 0;
+    margin: 1px auto 0;
     text-align: center;
     filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12));
 }
@@ -930,8 +930,8 @@ img, svg {
 
     .clavearea,
     .carousel,
-    .about,
-    .catalogo-section {
+    .catalogo-section,
+    .about {
         width: calc(100% - 16px);
     }
 

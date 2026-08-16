@@ -796,3 +796,38 @@ main {
     }
     .samei-social-bar li { width: 40px; height: 40px; }
 }
+
+/* ================================================================
+   9. SECCIÓN "SOBRE NOSOTROS"
+   ================================================================ */
+.about {
+    width: calc(100% - 24px);
+    max-width: 650px;
+    text-align: center;
+    border-radius: 10px;
+    margin: auto;
+    padding: 8px 0;
+}
+
+.titulo-about {
+    color: #b86b4b;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: clamp(1.35rem, 6vw, 2.2rem);
+    line-height: 1.15;
+    /* Una sola capa de resplandor (ver nota en .desc) */
+    text-shadow: 0 0 8px rgba(255, 190, 140, 0.5);
+}
+
+.desc-about {
+    color: #975a30;
+    text-align: center;
+    font-size: clamp(1rem, 4.4vw, 1.15rem);
+    line-height: 1.55;
+}
+@media (max-width: 360px) {
+    .about {
+        width: calc(100% - 16px);
+    }
+}
