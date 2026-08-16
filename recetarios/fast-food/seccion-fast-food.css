@@ -46,7 +46,7 @@ body {
     min-width: 0;
     min-height: 100vh;
     overflow-x: hidden;
-    background-image: url("url(../../Data/fondopc.jpg)");
+    background-image: url("../../Data/fondopc.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -62,7 +62,28 @@ img {
 /* ================================================================
    3. ENCABEZADO Y BOTÓN VOLVER
    ================================================================ */
-header {
+.logo {
+    display: block;
+    width: min(92vw, 500px);
+    height: auto;
+    margin: 10px auto 0;
+    text-align: center;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12));
+}
+
+@media (max-width: 320px) {
+    .logo { width: 140px; }
+}
+
+@media (min-width: 1600px) {
+    .logo { width: 420px; }
+}
+
+@media (max-width: 360px) {
+   .logo { width: 88vw; }
+}
+
+   header {
     text-align: center;
     padding: clamp(22px, 6vw, 34px) 12px 12px;
 }

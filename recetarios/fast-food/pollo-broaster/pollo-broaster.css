@@ -27,28 +27,79 @@ body {
     min-width: 0;
     min-height: 100vh;
     overflow-x: hidden;
-    padding: clamp(1rem, 3vw, 2.5rem);
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--text);
-    line-height: 1.7;
-    background:
-        linear-gradient(180deg, rgba(255, 249, 240, 0.86), rgba(255, 246, 234, 0.92)),
-        url("../../Data/fondopc.jpg") center/cover no-repeat fixed;
+    padding: clamp(8px, 2.6vw, 16px) clamp(12px, 4vw, 24px) clamp(28px, 6vw, 48px);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background-image: url(../../../Data/fondopc.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+}
+@media (max-width: 768px) {
+    body {
+        background-image: url(../../../Data/fondocel.png);
+        background-attachment: scroll;
+    }
+}
+.logo {
+    display: block;
+    width: min(92vw, 500px);
+    height: auto;
+    margin: 10px auto 0;
+    text-align: center;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12));
 }
 
-body > * {
-    max-width: 980px;
-    margin-left: auto;
-    margin-right: auto;
+@media (max-width: 320px) {
+    .logo { width: 140px; }
 }
 
-img, svg {
+@media (min-width: 1600px) {
+    .logo { width: 420px; }
+}
+
+@media (max-width: 360px) {
+   .logo { width: 88vw; }
+}
+
+.back-btn {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 400;
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    transition: transform 300ms cubic-bezier(.22, .9, .36, 1), box-shadow 300ms ease;
+}
+.back-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+}
+
+@media (max-width: 420px) {
+    .back-btn {
+        top: 8px;
+        left: 8px;
+        padding: 6px 8px;
+        font-size: 0.95rem;
+        max-width: calc(100% - 16px);
+        white-space: normal;
+        line-height: 1.15;
+    }
+}
+.img, .svg {
     max-width: 100%;
     height: auto;
     display: block;
 }
 
-h1, h2, h3 {
+.h1, .h2, .h3 {
     margin-top: 0;
     color: var(--accent-strong);
     font-family: Georgia, "Times New Roman", serif;
@@ -56,26 +107,26 @@ h1, h2, h3 {
     line-height: 1.15;
 }
 
-h1 {
+.h1 {
     font-size: clamp(2.1rem, 6vw, 4rem);
     text-align: center;
     margin-bottom: 1rem;
     text-shadow: 0 8px 22px rgba(214, 123, 61, 0.18);
 }
 
-h2 {
+.h2 {
     font-size: clamp(1.8rem, 4vw, 2.9rem);
     margin: 2.5rem auto 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 2px solid rgba(166, 91, 44, 0.16);
 }
 
-h3 {
+.h3 {
     font-size: clamp(1.3rem, 2.6vw, 1.9rem);
     margin: 1.5rem 0 0.75rem;
 }
 
-p {
+.p {
     max-width: 880px;
     margin: 0 auto 1.25rem;
     font-size: clamp(1rem, 2vw, 1.15rem);
@@ -88,7 +139,7 @@ body > p:first-of-type {
     margin-bottom: 1.5rem;
 }
 
-body > img {
+body > .img {
     width: min(100%, 920px);
     margin: 1.5rem auto 2rem;
     border-radius: 26px;
@@ -104,7 +155,7 @@ hr {
     border-top: 2px dashed rgba(128, 77, 48, 0.2);
 }
 
-ul, ol {
+.ul, .ol {
     max-width: 900px;
     margin: 0 auto 1.5rem;
     padding-left: 1.2rem;
@@ -112,7 +163,7 @@ ul, ol {
     gap: 0.8rem;
 }
 
-li {
+.li {
     background: var(--card);
     border: 1px solid var(--line);
     border-radius: 16px;
@@ -123,21 +174,21 @@ li {
     backdrop-filter: blur(2px);
 }
 
-li strong {
+.li strong {
     color: var(--accent-strong);
 }
 
-li em {
+.li em {
     color: var(--green);
     font-style: normal;
     font-weight: 600;
 }
 
-ol {
+.ol {
     list-style: decimal;
 }
 
-ul {
+.ul {
     list-style: disc;
 }
 
@@ -155,17 +206,17 @@ em {
         padding: 1rem 0.9rem 2.4rem;
     }
 
-    body > img {
+    body > .img {
         border-radius: 18px;
         margin-top: 1rem;
     }
 
-    ul, ol {
+    .ul, .ol {
         padding-left: 0.8rem;
         gap: 0.7rem;
     }
 
-    li {
+    .li {
         padding: 0.8rem 0.9rem;
         border-radius: 12px;
     }
