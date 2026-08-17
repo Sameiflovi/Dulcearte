@@ -155,7 +155,7 @@
     function mostrarToast() {
         const toast = document.getElementById("toast");
         if (!toast) return;
-        const DURATION_ERR = 3;
+        const DURATION_ERR = 8;
         const barra = toast.querySelector(".toast-progress");
         if (barra) {
             barra.style.animation = "none";

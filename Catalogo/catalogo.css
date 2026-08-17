@@ -52,6 +52,9 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+body.popup-abierto {
+    overflow: hidden;
+}
 
 img {
     max-width: 100%;
@@ -302,7 +305,9 @@ header p {
     max-width: 700px;
     max-height: calc(100vh - 24px);
     max-height: calc(100svh - 24px);
-    overflow: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
     background: white;
     border-radius: clamp(14px, 4vw, 25px);
     position: relative;
@@ -444,7 +449,8 @@ header p {
 .popup-cerrar {
     position: sticky;
     top: 12px;
-    right: 12px;
+    left: 12px;
+    margin-bottom: -42px;
     width: 42px;
     height: 42px;
     border: none;
@@ -453,7 +459,7 @@ header p {
     background: rgba(17, 24, 39, 0.85);
     color: #fff;
     font-size: 1.15rem;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);

@@ -4,7 +4,7 @@ import {
   collection,
   query,
   where,
-  getDocs
+  getDocsFromServer
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
 
@@ -284,6 +284,119 @@ function initLoginFlow() {
   const inputClave = document.getElementById("claveInput");
   const togglePassword = document.getElementById("togglePassword");
   const rememberCheck = document.getElementById("rememberCheck");
+  const claveArea = document.querySelector(".clavearea");
+  const textoBotonOriginal = (claveBtn.textContent || "Entrar").trim() || "Entrar";
+  const STORAGE_KEYS = {
+    rememberAccess: "dulcearte_recordar_acceso",
+    savedClave: "dulcearte_clave_guardada",
+    legacyRemember: "recordarAcceso",
+    legacySaved: "claveGuardada"
+  };
+  let isChecking = false;
+  let redirectTimeoutId = null;
+
+  function leerClaveGuardada() {
+    const raw = localStorage.getItem(STORAGE_KEYS.savedClave);
+    if (typeof raw !== "string") return "";
+    const clave = raw.trim();
+    return clave || "";
+  }
+
+  function migrarClavesAntiguas() {
+    const claveGuardadaLegacy = localStorage.getItem(STORAGE_KEYS.legacySaved);
+    const claveGuardadaActual = leerClaveGuardada();
+    const recordarLegacy = localStorage.getItem(STORAGE_KEYS.legacyRemember) === "true";
+    const recordarActual = localStorage.getItem(STORAGE_KEYS.rememberAccess) === "true";
+
+    if (claveGuardadaLegacy && !claveGuardadaActual) {
+      localStorage.setItem(STORAGE_KEYS.savedClave, claveGuardadaLegacy);
+    }
+
+    if (recordarLegacy && !recordarActual) {
+      localStorage.setItem(STORAGE_KEYS.rememberAccess, "true");
+    }
+
+    if (claveGuardadaActual || recordarLegacy || recordarActual) {
+      localStorage.setItem(STORAGE_KEYS.rememberAccess, "true");
+    }
+
+    localStorage.removeItem(STORAGE_KEYS.legacyRemember);
+    localStorage.removeItem(STORAGE_KEYS.legacySaved);
+  }
+
+  function guardarClaveRecordada(clave, recordar) {
+    const valor = (clave || "").trim();
+    localStorage.removeItem(STORAGE_KEYS.legacyRemember);
+    localStorage.removeItem(STORAGE_KEYS.legacySaved);
+
+    if (!valor || !recordar) {
+      localStorage.removeItem(STORAGE_KEYS.savedClave);
+      localStorage.removeItem(STORAGE_KEYS.rememberAccess);
+      return;
+    }
+
+    localStorage.setItem(STORAGE_KEYS.savedClave, valor);
+    localStorage.setItem(STORAGE_KEYS.rememberAccess, "true");
+  }
+
+  function limpiarConfirmacion() {
+    if (!mensajeClave) return;
+    const confirmBox = mensajeClave.querySelector(".clave-confirmacion");
+    if (confirmBox) {
+      confirmBox.remove();
+    }
+  }
+
+  function mostrarConfirmacionEnPagina({ texto, confirmarTexto = "Sí", cancelarTexto = "No", onConfirm, onCancel }) {
+    if (!mensajeClave) return Promise.resolve(false);
+
+    limpiarConfirmacion();
+
+    return new Promise((resolve) => {
+      const panel = document.createElement("div");
+      panel.className = "clave-confirmacion";
+
+      const textoConfirm = document.createElement("p");
+      textoConfirm.className = "clave-confirmacion__texto";
+      textoConfirm.textContent = texto;
+
+      const acciones = document.createElement("div");
+      acciones.className = "clave-confirmacion__acciones";
+
+      const confirmar = document.createElement("button");
+      confirmar.type = "button";
+      confirmar.className = "botonClave botonClave--lighttext clave-confirmacion__boton";
+      confirmar.textContent = confirmarTexto;
+      confirmar.addEventListener("click", () => {
+        limpiarConfirmacion();
+        mensajeClave.classList.remove("error", "info", "warn", "loading");
+        mensajeClave.classList.add("warn");
+        onConfirm?.();
+        resolve(true);
+      });
+
+      const cancelar = document.createElement("button");
+      cancelar.type = "button";
+      cancelar.className = "botonClave clave-confirmacion__boton clave-confirmacion__boton--secondary";
+      cancelar.textContent = cancelarTexto;
+      cancelar.addEventListener("click", () => {
+        limpiarConfirmacion();
+        mensajeClave.classList.remove("error", "info", "warn", "loading");
+        mensajeClave.classList.add("warn");
+        onCancel?.();
+        resolve(false);
+      });
+
+      acciones.appendChild(cancelar);
+      acciones.appendChild(confirmar);
+      panel.appendChild(textoConfirm);
+      panel.appendChild(acciones);
+
+      mensajeClave.classList.remove("error", "info", "loading");
+      mensajeClave.classList.add("warn");
+      mensajeClave.appendChild(panel);
+    });
+  }
 
   function mostrarMensaje(texto, tipo) {
     if (!mensajeClave) {
@@ -291,17 +404,164 @@ function initLoginFlow() {
       return;
     }
 
+    limpiarConfirmacion();
     mensajeClave.textContent = texto;
-    mensajeClave.classList.remove("error", "info", "warn");
+    mensajeClave.classList.remove("error", "info", "warn", "loading");
     if (tipo) mensajeClave.classList.add(tipo);
+  }
 
-    if (window.__mensajeTimeout) {
-      window.clearTimeout(window.__mensajeTimeout);
+  function limpiarMensaje() {
+    if (!mensajeClave) return;
+    limpiarConfirmacion();
+    mensajeClave.textContent = "";
+    mensajeClave.classList.remove("error", "info", "warn", "loading");
+  }
+
+  function limpiarEstadoVisual() {
+    claveArea?.classList.remove("is-loading", "is-success", "is-error", "is-warn");
+    claveArea?.removeAttribute("aria-busy");
+    claveBtn.classList.remove("is-loading");
+    if (inputClave) {
+      inputClave.removeAttribute("aria-invalid");
     }
-    window.__mensajeTimeout = window.setTimeout(() => {
-      mensajeClave.textContent = "";
-      mensajeClave.classList.remove("error", "info", "warn");
-    }, 3000);
+  }
+
+  function setControlsDisabled(disabled) {
+    if (inputClave) {
+      inputClave.disabled = disabled;
+    }
+    if (togglePassword) {
+      togglePassword.disabled = disabled;
+    }
+    if (rememberCheck) {
+      rememberCheck.disabled = disabled;
+    }
+    claveBtn.disabled = disabled;
+  }
+
+  function mostrarCargando() {
+    if (redirectTimeoutId) {
+      window.clearTimeout(redirectTimeoutId);
+      redirectTimeoutId = null;
+    }
+
+    limpiarMensaje();
+    limpiarEstadoVisual();
+    setControlsDisabled(true);
+    claveArea?.classList.add("is-loading");
+    claveArea?.setAttribute("aria-busy", "true");
+    claveBtn.classList.add("is-loading");
+    claveBtn.textContent = "Verificando...";
+    mostrarMensaje("Verificando tu clave...", "loading");
+  }
+
+  function mostrarError(texto, tipo = "error", enfocar = false) {
+    limpiarMensaje();
+    limpiarEstadoVisual();
+    setControlsDisabled(false);
+    claveArea?.classList.add(tipo === "warn" ? "is-warn" : "is-error");
+    if (tipo === "error") {
+      inputClave?.setAttribute("aria-invalid", "true");
+    }
+    claveBtn.textContent = textoBotonOriginal;
+    mostrarMensaje(texto, tipo);
+
+    if (enfocar && inputClave) {
+      inputClave.focus();
+      if (tipo === "error" && typeof inputClave.select === "function") {
+        inputClave.select();
+      }
+    }
+  }
+
+  function mostrarExito(texto) {
+    limpiarMensaje();
+    limpiarEstadoVisual();
+    setControlsDisabled(true);
+    claveArea?.classList.add("is-success");
+    claveBtn.textContent = "Entrando...";
+    mostrarMensaje(texto, "info");
+  }
+
+  function volverAlEstadoInicial() {
+    limpiarMensaje();
+    limpiarEstadoVisual();
+    setControlsDisabled(false);
+    claveBtn.textContent = textoBotonOriginal;
+  }
+
+  function mostrarBotonClaveGuardada() {
+    const claveGuardada = leerClaveGuardada();
+    const botonExistente = document.getElementById("btnUsarClaveGuardada");
+
+    if (!claveGuardada) {
+      botonExistente?.remove();
+      return;
+    }
+
+    if (botonExistente) {
+      botonExistente.hidden = false;
+      return;
+    }
+
+    const boton = document.createElement("button");
+    boton.type = "button";
+    boton.id = "btnUsarClaveGuardada";
+    boton.className = "botonClave botonClave--lighttext";
+    boton.textContent = "Usar clave guardada";
+    boton.style.marginTop = "0.75rem";
+    boton.style.width = "100%";
+    boton.addEventListener("click", () => {
+      if (!inputClave) return;
+      inputClave.value = claveGuardada;
+      if (rememberCheck) rememberCheck.checked = true;
+      mostrarMensaje("Se encontró una clave guardada. Iniciando sesión con ella...", "info");
+      claveBtn.click();
+    });
+    claveArea?.appendChild(boton);
+  }
+
+  async function preguntarSiUsarClaveGuardada() {
+    const claveGuardada = leerClaveGuardada();
+    if (!claveGuardada) return;
+    if (rememberCheck) rememberCheck.checked = true;
+
+    const deseaUsarla = await mostrarConfirmacionEnPagina({
+      texto: "Se encontró una clave guardada. ¿Quieres iniciar sesión con ella?",
+      confirmarTexto: "Usarla",
+      cancelarTexto: "No, gracias",
+      onCancel: () => {
+        mostrarMensaje("Clave guardada disponible. Puedes usarla cuando quieras.", "warn");
+      }
+    });
+
+    if (!deseaUsarla) {
+      return;
+    }
+
+    if (inputClave) {
+      inputClave.value = claveGuardada;
+    }
+    mostrarMensaje("Se encontró una clave guardada. Iniciando sesión con ella...", "info");
+    claveBtn.click();
+  }
+
+  migrarClavesAntiguas();
+  if (rememberCheck) {
+    rememberCheck.checked = localStorage.getItem(STORAGE_KEYS.rememberAccess) === "true" || Boolean(leerClaveGuardada());
+  }
+  mostrarBotonClaveGuardada();
+  setTimeout(() => preguntarSiUsarClaveGuardada(), 300);
+
+  async function consultarClaveEnServidor(consulta) {
+    try {
+      return await getDocsFromServer(consulta);
+    } catch (error) {
+      logWarning("Fallo la primera consulta de Firestore, reintentando una vez", error);
+      mostrarMensaje("La conexión está lenta. Reintentando...", "warn");
+      await new Promise((resolve) => window.setTimeout(resolve, 500));
+      return await getDocsFromServer(consulta);
+    }
   }
 
   if (togglePassword && inputClave) {
@@ -319,6 +579,15 @@ function initLoginFlow() {
   }
 
   if (inputClave) {
+    inputClave.addEventListener("input", () => {
+      if (!mensajeClave?.textContent) return;
+      if (redirectTimeoutId) {
+        window.clearTimeout(redirectTimeoutId);
+        redirectTimeoutId = null;
+      }
+      volverAlEstadoInicial();
+    });
+
     inputClave.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         event.preventDefault();
@@ -329,21 +598,29 @@ function initLoginFlow() {
   }
 
   claveBtn.addEventListener("click", async () => {
+    if (isChecking) {
+      logEvent("Se ignoro un segundo intento porque ya hay una verificacion en curso");
+      return;
+    }
+
     const value = inputClave?.value.trim() || "";
     const shouldRemember = Boolean(rememberCheck?.checked);
     logEvent("Intento de acceso con clave", { valueLength: value.length, remember: shouldRemember });
 
     if (!value) {
       logWarning("El usuario intentó entrar sin escribir una clave");
-      mostrarMensaje("Necesitas poner una clave para ingresar", "warn");
+      mostrarError("Necesitas poner una clave para ingresar", "warn", true);
       return;
     }
 
     if (!db) {
       logError("No se pudo validar la clave porque Firebase no está disponible", undefined);
-      mostrarMensaje("Error al conectar con la base de datos", "error");
+      mostrarError("Error al conectar con la base de datos", "error", true);
       return;
     }
+
+    isChecking = true;
+    mostrarCargando();
 
     try {
       const q = query(
@@ -352,34 +629,50 @@ function initLoginFlow() {
         where("activo", "==", true)
       );
 
-      const querySnapshot = await getDocs(q);
+      const querySnapshot = await consultarClaveEnServidor(q);
       logEvent("Consulta de Firebase ejecutada", { resultCount: querySnapshot.size });
 
       if (!querySnapshot.empty) {
         const usuario = querySnapshot.docs[0].data();
+        const claveGuardada = value;
+        const quiereGuardar = shouldRemember || await mostrarConfirmacionEnPagina({
+          texto: "¿Quieres guardar esta clave para iniciar sesión con un clic la próxima vez?",
+          confirmarTexto: "Guardar",
+          cancelarTexto: "No guardar",
+          onCancel: () => {
+            logEvent("Usuario decidió no guardar la clave");
+          }
+        });
+
         localStorage.setItem("cursosPermitidos", JSON.stringify(usuario.cursos || []));
         localStorage.setItem("usuarioActivo", "true");
 
-        if (shouldRemember) {
-          localStorage.setItem("recordarAcceso", "true");
-          logEvent("Usuario eligió recordar el acceso sin guardar la clave en texto plano");
+        if (quiereGuardar) {
+          guardarClaveRecordada(claveGuardada, true);
+          if (rememberCheck) rememberCheck.checked = true;
+          logEvent("Usuario eligió recordar la clave", { claveGuardada: "***" });
         } else {
-          localStorage.removeItem("recordarAcceso");
-          logEvent("Usuario decidió no recordar el acceso");
+          guardarClaveRecordada(claveGuardada, false);
+          logEvent("Usuario decidió no recordar la clave");
         }
 
-        mostrarMensaje("Clave correcta. ¡Bienvenido!", "info");
+        mostrarBotonClaveGuardada();
+        mostrarExito("Clave correcta. ¡Bienvenido!");
         logEvent("Acceso concedido", { cursos: usuario.cursos || [] });
-        window.setTimeout(() => {
+        isChecking = false;
+        redirectTimeoutId = window.setTimeout(() => {
+          redirectTimeoutId = null;
           window.location.href = "mis-cursos.html#cursos";
         }, 1000);
       } else {
         logWarning("Clave incorrecta o usuario inactivo", { valueLength: value.length });
-        mostrarMensaje("Clave incorrecta, por favor vuelva a intentar", "error");
+        isChecking = false;
+        mostrarError("Clave incorrecta, por favor vuelve a intentar", "error", true);
       }
     } catch (error) {
       logError("Error al consultar Firestore", error);
-      mostrarMensaje("Error al conectar con la base de datos", "error");
+      isChecking = false;
+      mostrarError("No pudimos comprobar la clave por la conexión. Vuelve a intentar.", "warn", true);
     }
   });
 }

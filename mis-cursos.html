@@ -128,24 +128,28 @@
    
     <script src="mis-cursos.js"></script>
 
-    <div id="toast" class="toast">
-        <div class="toast-icon error">✖</div>
+    <div id="toast" class="toast" role="alert" aria-live="assertive">
+        <div class="toast-icon error" aria-hidden="true">✖</div>
         <div class="toast-content">
             <h4>Acceso denegado</h4>
-            <p>No tienes acceso a este curso.<br>si esto es un error <br> contactanos</p>
+            <p>No tienes acceso a este curso.</p>
+            <a class="toast-support" href="https://wa.me/59170724244" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                ¿Crees que es un error? Escríbenos
+            </a>
         </div>
         <div class="toast-progress"></div>
     </div>
 
-    <div id="toast-ok" class="toast-ok">
-        <div class="toast-icon-ok">
+    <div id="toast-ok" class="toast-ok" role="status" aria-live="polite">
+        <div class="toast-icon-ok" aria-hidden="true">
             <i class="fa-solid fa-lock-open"></i>
         </div>
         <div class="toast-content">
             <div class="toast-title">Acceso concedido</div>
             <div class="toast-message">Puedes ingresar a este curso.</div>
-            <div class="toast-progress"></div>
         </div>
+        <div class="toast-progress"></div>
     </div>
     <div class="version">v26.8.2</div>
 </body>

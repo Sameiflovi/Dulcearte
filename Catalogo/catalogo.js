@@ -158,6 +158,7 @@ function abrirPopupPorProducto(producto) {
     construirMiniaturas();
     actualizarPopupGaleria();
 
+    document.body.classList.add('popup-abierto');
     popup.classList.add('activo');
     logEvent('Popup abierto desde una tarjeta destacada', {
         id: producto.dataset.productoId || 'sin id',
@@ -181,12 +182,14 @@ productos.forEach((producto) => {
 
 popupCerrar?.addEventListener('click', () => {
     popup.classList.remove('activo');
+    document.body.classList.remove('popup-abierto');
     logEvent('Popup cerrado desde el botón');
 });
 
 popup?.addEventListener('click', (event) => {
     if (event.target === popup) {
         popup.classList.remove('activo');
+        document.body.classList.remove('popup-abierto');
         logEvent('Popup cerrado al hacer clic fuera');
     }
 });
