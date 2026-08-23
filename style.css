@@ -739,7 +739,7 @@ img, svg {
 }
 
 .desc-about {
-    color: #975a30;
+    color: #9D5E32;
     text-align: center;
     font-size: clamp(1rem, 4.4vw, 1.15rem);
     line-height: 1.55;
@@ -1053,6 +1053,7 @@ img, svg {
 
 @media (max-width: 420px) {
     .clave { flex-direction: column; }
+    .clave-input-wrap { flex: 0 1 auto; }
     .clave input { max-width: 380px; flex: 0 0 auto; }
     .botonClave { width: auto; align-self: center; margin-top: 8px; }
 }

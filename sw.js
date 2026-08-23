@@ -5,7 +5,7 @@
 // ======================================================
 
 // Cambia esta versión cuando publiques una actualización importante
-const VERSION = "1.0.3";
+const VERSION = "1.0.4";
 
 // Nombre del caché principal
 const CACHE_NAME = `dulcearte-${VERSION}`;
