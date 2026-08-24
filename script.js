@@ -273,6 +273,59 @@ function initModal() {
   });
 }
 
+function initFaqAnimations() {
+  const items = Array.from(document.querySelectorAll(".faq-item"));
+  if (!items.length || typeof Element === "undefined" || !Element.prototype.animate) return;
+  const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+  items.forEach((item) => {
+    const summary = item.querySelector("summary");
+    const answer = item.querySelector(".faq-answer");
+    if (!summary || !answer) return;
+
+    let isAnimating = false;
+    summary.addEventListener("click", (event) => {
+      event.preventDefault();
+      if (isAnimating) return;
+
+      const opening = !item.open;
+      isAnimating = true;
+      summary.setAttribute("aria-expanded", String(opening));
+
+      if (reduceMotion) {
+        item.open = opening;
+        isAnimating = false;
+        return;
+      }
+
+      if (opening) {
+        item.open = true;
+        answer.animate(
+          [
+            { opacity: 0, transform: "translateY(-12px)" },
+            { opacity: 1, transform: "translateY(0)" }
+          ],
+          { duration: 380, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" }
+        ).finished.finally(() => {
+          isAnimating = false;
+        });
+        return;
+      }
+
+      answer.animate(
+        [
+          { opacity: 1, transform: "translateY(0)" },
+          { opacity: 0, transform: "translateY(-12px)" }
+        ],
+        { duration: 300, easing: "cubic-bezier(0.4, 0, 1, 1)" }
+      ).finished.finally(() => {
+        item.open = false;
+        isAnimating = false;
+      });
+    });
+  });
+}
+
 function initLoginFlow() {
   const claveBtn = document.getElementById("claveBtn");
   if (!claveBtn) {
@@ -429,9 +482,6 @@ function initLoginFlow() {
   function setControlsDisabled(disabled) {
     if (inputClave) {
       inputClave.disabled = disabled;
-    }
-    if (togglePassword) {
-      togglePassword.disabled = disabled;
     }
     if (rememberCheck) {
       rememberCheck.disabled = disabled;
@@ -681,6 +731,7 @@ function initializeAppShell() {
   logEvent("Aplicación cargada");
   initCarousel();
   initModal();
+  initFaqAnimations();
   initLoginFlow();
 }
 
