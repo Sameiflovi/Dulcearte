@@ -152,9 +152,19 @@
         aplicarControlAcceso(tarjeta, true);
     });
 
+    function ocultarToast(toastId, timerName) {
+        const toast = document.getElementById(toastId);
+        if (toast) toast.classList.remove("show");
+        if (window[timerName]) {
+            window.clearTimeout(window[timerName]);
+            delete window[timerName];
+        }
+    }
+
     function mostrarToast() {
         const toast = document.getElementById("toast");
         if (!toast) return;
+        ocultarToast("toast-ok", "toastOkTimer");
         const DURATION_ERR = 8;
         const barra = toast.querySelector(".toast-progress");
         if (barra) {
@@ -173,6 +183,7 @@
     function mostrarToastOK(duration = 5) {
         const toast = document.getElementById("toast-ok");
         if (!toast) return;
+        ocultarToast("toast", "toastTimer");
         const barra = toast.querySelector(".toast-progress");
         if (barra) {
             barra.style.animation = "none";
@@ -187,6 +198,47 @@
         logEvent("Toast de acceso concedido mostrado", { duration });
     }
 
+    function habilitarCierreToast(toast, toastId, timerName) {
+        if (!toast) return;
+        const closeButton = toast.querySelector(".toast-close");
+        let startX = 0;
+        let startY = 0;
+
+        const cerrar = () => ocultarToast(toastId, timerName);
+        closeButton?.addEventListener("click", (event) => {
+            event.stopPropagation();
+            cerrar();
+        });
+
+        toast.addEventListener("pointerdown", (event) => {
+            startX = event.clientX;
+            startY = event.clientY;
+        });
+
+        toast.addEventListener("pointerup", (event) => {
+            const movedX = event.clientX - startX;
+            const movedY = event.clientY - startY;
+            const interactive = event.target.closest("a, button");
+
+            if (Math.abs(movedX) > 70 || movedY < -55) {
+                cerrar();
+            } else if (!interactive && Math.abs(movedX) < 12 && Math.abs(movedY) < 12) {
+                cerrar();
+            }
+        });
+    }
+
+    function inicializarCierresToast() {
+        habilitarCierreToast(document.getElementById("toast"), "toast", "toastTimer");
+        habilitarCierreToast(document.getElementById("toast-ok"), "toast-ok", "toastOkTimer");
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", inicializarCierresToast, { once: true });
+    } else {
+        inicializarCierresToast();
+    }
+
     document.addEventListener("keydown", (event) => {
         if (event.key === "Escape" || event.key === "Esc") {
             logEvent("Cancelación de redirección por teclado");
@@ -194,29 +246,9 @@
                 window.clearTimeout(window.redirectTimer);
                 delete window.redirectTimer;
             }
-            if (window.toastOkTimer) {
-                const toast = document.getElementById("toast-ok");
-                if (toast) toast.classList.remove("show");
-                window.clearTimeout(window.toastOkTimer);
-                delete window.toastOkTimer;
-            }
+            ocultarToast("toast", "toastTimer");
+            ocultarToast("toast-ok", "toastOkTimer");
         }
     });
 
-    const toastOkElem = document.getElementById("toast-ok");
-    if (toastOkElem) {
-        toastOkElem.addEventListener("click", () => {
-            logEvent("Usuario cerró el toast de acceso concedido");
-            if (window.redirectTimer) {
-                window.clearTimeout(window.redirectTimer);
-                delete window.redirectTimer;
-            }
-            if (window.toastOkTimer) {
-                const toast = document.getElementById("toast-ok");
-                if (toast) toast.classList.remove("show");
-                window.clearTimeout(window.toastOkTimer);
-                delete window.toastOkTimer;
-            }
-        });
-    }
 })();

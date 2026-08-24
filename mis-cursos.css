@@ -417,6 +417,37 @@ main {
     pointer-events: none;
     transition: transform .35s ease, opacity .35s ease, visibility 0s linear .35s;
     overflow: hidden;
+    touch-action: pan-y;
+}
+
+.toast-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 2;
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, .28);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, .18);
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.35rem;
+    line-height: 1;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.toast-close:hover {
+    background: rgba(0, 0, 0, .35);
+    transform: scale(1.08);
+}
+
+.toast-close:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
 }
 .toast {
     background: rgba(45, 55, 75, .95);
@@ -460,6 +491,7 @@ main {
     flex-direction: column;
     gap: 4px;
     padding-bottom: 4px;
+    padding-right: 34px;
 }
 .toast-content h4 {
     margin: 0;
@@ -755,12 +787,18 @@ main {
 
 @media (max-width: 480px) {
     .toast, .toast-ok {
-        top: max(8px, env(safe-area-inset-top));
+        top: auto;
+        bottom: max(20px, calc(env(safe-area-inset-bottom) + 8px));
         right: max(8px, env(safe-area-inset-right));
         width: calc(100vw - 16px);
+        max-height: calc(100dvh - 40px);
         gap: 8px;
         padding: 10px;
+        border-radius: 14px;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
+    .toast-close { top: 6px; right: 6px; width: 30px; height: 30px; }
     .toast-icon { width: 36px; height: 36px; font-size: 18px; }
     .toast-content h4 { font-size: 12px; }
     .toast-content p { font-size: 11px; }
