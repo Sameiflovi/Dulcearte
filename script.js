@@ -663,6 +663,12 @@ function initLoginFlow() {
       return;
     }
 
+    if (!navigator.onLine) {
+      logWarning("Intento de ingreso sin conexión a internet");
+      mostrarError("Estás sin conexión. Necesitas internet para ingresar con tu clave.", "warn", true);
+      return;
+    }
+
     if (!db) {
       logError("No se pudo validar la clave porque Firebase no está disponible", undefined);
       mostrarError("Error al conectar con la base de datos", "error", true);
@@ -746,7 +752,7 @@ if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
         navigator.serviceWorker
             .register("./sw.js")
-            .then(() => logEvent("Service Worker registrado"))
-            .catch(err => logError("Service Worker registration failed", err));
+            .then(() => console.log("✅ Service Worker registrado"))
+            .catch(err => console.error("❌ Error:", err));
     });
 }

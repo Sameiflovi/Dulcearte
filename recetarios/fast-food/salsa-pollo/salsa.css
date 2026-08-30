@@ -1,5 +1,419 @@
+:root {
+    --bg-cream: #fffaf4;
+    --paper: rgba(255, 249, 242, 0.9);
+    --card: rgba(255, 255, 255, 0.72);
+    --accent: #d67b3d;
+    --accent-strong: #a75420;
+    --accent-soft: #f7d7b3;
+    --gold: #f3c76a;
+    --text: #2f1e12;
+    --muted: #5e4334;
+    --line: rgba(108, 68, 42, 0.13);
+    --shadow: rgba(77, 47, 31, 0.14);
+    --green: #6a8f4e;
+    --radius: clamp(16px, 5vw, 28px);
+    --gap: clamp(1rem, 3vw, 2.5rem);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 html {
     color-scheme: light;
+    scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+}
+
+body {
+    min-width: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding: clamp(10px, 2.4vw, 22px) clamp(10px, 3.5vw, 24px) clamp(24px, 5vw, 48px);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+    line-height: 1.7;
+    color: var(--text);
+    background-image: url("../../../Data/fondopc.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.page-shell {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: var(--gap);
+    border-radius: var(--radius);
+    background: rgba(255, 250, 245, 0.8);
+    border: 1px solid rgba(122, 77, 48, 0.08);
+    box-shadow: 0 24px 48px rgba(59, 36, 24, 0.12);
+    backdrop-filter: blur(2px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.back-btn {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 400;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(0, 0, 0, 0.68);
+    color: #fff;
+    padding: clamp(6px, 1.2vw, 8px) clamp(8px, 1.5vw, 10px);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    transition: transform 300ms cubic-bezier(.22, .9, .36, 1), box-shadow 300ms ease;
+    white-space: nowrap;
+    max-width: calc(100% - 24px);
+}
+
+.back-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+}
+
+.logo {
+    width: clamp(120px, 85vw, 500px);
+    height: auto;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12));
+}
+
+.h1, .h2, .h3 {
+    margin-top: 0;
+    color: var(--accent-strong);
+    font-family: Georgia, "Times New Roman", serif;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+}
+
+.h1 {
+    font-size: clamp(1.8rem, 5vw, 4rem);
+    text-align: center;
+    margin-bottom: clamp(0.75rem, 2vw, 1.5rem);
+    text-shadow: 0 8px 22px rgba(214, 123, 61, 0.18);
+}
+
+.h2 {
+    font-size: clamp(1.5rem, 4vw, 2.9rem);
+    margin: clamp(1.5rem, 3vw, 2.5rem) auto 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(166, 91, 44, 0.16);
+    text-align: center;
+}
+
+.h3 {
+    font-size: clamp(1.15rem, 2.7vw, 1.9rem);
+    margin: clamp(1rem, 2vw, 1.5rem) 0 clamp(0.5rem, 1vw, 0.75rem);
+}
+
+.p {
+    max-width: 880px;
+    margin: 0 auto clamp(0.9rem, 2vw, 1.25rem);
+    font-size: inherit;
+    line-height: inherit;
+    color: var(--muted);
+}
+
+.intro-text {
+    text-align: center;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    margin-bottom: clamp(1rem, 2vw, 1.5rem);
+    line-height: 1.6;
+    max-width: 100%;
+}
+
+.figure {
+    width: min(100%, 920px);
+    margin: 1.5rem auto 2rem;
+    border-radius: 26px;
+    border: 4px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 22px 48px rgba(78, 48, 26, 0.18);
+    background: rgba(255, 255, 255, 0.35);
+    overflow: hidden;
+}
+
+.img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.divider {
+    width: min(100%, 900px);
+    margin: 2.5rem auto;
+    border: none;
+    border-top: 2px dashed rgba(128, 77, 48, 0.2);
+}
+
+.ingredients-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: var(--gap);
+}
+
+.ingredient-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.steps-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: var(--gap);
+}
+
+.step-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.step-card .figure {
+    order: 2;
+    margin: 0;
+}
+
+.step-card .p {
+    order: 1;
+    max-width: 100%;
+    margin: 0;
+}
+
+.ul, .ol {
+    max-width: 900px;
+    margin: 0 auto 1.5rem;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.8rem;
+}
+
+.li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 10px 22px var(--shadow);
+    padding: 0.9rem 1rem;
+    list-style-position: outside;
+    color: var(--text);
+    line-height: 1.65;
+    backdrop-filter: blur(2px);
+}
+
+.li strong {
+    color: var(--accent-strong);
+}
+
+.li em {
+    color: var(--green);
+    font-style: normal;
+    font-weight: 600;
+}
+
+.ol {
+    list-style: decimal;
+}
+
+.ul {
+    list-style: disc;
+}
+
+strong {
+    font-weight: 700;
+}
+
+em {
+    color: var(--accent-strong);
+    font-style: italic;
+}
+
+.tips-section {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+}
+
+@media (max-width: 768px) {
+    body {
+        background-image: url("../../../Data/fondocel.png");
+        background-attachment: scroll;
+        padding: clamp(8px, 2vw, 16px) clamp(8px, 3vw, 16px) clamp(20px, 4vw, 32px);
+    }
+
+    .page-shell {
+        border-radius: 18px;
+        padding: clamp(12px, 3vw, 20px);
+    }
+
+    .page-header {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .logo {
+        width: clamp(100px, 80vw, 300px);
+        margin: 8px auto 0;
+    }
+}
+
+@media (max-width: 640px) {
+    .page-shell {
+        border-radius: 18px;
+        padding: 1rem 0.9rem 2.4rem;
+    }
+
+    .figure {
+        border-radius: 18px;
+        margin-top: 1rem;
+    }
+
+    .ul, .ol {
+        padding-left: 0.8rem;
+        gap: 0.7rem;
+    }
+
+    .li {
+        padding: 0.8rem 0.9rem;
+        border-radius: 12px;
+    }
+
+    .back-btn {
+        top: 8px;
+        left: 8px;
+        padding: 6px 8px;
+        font-size: 0.9rem;
+    }
+
+    .h1 {
+        font-size: clamp(1.5rem, 4.5vw, 2.5rem);
+        margin-bottom: 0.75rem;
+    }
+
+    .h2 {
+        font-size: clamp(1.3rem, 3.5vw, 2rem);
+        margin: 1.5rem auto 0.8rem;
+    }
+
+    .h3 {
+        font-size: clamp(1rem, 2.5vw, 1.5rem);
+        margin: 1rem 0 0.6rem;
+    }
+
+    .p {
+        font-size: 1rem;
+        line-height: 1.65;
+        margin-bottom: 1rem;
+    }
+
+    .intro-text {
+        font-size: 1rem;
+        margin-bottom: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 8px 10px 20px;
+    }
+
+    .page-shell {
+        border-radius: 14px;
+        padding: 12px 14px 24px;
+        box-shadow: 0 12px 24px rgba(59, 36, 24, 0.08);
+    }
+
+    .back-btn {
+        top: 8px;
+        left: 8px;
+        padding: 6px 8px;
+        font-size: 0.9rem;
+    }
+
+    .logo {
+        width: clamp(100px, 80vw, 300px);
+        margin: 8px auto 0;
+    }
+}
+
+@media (max-width: 320px) {
+    body {
+        padding: 6px 8px 16px;
+    }
+
+    .page-shell {
+        border-radius: 12px;
+        padding: 10px 10px 20px;
+    }
+
+    .back-btn {
+        top: 6px;
+        left: 6px;
+        padding: 5px 7px;
+        font-size: 0.8rem;
+    }
+
+    .logo {
+        width: clamp(90px, 75vw, 280px);
+        margin: 6px auto 0;
+    }
+
+    .h2 {
+        font-size: 1.2rem;
+        margin: 1.2rem auto 0.7rem;
+    }
+
+    .h3 {
+        font-size: 1rem;
+        margin: 0.8rem 0 0.5rem;
+    }
+
+    .p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 0.9rem;
+    }
+
+    .li {
+        padding: 0.7rem 0.8rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .step-card .figure {
+        order: 1;
+    }
+
+    .step-card .p {
+        order: 2;
+    }
 }
