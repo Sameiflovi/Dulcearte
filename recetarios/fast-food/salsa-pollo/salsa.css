@@ -41,6 +41,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    padding-top: 52px;
 }
 
 img {
@@ -66,9 +67,10 @@ img {
 .page-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
+    padding-top: 12px;
 }
 
 .back-btn {
@@ -267,7 +269,7 @@ em {
     body {
         background-image: url("../../../Data/fondocel.png");
         background-attachment: scroll;
-        padding: clamp(8px, 2vw, 16px) clamp(8px, 3vw, 16px) clamp(20px, 4vw, 32px);
+        padding: 52px clamp(8px, 3vw, 16px) clamp(20px, 4vw, 32px);
     }
 
     .page-shell {
@@ -278,6 +280,7 @@ em {
     .page-header {
         justify-content: center;
         text-align: center;
+        padding-top: 6px;
     }
 
     .logo {
@@ -338,6 +341,20 @@ em {
     .intro-text {
         font-size: 1rem;
         margin-bottom: 1.2rem;
+    }
+}
+
+@media (max-width: 420px) {
+    body {
+        padding-top: 42px;
+    }
+
+    .page-header {
+        padding-top: 0;
+    }
+
+    .logo {
+        width: min(80vw, 260px);
     }
 }
 
