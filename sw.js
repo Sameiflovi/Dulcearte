@@ -23,7 +23,7 @@ const APP_SHELL = [
     "./script.js?v=3",
     "./manifest.json",
     "./sw.js",
-    
+    "./image-fallback.js",
     "./Data/favicon.png",
     "./Data/logos/logoprincipal.webp",
     "./Data/fondopc.jpg",

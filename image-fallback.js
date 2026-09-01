@@ -20,50 +20,107 @@
       border-radius: 8px;
       padding: 8px;
     }
+
     .db-img-broken::before {
       content: "🖼️";
       font-size: 1.4rem;
     }
   `;
 
+  /**
+   * Marca una imagen como rota y muestra el fallback.
+   */
   function marcarComoRota(img) {
-    if (img.dataset.dbFallbackApplied) return; // evita loops si el placeholder también falla
+    if (img.dataset.dbFallbackApplied) return;
+
     img.dataset.dbFallbackApplied = "true";
     img.classList.add("db-img-broken");
-    img.alt = img.alt ? `Imagen no disponible: ${img.alt}` : "Imagen no disponible";
+
+    img.alt = img.alt
+      ? `Imagen no disponible: ${img.alt}`
+      : "Imagen no disponible";
+
+    // Evita nuevos intentos de carga.
     img.removeAttribute("src");
+    img.removeAttribute("srcset");
   }
 
+  /**
+   * Prepara una imagen para detectar errores.
+   * También detecta imágenes que ya habían fallado antes
+   * de que el listener pudiera registrarse.
+   */
+  function prepararImagen(img) {
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.dataset.dbFallbackPrepared) return;
+
+    img.dataset.dbFallbackPrepared = "true";
+
+    img.addEventListener(
+      "error",
+      () => marcarComoRota(img),
+      { once: true }
+    );
+
+    // Detecta imágenes que ya estaban rotas.
+    if (
+      img.complete &&
+      img.naturalWidth === 0 &&
+      img.getAttribute("src")
+    ) {
+      marcarComoRota(img);
+    }
+  }
+
+  /**
+   * Inicializa el sistema.
+   */
   function activar() {
-    const styleTag = document.createElement("style");
-    styleTag.textContent = STYLE;
-    document.head.appendChild(styleTag);
+    // Evita insertar el mismo CSS más de una vez.
+    if (!document.getElementById("db-img-fallback-style")) {
+      const styleTag = document.createElement("style");
 
-    document.querySelectorAll("img").forEach(img => {
-      img.addEventListener("error", () => marcarComoRota(img), { once: true });
-    });
+      styleTag.id = "db-img-fallback-style";
+      styleTag.textContent = STYLE;
 
-    // También cubre imágenes agregadas dinámicamente después (catálogo, destacados)
+      document.head.appendChild(styleTag);
+    }
+
+    // Preparar imágenes existentes.
+    document.querySelectorAll("img").forEach(prepararImagen);
+
+    /**
+     * Detecta imágenes añadidas dinámicamente.
+     * Esto cubre catálogo, destacados, contenido generado
+     * mediante JavaScript, etc.
+     */
     const observer = new MutationObserver(mutations => {
-      mutations.forEach(m => {
-        m.addedNodes.forEach(node => {
-          if (node.nodeType !== 1) return;
+      mutations.forEach(mutation => {
+        mutation.addedNodes.forEach(node => {
+          if (node.nodeType !== Node.ELEMENT_NODE) return;
+
+          // Si el nodo añadido es directamente una imagen.
           if (node.tagName === "IMG") {
-            node.addEventListener("error", () => marcarComoRota(node), { once: true });
+            prepararImagen(node);
           }
-          node.querySelectorAll?.("img").forEach(img => {
-            img.addEventListener("error", () => marcarComoRota(img), { once: true });
-          });
+
+          // Si contiene imágenes dentro.
+          node.querySelectorAll?.("img").forEach(prepararImagen);
         });
       });
     });
-    observer.observe(document.body, { childList: true, subtree: true });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
 
     console.log("[DulceArte][ImgFallback] Activo");
   }
 
+  // Esperar a que exista el DOM.
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", activar);
+    document.addEventListener("DOMContentLoaded", activar, { once: true });
   } else {
     activar();
   }
