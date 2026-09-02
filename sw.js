@@ -5,7 +5,7 @@
 // ======================================================
 
 // Cambia esta versión cuando publiques una actualización importante
-const VERSION = "1.0.8";
+const VERSION = "26.9.2";
 
 // Nombre del caché principal
 const CACHE_NAME = `dulcearte-${VERSION}`;
@@ -23,7 +23,8 @@ const APP_SHELL = [
     "./script.js?v=3",
     "./manifest.json",
     "./sw.js",
-    "./image-fallback.js",
+    "./offline-banner.js?v=1",
+    "./image-fallback.js?v=1",
     "./Data/favicon.png",
     "./Data/logos/logoprincipal.webp",
     "./Data/fondopc.jpg",
