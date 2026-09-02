@@ -7,7 +7,7 @@ const catalogoDestacados = document.getElementById('catalogoDestacados');
 
 function logCatalogo(message, detail) {
     if (typeof console === 'undefined') return;
-    console.log(`[DulceArte:index-catalogo] ${message}`, detail || '');
+    console.log(`[DulceArte:index-catalogo] ${message}`, detail ?? '');
 }
 
 function obtenerCantidadDeTarjetas() {
@@ -16,12 +16,12 @@ function obtenerCantidadDeTarjetas() {
 
 function mezclar(lista) {
     const resultado = [...lista];
+
     for (let indice = resultado.length - 1; indice > 0; indice -= 1) {
-        const aleatorio = new Uint32Array(1);
-        crypto.getRandomValues(aleatorio);
-        const posicion = aleatorio[0] % (indice + 1);
+        const posicion = Math.floor(Math.random() * (indice + 1));
         [resultado[indice], resultado[posicion]] = [resultado[posicion], resultado[indice]];
     }
+
     return resultado;
 }
 
@@ -46,10 +46,10 @@ function guardarSeleccion(ids) {
 function seleccionarProductos(productos, cantidad) {
     const ultimaSeleccion = leerUltimaSeleccion();
     const candidatos = mezclar(productos);
-    const seleccion = candidatos.slice(0, cantidad);
+    const seleccion = candidatos.slice(0, Math.min(cantidad, candidatos.length));
 
     // Evita que una recarga muestre exactamente el mismo grupo que la anterior.
-    if (productos.length > cantidad && seleccion.every((producto) => ultimaSeleccion.includes(producto.id))) {
+    if (productos.length > cantidad && seleccion.length === cantidad && seleccion.every((producto) => ultimaSeleccion.includes(producto.id))) {
         const reemplazo = candidatos.find((producto) => !ultimaSeleccion.includes(producto.id));
         if (reemplazo) seleccion[seleccion.length - 1] = reemplazo;
     }
@@ -66,6 +66,7 @@ function crearTarjeta(producto) {
 
     const imagen = document.createElement('div');
     imagen.className = 'card-image';
+
     const img = document.createElement('img');
     img.src = `Catalogo/${producto.img}`;
     img.alt = producto.alt || producto.titulo;
@@ -75,6 +76,7 @@ function crearTarjeta(producto) {
     const frosting = document.createElement('div');
     frosting.className = 'card-frosting';
     frosting.innerHTML = '<svg viewBox="0 0 500 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0,40 C30,10 60,10 90,40 C120,70 150,70 180,40 C210,10 240,10 270,40 C300,70 330,70 360,40 C390,10 420,10 450,40 C470,55 485,55 500,40 L500,80 L0,80 Z"></path></svg>';
+
     const texto = document.createElement('span');
     texto.textContent = producto.titulo;
     texto.append(document.createElement('br'), 'Ver producto');
@@ -85,11 +87,13 @@ function crearTarjeta(producto) {
 }
 
 function renderizarDestacados(productos) {
+    if (!catalogoDestacados) return;
+
     const cantidad = obtenerCantidadDeTarjetas();
     const seleccion = seleccionarProductos(productos, cantidad);
     catalogoDestacados.replaceChildren(...seleccion.map(crearTarjeta));
     catalogoDestacados.setAttribute('aria-busy', 'false');
-    logCatalogo('Productos destacados actualizados', { cantidad, ids: seleccion.map((producto) => producto.id) });
+    logCatalogo('Productos destacados actualizados', { cantidad: seleccion.length, ids: seleccion.map((producto) => producto.id) });
 }
 
 async function cargarProductos() {
@@ -112,9 +116,18 @@ async function cargarProductos() {
         renderizarDestacados(productos);
 
         const mediaQuery = window.matchMedia('(max-width: 600px)');
-        mediaQuery.addEventListener?.('change', () => renderizarDestacados(productos));
+        const actualizarResponsive = () => renderizarDestacados(productos);
+
+        if (typeof mediaQuery.addEventListener === 'function') {
+            mediaQuery.addEventListener('change', actualizarResponsive);
+        } else if (typeof mediaQuery.addListener === 'function') {
+            mediaQuery.addListener(actualizarResponsive);
+        }
     } catch (error) {
-        catalogoDestacados.replaceChildren();
+        if (catalogoDestacados) {
+            catalogoDestacados.replaceChildren();
+            catalogoDestacados.setAttribute('aria-busy', 'false');
+        }
         logCatalogo('No se pudieron cargar los productos destacados', error);
     }
 }
