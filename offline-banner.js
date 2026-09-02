@@ -1,154 +1,332 @@
 /**
  * [DulceArte][Offline] Banner de modo sin conexión
  * Se auto-inyecta (CSS + HTML), no necesita archivo .css aparte.
- * Avisa apenas detecta que no hay internet, ANTES de que el usuario
- * intente poner su clave y se encuentre con un error confuso.
+ * Avisa cuando la conectividad real falla y se corrige al volver la red.
  */
 (function () {
-  // URL real de este script (según cómo lo cargó cada página, con su
-  // ruta relativa correcta). Se usa para probar la conexión de verdad.
-  // OJO: esto debe capturarse aquí arriba, de forma síncrona, porque
-  // document.currentScript deja de apuntar a este <script> en cuanto
-  // entramos a un callback async (fetch, setTimeout, etc.).
+  "use strict";
+
+  // Capturamos la URL de este script de forma síncrona. document.currentScript
+  // puede dejar de apuntar al script original cuando entramos en callbacks.
   const SCRIPT_URL = document.currentScript ? document.currentScript.src : null;
 
-  // Cada cuánto se vuelve a comprobar la conexión "por si acaso",
-  // sin depender de que el navegador dispare online/offline.
   const INTERVALO_REVISION_MS = 20000;
-  // Cuánto esperamos como máximo la respuesta antes de asumir que no hay red.
   const TIMEOUT_PROBE_MS = 6000;
 
   const STYLE = `
     #db-offline-banner {
-      position: sticky;
+      position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      z-index: 9999;
+      width: 100%;
+      z-index: 99999;
       background: #fff3cd;
       color: #664d03;
       border-bottom: 2px solid #e9a85f;
       font-family: inherit;
       font-size: clamp(0.8rem, 3vw, 0.95rem);
-      transform: translateY(-100%);
-      transition: transform 0.25s ease;
+      line-height: 1.4;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
     }
-    #db-offline-banner.db-show { transform: translateY(0); }
+
+    #db-offline-banner[hidden] {
+      display: none !important;
+    }
+
+    #db-offline-banner.db-show {
+      display: block;
+      animation: db-offline-enter 0.25s ease-out;
+    }
+
     #db-offline-banner .db-row {
       display: flex;
       align-items: flex-start;
       gap: 10px;
-      padding: 10px 14px;
-      max-width: 900px;
+      width: min(100%, 900px);
       margin: 0 auto;
+      padding: max(10px, env(safe-area-inset-top))
+               max(14px, env(safe-area-inset-right))
+               10px
+               max(14px, env(safe-area-inset-left));
     }
-    #db-offline-banner .db-icon { font-size: 1.2rem; flex-shrink: 0; }
-    #db-offline-banner .db-text { flex: 1; line-height: 1.4; }
-    #db-offline-banner .db-text strong { display: block; margin-bottom: 2px; }
-    #db-offline-banner .db-text ul { margin: 4px 0 0; padding-left: 18px; }
+
+    #db-offline-banner .db-icon {
+      flex: 0 0 auto;
+      font-size: 1.2rem;
+      line-height: 1.4;
+    }
+
+    #db-offline-banner .db-text {
+      min-width: 0;
+      flex: 1 1 auto;
+      overflow-wrap: anywhere;
+    }
+
+    #db-offline-banner .db-text strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    #db-offline-banner .db-text ul {
+      margin: 4px 0 0;
+      padding-left: 18px;
+    }
+
+    #db-offline-banner .db-text li {
+      margin: 2px 0;
+    }
+
     #db-offline-banner .db-close {
-      background: none; border: none; cursor: pointer;
-      font-size: 1.1rem; color: #664d03; line-height: 1;
-      padding: 2px 6px; flex-shrink: 0;
+      flex: 0 0 auto;
+      min-width: 44px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: -2px -4px 0 0;
+      padding: 4px;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      color: #664d03;
+      cursor: pointer;
+      font: inherit;
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    #db-offline-banner .db-close:hover {
+      background: rgba(102, 77, 3, 0.08);
+    }
+
+    #db-offline-banner .db-close:focus-visible {
+      outline: 3px solid rgba(102, 77, 3, 0.32);
+      outline-offset: 2px;
+    }
+
+    @keyframes db-offline-enter {
+      from { opacity: 0; transform: translateY(-100%); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #db-offline-banner.db-show {
+        animation: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #db-offline-banner .db-row {
+        gap: 8px;
+        padding-left: max(10px, env(safe-area-inset-left));
+        padding-right: max(10px, env(safe-area-inset-right));
+      }
     }
   `;
 
-  function crearBanner() {
-    if (document.getElementById("db-offline-banner")) return;
+  let probeInFlight = null;
+  let stateVersion = 0;
+  let userDismissed = false;
+  let reviewTimer = null;
 
-    const styleTag = document.createElement("style");
-    styleTag.textContent = STYLE;
-    document.head.appendChild(styleTag);
+  function crearBanner() {
+    const existente = document.getElementById("db-offline-banner");
+    if (existente) return existente;
+
+    if (document.head && !document.getElementById("db-offline-banner-style")) {
+      const styleTag = document.createElement("style");
+      styleTag.id = "db-offline-banner-style";
+      styleTag.textContent = STYLE;
+      document.head.appendChild(styleTag);
+    }
+
+    if (!document.body) return null;
 
     const banner = document.createElement("div");
     banner.id = "db-offline-banner";
     banner.setAttribute("role", "alert");
-    banner.innerHTML = `
-      <div class="db-row">
-        <span class="db-icon">⚠️</span>
-        <div class="db-text">
-          <strong>Estás sin conexión a internet</strong>
-          Estás viendo una copia guardada de la página. Estas cosas no van a funcionar hasta que vuelvas a tener señal:
-          <ul>
-            <li>Ingresar con tu clave</li>
-            <li>Ver cursos/recetarios nuevos que no hayas abierto antes</li>
-            <li>El catálogo destacado (los productos random de la portada)</li>
-          </ul>
-        </div>
-        <button class="db-close" aria-label="Cerrar aviso">✕</button>
-      </div>
-    `;
+    banner.hidden = true;
+
+    const row = document.createElement("div");
+    row.className = "db-row";
+
+    const icon = document.createElement("span");
+    icon.className = "db-icon";
+    icon.setAttribute("aria-hidden", "true");
+    icon.textContent = "⚠️";
+
+    const text = document.createElement("div");
+    text.className = "db-text";
+
+    const title = document.createElement("strong");
+    title.textContent = "Estás sin conexión a internet";
+
+    const description = document.createElement("span");
+    description.textContent = "Estás viendo una copia guardada de la página. Estas cosas no van a funcionar hasta que vuelvas a tener señal:";
+
+    const list = document.createElement("ul");
+    [
+      "Ingresar con tu clave",
+      "Ver cursos/recetarios nuevos que no hayas abierto antes",
+      "El catálogo destacado (los productos random de la portada)"
+    ].forEach((itemText) => {
+      const item = document.createElement("li");
+      item.textContent = itemText;
+      list.appendChild(item);
+    });
+
+    text.append(title, description, list);
+
+    const close = document.createElement("button");
+    close.type = "button";
+    close.className = "db-close";
+    close.setAttribute("aria-label", "Cerrar aviso");
+    close.textContent = "✕";
+    close.addEventListener("click", () => {
+      userDismissed = true;
+      ocultarBanner();
+    });
+
+    row.append(icon, text, close);
+    banner.appendChild(row);
     document.body.prepend(banner);
 
-    banner.querySelector(".db-close").addEventListener("click", () => {
-      banner.classList.remove("db-show");
-    });
+    return banner;
   }
 
-  function mostrarBanner(visible) {
-    crearBanner();
+  function mostrarBanner() {
+    const banner = crearBanner();
+    if (!banner || userDismissed) return;
+    banner.hidden = false;
+    banner.classList.add("db-show");
+  }
+
+  function ocultarBanner() {
     const banner = document.getElementById("db-offline-banner");
     if (!banner) return;
-    banner.classList.toggle("db-show", !!visible);
+    banner.classList.remove("db-show");
+    banner.hidden = true;
   }
 
-  // navigator.onLine por sí solo NO es confiable: en varios navegadores
-  // Android (WebView, MIUI, etc.) puede quedarse "pegado" en false aunque
-  // sí haya internet real, y como antes solo reaccionábamos a los eventos
-  // online/offline del navegador, si ese evento nunca llegaba el banner
-  // se quedaba pegado en pantalla para siempre. Ahora, además de esos
-  // eventos, hacemos una comprobación real contra la red (fetch a este
-  // mismo archivo, sin caché) y la repetimos cada cierto tiempo.
-  function hayConexionReal() {
-    // Si el navegador está seguro de que no hay ninguna red física,
-    // confiamos en eso y no perdemos tiempo con un fetch que va a fallar.
-    if (!navigator.onLine) return Promise.resolve(false);
+  async function hayConexionReal() {
+    // navigator.onLine se usa solo como dato auxiliar. No lo tratamos como
+    // fuente definitiva porque puede quedar desactualizado en algunos
+    // WebView/entornos móviles.
+    if (!SCRIPT_URL) {
+      return navigator.onLine !== false;
+    }
 
-    // No debería pasar en un <script> normal, pero por si acaso: si no
-    // logramos capturar la URL del script, no podemos probar la red,
-    // así que nos quedamos con lo que diga navigator.onLine.
-    if (!SCRIPT_URL) return Promise.resolve(true);
+    const controller = typeof AbortController === "function"
+      ? new AbortController()
+      : null;
 
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), TIMEOUT_PROBE_MS);
+    let timeoutId = null;
 
-    return fetch(SCRIPT_URL, {
-      method: "GET",
-      cache: "no-store",
-      signal: controller.signal
-    })
-      .then((res) => {
-        clearTimeout(timer);
-        return res.ok;
-      })
-      .catch(() => {
-        clearTimeout(timer);
-        return false;
-      });
+    if (controller) {
+      timeoutId = window.setTimeout(() => controller.abort(), TIMEOUT_PROBE_MS);
+    }
+
+    try {
+      const requestOptions = {
+        method: "GET",
+        cache: "no-store",
+        credentials: "same-origin"
+      };
+
+      if (controller) {
+        requestOptions.signal = controller.signal;
+      }
+
+      if (!controller) {
+        const timeoutPromise = new Promise((_, reject) => {
+          window.setTimeout(() => reject(new Error("Timeout de comprobación de red")), TIMEOUT_PROBE_MS);
+        });
+        const response = await Promise.race([
+          fetch(SCRIPT_URL, requestOptions),
+          timeoutPromise
+        ]);
+        return response.ok;
+      }
+
+      const response = await fetch(SCRIPT_URL, requestOptions);
+      return response.ok;
+    } catch (error) {
+      return false;
+    } finally {
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId);
+      }
+    }
   }
 
   function actualizarEstado() {
-    hayConexionReal().then((conectado) => mostrarBanner(!conectado));
+    if (probeInFlight) return probeInFlight;
+
+    const currentVersion = ++stateVersion;
+    probeInFlight = hayConexionReal()
+      .then((conectado) => {
+        // Ignorar resultados antiguos si durante el probe hubo otro cambio
+        // de conectividad (por ejemplo, offline -> online -> offline).
+        if (currentVersion !== stateVersion) return;
+
+        if (conectado) {
+          userDismissed = false;
+          ocultarBanner();
+        } else if (!userDismissed) {
+          mostrarBanner();
+        }
+      })
+      .catch(() => {
+        if (currentVersion === stateVersion && !userDismissed) {
+          mostrarBanner();
+        }
+      })
+      .finally(() => {
+        probeInFlight = null;
+      });
+
+    return probeInFlight;
   }
 
-  window.addEventListener("online", () => {
-    console.log("[DulceArte][Offline] Evento 'online' del navegador, verificando de verdad…");
+  function manejarOnline() {
+    stateVersion += 1;
+    userDismissed = false;
     actualizarEstado();
-  });
-  window.addEventListener("offline", () => {
-    // Este evento sí es confiable cuando se dispara (a diferencia del
-    // valor "pegado" de navigator.onLine), así que mostramos al toque.
-    console.log("[DulceArte][Offline] Sin conexión detectada");
-    mostrarBanner(true);
+  }
+
+  function manejarOffline() {
+    stateVersion += 1;
+    userDismissed = false;
+    mostrarBanner();
+  }
+
+  window.addEventListener("online", manejarOnline);
+  window.addEventListener("offline", manejarOffline);
+
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) actualizarEstado();
   });
 
-  // Red de seguridad: por si el navegador nunca dispara "online"
-  // (o navigator.onLine se queda mal) el banner se autocorrige solo.
-  setInterval(actualizarEstado, INTERVALO_REVISION_MS);
+  reviewTimer = window.setInterval(actualizarEstado, INTERVALO_REVISION_MS);
+
+  const iniciar = () => {
+    crearBanner();
+    actualizarEstado();
+  };
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", actualizarEstado);
+    document.addEventListener("DOMContentLoaded", iniciar, { once: true });
   } else {
-    actualizarEstado();
+    iniciar();
   }
+
+  // Evitar que algunas herramientas consideren accidentalmente al timer como
+  // un recurso abandonado si este script se reutiliza en una SPA.
+  window.addEventListener("pagehide", () => {
+    if (reviewTimer !== null) {
+      window.clearInterval(reviewTimer);
+      reviewTimer = null;
+    }
+  }, { once: true });
 })();
