@@ -349,47 +349,47 @@ function initLoginFlow() {
   let redirectTimeoutId = null;
 
   function leerClaveGuardada() {
-    const raw = localStorage.getItem(STORAGE_KEYS.savedClave);
+    const raw = dbStorage.get(STORAGE_KEYS.savedClave);
     if (typeof raw !== "string") return "";
     const clave = raw.trim();
     return clave || "";
   }
 
   function migrarClavesAntiguas() {
-    const claveGuardadaLegacy = localStorage.getItem(STORAGE_KEYS.legacySaved);
+    const claveGuardadaLegacy = dbStorage.get(STORAGE_KEYS.legacySaved);
     const claveGuardadaActual = leerClaveGuardada();
-    const recordarLegacy = localStorage.getItem(STORAGE_KEYS.legacyRemember) === "true";
-    const recordarActual = localStorage.getItem(STORAGE_KEYS.rememberAccess) === "true";
+    const recordarLegacy = dbStorage.get(STORAGE_KEYS.legacyRemember) === "true";
+    const recordarActual = dbStorage.get(STORAGE_KEYS.rememberAccess) === "true";
 
     if (claveGuardadaLegacy && !claveGuardadaActual) {
-      localStorage.setItem(STORAGE_KEYS.savedClave, claveGuardadaLegacy);
+      dbStorage.set(STORAGE_KEYS.savedClave, claveGuardadaLegacy);
     }
 
     if (recordarLegacy && !recordarActual) {
-      localStorage.setItem(STORAGE_KEYS.rememberAccess, "true");
+      dbStorage.set(STORAGE_KEYS.rememberAccess, "true");
     }
 
     if (claveGuardadaActual || recordarLegacy || recordarActual) {
-      localStorage.setItem(STORAGE_KEYS.rememberAccess, "true");
+      dbStorage.set(STORAGE_KEYS.rememberAccess, "true");
     }
 
-    localStorage.removeItem(STORAGE_KEYS.legacyRemember);
-    localStorage.removeItem(STORAGE_KEYS.legacySaved);
+    dbStorage.remove(STORAGE_KEYS.legacyRemember);
+    dbStorage.remove(STORAGE_KEYS.legacySaved);
   }
 
   function guardarClaveRecordada(clave, recordar) {
     const valor = (clave || "").trim();
-    localStorage.removeItem(STORAGE_KEYS.legacyRemember);
-    localStorage.removeItem(STORAGE_KEYS.legacySaved);
+    dbStorage.remove(STORAGE_KEYS.legacyRemember);
+    dbStorage.remove(STORAGE_KEYS.legacySaved);
 
     if (!valor || !recordar) {
-      localStorage.removeItem(STORAGE_KEYS.savedClave);
-      localStorage.removeItem(STORAGE_KEYS.rememberAccess);
+      dbStorage.remove(STORAGE_KEYS.savedClave);
+      dbStorage.remove(STORAGE_KEYS.rememberAccess);
       return;
     }
 
-    localStorage.setItem(STORAGE_KEYS.savedClave, valor);
-    localStorage.setItem(STORAGE_KEYS.rememberAccess, "true");
+    dbStorage.set(STORAGE_KEYS.savedClave, valor);
+    dbStorage.set(STORAGE_KEYS.rememberAccess, "true");
   }
 
   function limpiarConfirmacion() {
@@ -598,7 +598,7 @@ function initLoginFlow() {
 
   migrarClavesAntiguas();
   if (rememberCheck) {
-    rememberCheck.checked = localStorage.getItem(STORAGE_KEYS.rememberAccess) === "true" || Boolean(leerClaveGuardada());
+    rememberCheck.checked = dbStorage.get(STORAGE_KEYS.rememberAccess) === "true" || Boolean(leerClaveGuardada());
   }
   mostrarBotonClaveGuardada();
   setTimeout(() => preguntarSiUsarClaveGuardada(), 300);
@@ -700,8 +700,8 @@ function initLoginFlow() {
           }
         });
 
-        localStorage.setItem("cursosPermitidos", JSON.stringify(usuario.cursos || []));
-        localStorage.setItem("usuarioActivo", "true");
+        dbStorage.set("cursosPermitidos", JSON.stringify(usuario.cursos || []));
+        dbStorage.set("usuarioActivo", "true");
 
         if (quiereGuardar) {
           guardarClaveRecordada(claveGuardada, true);
