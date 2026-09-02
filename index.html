@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="light">
     <title>DulceArte</title>
@@ -12,14 +12,9 @@
 
     <link rel="icon" href="Data/favicon.png" type="image/png">
     <link rel="alternate icon" href="Data/favicon.png" type="image/png">
-
     <link rel="manifest" href="manifest.json">
-
     <link rel="stylesheet" href="style.css?v=3">
-
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="DulceArte">
@@ -29,36 +24,32 @@
     
 <!-- Inicio (logo, descripcion) -->
     <div class="inicio">
-            <img src="Data/logos/logoprincipal.webp" alt="DulceArte" class="logo">
-    <!-- Descripción -->
-    <p class="desc">
-        Tu mejor opcion de cursos virtuales en arte cocina y repostería</p>
+        <img src="Data/logos/logoprincipal.webp" alt="DulceArte" class="logo">
+        <p class="desc">Tu mejor opcion de cursos virtuales en arte cocina y repostería</p>
     </div>
-    <!-- Cierre logo y descripcion -->
+
     <!-- Clave -->
     <div class="clavearea">
-
         <label for="claveInput">Ingresa tu clave aquí</label>
-
-      <div class="clave">
-          <div class="clave-input-wrap">
-              <input id="claveInput" type="password" placeholder="XXXX" maxlength="14">
-              <button type="button" id="togglePassword" class="toggle-password" aria-label="Mostrar contraseña" aria-pressed="false">
-                  <i class="fa-regular fa-eye"></i>
-              </button>
-          </div>
-          <button id="claveBtn" class="botonClave">Entrar</button>
-      </div>
+        <div class="clave">
+            <div class="clave-input-wrap">
+                <input id="claveInput" type="password" placeholder="XXXX" maxlength="14">
+                <button type="button" id="togglePassword" class="toggle-password" aria-label="Mostrar contraseña" aria-pressed="false">
+                    <i class="fa-regular fa-eye"></i>
+                </button>
+            </div>
+            <button id="claveBtn" class="botonClave">Entrar</button>
+        </div>
 
         <label class="remember-label" for="rememberCheck">
-          <input type="checkbox" id="rememberCheck" class="remember-input">
-          Recordar acceso
+            <input type="checkbox" id="rememberCheck" class="remember-input">
+            Recordar acceso
         </label>
 
-      <div id="claveMessage" class="clave-message" aria-live="polite"></div>
+        <div id="claveMessage" class="clave-message" aria-live="polite"></div>
     </div>
-<!-- Cierre clave -->
- <!-- Carrusel de imágenes -->
+
+    <!-- Carrusel de imágenes -->
     <div class="carousel" id="carrusel">
         <div class="slides">
             <div class="diapositiva active" data-title="Curso de Pizzas" data-desc="Aprende a crear pizzas perfectas desde cero." data-whatsapp="59170724244" data-phone="+59170724244"><img src="Data/pizzas 8x8.webp" alt="Pizzas 8x8"></div>
@@ -83,168 +74,114 @@
             </div>
         </div>
     </div>
- <a href="Catalogo/catalogo.html?vista=cursos" class="btn-catalogo">
-    🛍️ Ver cursos
-</a>
+
+    <a href="Catalogo/catalogo.html?vista=cursos" class="btn-catalogo">🛍️ Ver cursos</a>
+
     <section class="catalogo-section">
-    <div class="catalogo-header">
-        <h2>🛍️ Catálogo</h2>
-        <p>Descubre otros productos que podrían interesarte.</p>
-    </div>
+        <div class="catalogo-header">
+            <h2>🛍️ Catálogo</h2>
+            <p>Descubre otros productos que podrían interesarte.</p>
+        </div>
+        <div class="catalogo-grid" id="catalogoDestacados" aria-live="polite" aria-busy="true"></div>
+    </section>
 
-    <div class="catalogo-grid" id="catalogoDestacados" aria-live="polite" aria-busy="true"></div>
-</section>
-    <a href="Catalogo/catalogo.html?vista=articulos" class="btn-catalogo">
-    🛍️ Ver catálogo
-</a>
+    <a href="Catalogo/catalogo.html?vista=articulos" class="btn-catalogo">🛍️ Ver catálogo</a>
+
     <!-- Sobre nosotros -->
- <div class="about">
-<h1 class="titulo-about">¿Quiénes Somos?</h1>
-
-    <h4 class="desc-about">
-        Somos una empresa dedicada a ofrecer cursos virtuales de
-        <strong>alta calidad</strong>
-        en arte, cocina y repostería.
-        Nuestro equipo de instructores
-        <strong>capacitados</strong>
-        te ayudará a desarrollar tus habilidades y alcanzar tus metas en el mundo del arte culinario.
-    </h4>
-</div>
-<!-- Cierre sobre nosotros -->
-
-<section class="faq-section" aria-labelledby="faq-title">
-    <div class="faq-header">
-        <p class="faq-eyebrow">Ayuda rápida</p>
-        <h2 id="faq-title">Preguntas frecuentes</h2>
-        <p>Respuestas a los problemas más comunes al ingresar y navegar en DulceArte.</p>
+    <div class="about">
+        <h1 class="titulo-about">¿Quiénes Somos?</h1>
+        <h4 class="desc-about">
+            Somos una empresa dedicada a ofrecer cursos virtuales de
+            <strong>alta calidad</strong>
+            en arte, cocina y repostería.
+            Nuestro equipo de instructores
+            <strong>capacitados</strong>
+            te ayudará a desarrollar tus habilidades y alcanzar tus metas en el mundo del arte culinario.
+        </h4>
     </div>
 
-    <div class="faq-list">
-        <details class="faq-item">
-            <summary>¿Qué hago si aparece “No pudimos comprobar la clave por la conexión”?<span class="faq-toggle" aria-hidden="true"></span></summary>
-            <div class="faq-answer"><p>Ese mensaje significa que la página no pudo consultar la base de datos. Revisa tu conexión a internet, espera unos segundos y vuelve a intentarlo, tambien prueba con recargar la pagina. La clave no se marca como incorrecta cuando el problema es la conexión.</p></div>
-        </details>
+    <section class="faq-section" aria-labelledby="faq-title">
+        <div class="faq-header">
+            <p class="faq-eyebrow">Ayuda rápida</p>
+            <h2 id="faq-title">Preguntas frecuentes</h2>
+            <p>Respuestas a los problemas más comunes al ingresar y navegar en DulceArte.</p>
+        </div>
 
-        <details class="faq-item">
-            <summary>¿Por qué aparece “Clave incorrecta, por favor vuelve a intentar”?<span class="faq-toggle" aria-hidden="true"></span></summary>
-            <div class="faq-answer"><p>La clave no coincidió con una clave activa registrada. Escríbela exactamente como te la entregaron, sin espacios al inicio ni al final, y vuelve a intentarlo, si persiste este error <a class="faq-whatsapp-link" href="https://wa.me/59170724244">contactanos</a>.</p></div>
-        </details>
+        <div class="faq-list">
+            <details class="faq-item">
+                <summary>¿Qué hago si aparece “No pudimos comprobar la clave por la conexión”?<span class="faq-toggle" aria-hidden="true"></span></summary>
+                <div class="faq-answer"><p>Ese mensaje significa que la página no pudo consultar la base de datos. Revisa tu conexión a internet, espera unos segundos y vuelve a intentarlo, tambien prueba con recargar la pagina. La clave no se marca como incorrecta cuando el problema es la conexión.</p></div>
+            </details>
 
-        <details class="faq-item">
-            <summary>¿Qué significa “Verificando tu clave”?<span class="faq-toggle" aria-hidden="true"></span></summary>
-            <div class="faq-answer"><p>La página está consultando el servidor. Mientras aparece este mensaje, los controles se desactivan para evitar intentos duplicados. Si la conexión está lenta, verás un aviso de reintento automático.</p></div>
-        </details>
+            <details class="faq-item">
+                <summary>¿Por qué aparece “Clave incorrecta, por favor vuelve a intentar”?<span class="faq-toggle" aria-hidden="true"></span></summary>
+                <div class="faq-answer"><p>La clave no coincidió con una clave activa registrada. Escríbela exactamente como te la entregaron, sin espacios al inicio ni al final, y vuelve a intentarlo, si persiste este error <a class="faq-whatsapp-link" href="https://wa.me/59170724244">contactanos</a>.</p></div>
+            </details>
 
-        <details class="faq-item">
-            <summary>¿Qué hace la opción “Recordar acceso”?<span class="faq-toggle" aria-hidden="true"></span></summary>
-            <div class="faq-answer"><p>Guarda la clave en este dispositivo para que puedas usarla más fácilmente la próxima vez. Si no deseas conservarla, desmarca la opción o elige no guardar la clave cuando la página lo pregunte.</p></div>
-        </details>
+            <details class="faq-item">
+                <summary>¿Qué significa “Verificando tu clave”?<span class="faq-toggle" aria-hidden="true"></span></summary>
+                <div class="faq-answer"><p>La página está consultando el servidor. Mientras aparece este mensaje, los controles se desactivan para evitar intentos duplicados. Si la conexión está lenta, verás un aviso de reintento automático.</p></div>
+            </details>
 
-        <details class="faq-item">
-            <summary>¿Qué hago si olvidé la clave o no puedo entrar?<span class="faq-toggle" aria-hidden="true"></span></summary>
-            <div class="faq-answer"><p>Contacta a <a class="faq-whatsapp-link" href="https://wa.me/59170724244" target="_blank" rel="noopener noreferrer">DulceArte</a> por WhatsApp desde los enlaces de contacto de la página para verificar tu acceso y solicitar ayuda con tu clave.</p></div>
-        </details>
+            <details class="faq-item">
+                <summary>¿Qué hace la opción “Recordar acceso”?<span class="faq-toggle" aria-hidden="true"></span></summary>
+                <div class="faq-answer"><p>Guarda la clave en este dispositivo para que puedas usarla más fácilmente la próxima vez. Si no deseas conservarla, desmarca la opción o elige no guardar la clave cuando la página lo pregunte.</p></div>
+            </details>
 
-        <details class="faq-item">
-    <summary>¿Por qué una foto o imagen no carga?<span class="faq-toggle" aria-hidden="true"></span></summary>
-    <div class="faq-answer"><p>Puede pasar por una conexión lenta o inestable. Recarga la página; si el problema sigue, contáctanos por WhatsApp para avisarnos.</p></div>
-</details>
+            <details class="faq-item">
+                <summary>¿Qué hago si olvidé la clave o no puedo entrar?<span class="faq-toggle" aria-hidden="true"></span></summary>
+                <div class="faq-answer"><p>Contacta a <a class="faq-whatsapp-link" href="https://wa.me/59170724244" target="_blank" rel="noopener noreferrer">DulceArte</a> por WhatsApp desde los enlaces de contacto de la página para verificar tu acceso y solicitar ayuda con tu clave.</p></div>
+            </details>
 
-    <details class="faq-item">
-        <summary>Apareció un aviso de "Nueva versión disponible", ¿qué hago?<span class="faq-toggle" aria-hidden="true"></span></summary>
-         <div class="faq-answer"><p>Actualizamos la página con mejoras. Solo toca el botón para recargar y tendrás la versión más reciente, sin perder tu clave guardada.</p></div>
-</details>
+            <details class="faq-item">
+                <summary>¿Por qué una foto o imagen no carga?<span class="faq-toggle" aria-hidden="true"></span></summary>
+                <div class="faq-answer"><p>Puede pasar por una conexión lenta o inestable. Recarga la página; si el problema sigue, contáctanos por WhatsApp para avisarnos.</p></div>
+            </details>
 
-    <details class="faq-item">
-        <summary>¿Puedo usar mi clave en varios celulares o computadoras?<span class="faq-toggle"   aria-hidden="true"></span></summary>
-        <div class="faq-answer"><p>Sí, tu clave funciona en cualquier dispositivo. Eso sí, "Recordar acceso" guarda la clave solo en el dispositivo donde la activaste, no se comparte automáticamente entre tus equipos.</p></div>
-    </details>
+            <details class="faq-item">
+                <summary>Apareció un aviso de "Nueva versión disponible", ¿qué hago?<span class="faq-toggle" aria-hidden="true"></span></summary>
+                <div class="faq-answer"><p>Actualizamos la página con mejoras. Solo toca el botón para recargar y tendrás la versión más reciente, sin perder tu clave guardada.</p></div>
+            </details>
 
-<details class="faq-item">
-    <summary>Antes podía entrar y ahora no, ¿qué pasó?<span class="faq-toggle" aria-hidden="true"></span></summary>
-    <div class="faq-answer"><p>Tu clave pudo haber sido desactivada o el acceso a ese curso cambió. Contáctanos por WhatsApp para revisar tu caso.</p></div>
-</details>
+            <details class="faq-item">
+                <summary>¿Puedo usar mi clave en varios celulares o computadoras?<span class="faq-toggle" aria-hidden="true"></span></summary>
+                <div class="faq-answer"><p>Sí, tu clave funciona en cualquier dispositivo. Eso sí, "Recordar acceso" guarda la clave solo en el dispositivo donde la activaste, no se comparte automáticamente entre tus equipos.</p></div>
+            </details>
 
-<details class="faq-item">
-    <summary>¿Es seguro escribir mi clave en esta página?<span class="faq-toggle" aria-hidden="true"></span></summary>
-    <div class="faq-answer"><p>Tu clave solo se usa para verificar acceso a los cursos, no se comparte con terceros. Igual, evita compartirla con personas fuera de tu confianza — es personal.</p></div>
-</details>
-    </div>
-</section>
+            <details class="faq-item">
+                <summary>Antes podía entrar y ahora no, ¿qué pasó?<span class="faq-toggle" aria-hidden="true"></span></summary>
+                <div class="faq-answer"><p>Tu clave pudo haber sido desactivada o el acceso a ese curso cambió. Contáctanos por WhatsApp para revisar tu caso.</p></div>
+            </details>
 
-   <ul class="samei-social-bar">
+            <details class="faq-item">
+                <summary>¿Es seguro escribir mi clave en esta página?<span class="faq-toggle" aria-hidden="true"></span></summary>
+                <div class="faq-answer"><p>Tu clave solo se usa para verificar acceso a los cursos, no se comparte con terceros. Igual, evita compartirla con personas fuera de tu confianza — es personal.</p></div>
+            </details>
+        </div>
+    </section>
 
-    <!-- Facebook -->
-    <li
-    style="
-    --softclr:#7ea6ff;
-    --sideclr:#5f84d8;
-    --bottomclr:#4f74c7;
-    --clr1:#1877f2;     
-    --clr2:#0d5fd1;
-    ">
-        <a href="https://www.facebook.com/profile.php?id=61590101863806"
-        target="_blank"
-        rel="noopener noreferrer">
-            <i class="fa-brands fa-facebook-f"></i>
-        </a>
-    </li>
+    <ul class="samei-social-bar">
+        <li style="--softclr:#7ea6ff; --sideclr:#5f84d8; --bottomclr:#4f74c7; --clr1:#1877f2; --clr2:#0d5fd1;">
+            <a href="https://www.facebook.com/profile.php?id=61590101863806" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook-f"></i></a>
+        </li>
+        <li style="--softclr:#ff8fc2; --sideclr:#e56ba3; --bottomclr:#cc4f89; --clr1:#ff2f92; --clr2:#ff006a;">
+            <a href="https://www.instagram.com/dulcearteig/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+        </li>
+        <li style="--softclr:#7ce9a5; --sideclr:#5ccc85; --bottomclr:#41b66f; --clr1:#25d366; --clr2:#17b653;">
+            <a href="https://wa.me/59170724244" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i></a>
+        </li>
+        <li style="--softclr:#858484; --sideclr:#5e5d5d; --bottomclr:#5a5a5a; --clr1:#ff0050; --clr2:#00f2ea;">
+            <a href="https://www.tiktok.com/@dulcearte55" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok"></i></a>
+        </li>
+    </ul>
 
-    <!-- Instagram -->
-    <li
-    style="
-    --softclr:#ff8fc2;
-    --sideclr:#e56ba3;
-    --bottomclr:#cc4f89;
-    --clr1:#ff2f92;
-    --clr2:#ff006a;
-    ">
-        <a href="https://www.instagram.com/dulcearteig/"
-        target="_blank"
-        rel="noopener noreferrer">
-            <i class="fa-brands fa-instagram"></i>
-        </a>
-    </li>
+    <div class="version">v26.9.2</div>
 
-    <!-- WhatsApp -->
-    <li
-    style="
-    --softclr:#7ce9a5;
-    --sideclr:#5ccc85;
-    --bottomclr:#41b66f;
-    --clr1:#25d366;
-    --clr2:#17b653;
-    ">
-        <a href="https://wa.me/59170724244"
-        target="_blank"
-        rel="noopener noreferrer">
-            <i class="fa-brands fa-whatsapp"></i>
-        </a>
-    </li>
-
-    <!-- TikTok -->
-    <li
-    style="
-    --softclr:#858484;
-    --sideclr:#5e5d5d;
-    --bottomclr:#5a5a5a;
-    --clr1:#ff0050;
-    --clr2:#00f2ea;
-    ">
-        <a href="https://www.tiktok.com/@dulcearte55"
-        target="_blank"
-        rel="noopener noreferrer">
-            <i class="fa-brands fa-tiktok"></i>
-        </a>
-    </li>
-</ul>
-<div class="version">v26.9.2</div>
-<script type="module" src="catalogo-index.js"></script>
-<script type="module" src="script.js?v=3"></script>
-<script src="./pwa-init.js"></script>
-<script src="offline-banner.js?v=1"></script>
-<script src="image-fallback.js?v=1"></script>
-<script src="localStorage-safe.js?v=1"></script>
-</body>
+    <script type="module" src="catalogo-index.js"></script>
+    <script type="module" src="script.js?v=3"></script>
+    <script src="./pwa-init.js"></script>
+    <script src="offline-banner.js?v=1"></script>
+    <script src="image-fallback.js?v=1"></script>
+    <script src="localStorage-safe.js?v=1"></script>
 </body>
 </html>
