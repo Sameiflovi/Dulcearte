@@ -869,6 +869,12 @@ img, svg {
     transition: color 180ms ease, background-color 180ms ease;
 }
 
+.faq-label {
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow-wrap: anywhere;
+}
+
 .faq-item summary:hover {
     color: #a85f3e;
     background: rgba(255, 239, 228, 0.45);
@@ -1008,6 +1014,33 @@ img, svg {
     .faq-answer p {
         animation: none;
         transition: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .faq-whatsapp-link::before {
+        left: 50%;
+        right: auto;
+        transform: translate(-50%, 6px) scale(0.86);
+    }
+
+    .faq-whatsapp-link::after {
+        left: 50%;
+        right: auto;
+        min-width: 0;
+        width: min(174px, calc(100vw - 40px));
+        white-space: normal;
+        transform: translate(-50%, 6px);
+    }
+
+    .faq-whatsapp-link:hover::before,
+    .faq-whatsapp-link:focus-visible::before {
+        transform: translate(-50%, 0) scale(1);
+    }
+
+    .faq-whatsapp-link:hover::after,
+    .faq-whatsapp-link:focus-visible::after {
+        transform: translate(-50%, 0);
     }
 }
 
