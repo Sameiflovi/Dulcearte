@@ -94,9 +94,13 @@ img {
     max-width: calc(100% - 24px);
 }
 
-.back-btn:hover {
+/* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+   nunca se activa, así que no puede quedar "pegado". */
+@media (hover: hover) and (pointer: fine) {
+  .back-btn:hover {
     transform: translateY(-1px);
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  }
 }
 
 .logo {

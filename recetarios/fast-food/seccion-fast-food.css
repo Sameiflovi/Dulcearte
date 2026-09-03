@@ -116,9 +116,13 @@ header p {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
     transition: transform 300ms cubic-bezier(.22, .9, .36, 1), box-shadow 300ms ease;
 }
-.back-btn:hover {
+/* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+   nunca se activa, así que no puede quedar "pegado". */
+@media (hover: hover) and (pointer: fine) {
+  .back-btn:hover {
     transform: translateY(-1px);
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  }
 }
 
 
@@ -160,8 +164,12 @@ header p {
     transition: .35s;
     z-index: 2;
 }
-.nav-link:hover {
+/* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+   nunca se activa, así que no puede quedar "pegado". */
+@media (hover: hover) and (pointer: fine) {
+  .nav-link:hover {
     color: #4f2e1f;
+  }
 }
 
 .glass-indicator {
@@ -224,9 +232,13 @@ header p {
         flex: initial;
     }
 }
-.producto:hover {
+/* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+   nunca se activa, así que no puede quedar "pegado". */
+@media (hover: hover) and (pointer: fine) {
+  .producto:hover {
     transform: translateY(-8px);
     box-shadow: 0 18px 35px rgba(0, 0, 0, .12);
+  }
 }
 /* Brillo diagonal al pasar el mouse */
 .producto::before {
@@ -239,9 +251,13 @@ header p {
     background: linear-gradient(135deg, transparent 45%, rgba(255, 255, 255, .35) 50%, transparent 55%);
     transition: 1s;
 }
-.producto:hover::before {
+/* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+   nunca se activa, así que no puede quedar "pegado". */
+@media (hover: hover) and (pointer: fine) {
+  .producto:hover::before {
     top: 100%;
     left: 100%;
+  }
 }
 
 .imagen {
@@ -255,8 +271,12 @@ header p {
     object-fit: cover;
     transition: .5s;
 }
-.producto:hover .imagen img {
+/* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+   nunca se activa, así que no puede quedar "pegado". */
+@media (hover: hover) and (pointer: fine) {
+  .producto:hover .imagen img {
     transform: scale(1.08);
+  }
 }
 
 .info {
@@ -293,8 +313,12 @@ header p {
     white-space: normal;
     transition: .3s;
 }
-.whatsapp:hover {
+/* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+   nunca se activa, así que no puede quedar "pegado". */
+@media (hover: hover) and (pointer: fine) {
+  .whatsapp:hover {
     background: var(--principal-hover);
+  }
 }
 
 
@@ -361,8 +385,12 @@ header p {
 }
 .popup-prev { left: 14px; }
 .popup-next { right: 14px; }
-.popup-nav:hover {
+/* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+   nunca se activa, así que no puede quedar "pegado". */
+@media (hover: hover) and (pointer: fine) {
+  .popup-nav:hover {
     background: rgba(255, 255, 255, 1);
+  }
 }
 .popup-gallery-controls {
     position: absolute;
@@ -553,16 +581,38 @@ header p {
     transition: .35s;
 }
 
-.samei-social-bar li:hover a {
+/* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+   nunca se activa, así que no puede quedar "pegado". */
+@media (hover: hover) and (pointer: fine) {
+  .samei-social-bar li:hover a {
     transform: translate(10px, -10px);
     background: var(--clr1);
     box-shadow: -20px 20px 25px rgba(0, 0, 0, .25);
+  }
 }
-.samei-social-bar li:hover a::before { background: var(--clr1); }
-.samei-social-bar li:hover a::after  { background: var(--clr2); }
+/* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+   nunca se activa, así que no puede quedar "pegado". */
+@media (hover: hover) and (pointer: fine) {
+  .samei-social-bar li:hover a::before {
+    background: var(--clr1);
+  }
+}
+/* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+   nunca se activa, así que no puede quedar "pegado". */
+@media (hover: hover) and (pointer: fine) {
+  .samei-social-bar li:hover a::after {
+    background: var(--clr2);
+  }
+}
 
 .samei-social-bar li a i { transition: .35s; }
-.samei-social-bar li:hover a i { transform: scale(1.15); }
+/* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+   nunca se activa, así que no puede quedar "pegado". */
+@media (hover: hover) and (pointer: fine) {
+  .samei-social-bar li:hover a i {
+    transform: scale(1.15);
+  }
+}
 
 
 /* ================================================================

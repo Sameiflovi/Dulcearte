@@ -151,10 +151,17 @@ img {
     transform: translateY(-1px);
 }
 
-.btn:hover,
 .btn:focus {
     transform: translateY(-1px);
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+}
+/* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+   nunca se activa, así que no puede quedar "pegado". */
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  }
 }
 .btn:focus {
     outline: 3px solid rgba(246, 209, 177, 0.35);
@@ -234,16 +241,38 @@ img {
     transition: 0.35s;
 }
 
-.samei-social-bar li:hover a {
+/* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+   nunca se activa, así que no puede quedar "pegado". */
+@media (hover: hover) and (pointer: fine) {
+  .samei-social-bar li:hover a {
     transform: translate(10px, -10px);
     background: var(--clr1);
     box-shadow: -20px 20px 25px rgba(0, 0, 0, 0.25);
+  }
 }
-.samei-social-bar li:hover a::before { background: var(--clr1); }
-.samei-social-bar li:hover a::after  { background: var(--clr2); }
+/* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+   nunca se activa, así que no puede quedar "pegado". */
+@media (hover: hover) and (pointer: fine) {
+  .samei-social-bar li:hover a::before {
+    background: var(--clr1);
+  }
+}
+/* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+   nunca se activa, así que no puede quedar "pegado". */
+@media (hover: hover) and (pointer: fine) {
+  .samei-social-bar li:hover a::after {
+    background: var(--clr2);
+  }
+}
 
 .samei-social-bar li a i { transition: 0.35s; }
-.samei-social-bar li:hover a i { transform: scale(1.15); }
+/* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+   nunca se activa, así que no puede quedar "pegado". */
+@media (hover: hover) and (pointer: fine) {
+  .samei-social-bar li:hover a i {
+    transform: scale(1.15);
+  }
+}
 
 
 /* ================================================================

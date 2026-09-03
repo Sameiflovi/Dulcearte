@@ -19,12 +19,12 @@ const CACHE_NAME = `dulcearte-${VERSION}`;
 const APP_SHELL = [
     "./",
     "./index.html",
-    "./style.css?v=3",
-    "./script.js?v=3",
+    "./style.css?v=7d29cb21",
+    "./script.js?v=edb997c5",
     "./manifest.json",
     "./sw.js",
-    "./offline-banner.js?v=1",
-    "./image-fallback.js?v=1",
+    "./offline-banner.js?v=1b40e1ee",
+    "./image-fallback.js?v=b3fa0ebf",
     "./Data/favicon.png",
     "./Data/logos/logoprincipal.webp",
     "./Data/fondopc.jpg",
@@ -128,7 +128,18 @@ self.addEventListener("fetch", event => {
     if (!pathname.startsWith('/')) {
         return;
     }
-    
+  
+    // ✅ ESTRATEGIA 0: RESPETAR "no-store"
+    // Si la página pide explícitamente no usar caché (por ejemplo,
+    // offline-banner.js comprobando si hay internet de verdad), la
+    // dejamos pasar directo a la red sin que ninguna estrategia de
+    // abajo le devuelva una respuesta guardada.
+    if (request.cache === "no-store") {
+        console.log(`[DulceArte][SW] 🚫 no-store, directo a la red: ${pathname}`);
+        event.respondWith(fetch(request));
+    return;
+}
+
     // ✅ ESTRATEGIA 1: HTML (NETWORK FIRST)
     // Siempre buscar primero en internet
     if (PAGES.some(page => pathname.includes(page)) || 

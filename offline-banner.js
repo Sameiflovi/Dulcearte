@@ -22,12 +22,13 @@
       width: 100%;
       z-index: 99999;
       background: #fff3cd;
-      color: #664d03;
+      color: #58372d;
       border-bottom: 2px solid #e9a85f;
       font-family: inherit;
       font-size: clamp(0.8rem, 3vw, 0.95rem);
       line-height: 1.4;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 6px 16px rgba(88, 55, 45, 0.22); 
+      background: linear-gradient(135deg, #f7ecd9, #f1c47a);
     }
 
     #db-offline-banner[hidden] {
@@ -87,13 +88,16 @@
       margin: -2px -4px 0 0;
       padding: 4px;
       border: none;
-      border-radius: 10px;
+      border-radius: 50%;
       background: transparent;
       color: #664d03;
       cursor: pointer;
       font: inherit;
       font-size: 1.1rem;
       line-height: 1;
+      transition: transform 0.14s cubic-bezier(.2,.9,.2,1), background 0.14s ease;
+      background: rgba(88, 55, 45, 0.12);
+      width: 26px; height: 26px;
     }
 
     #db-offline-banner .db-close:hover {
