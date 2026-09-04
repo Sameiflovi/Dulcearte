@@ -30,7 +30,7 @@ body {
     overflow-x: hidden;
     padding: clamp(8px, 2.6vw, 16px) clamp(12px, 4vw, 24px) clamp(28px, 6vw, 48px);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    background-image: url(../../../Data/fondopc.jpg);
+    background-image: url(../../../Data/fondopc.webp);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -38,7 +38,7 @@ body {
 }
 @media (max-width: 768px) {
     body {
-        background-image: url(../../../Data/fondocel.png);
+        background-image: url(../../../Data/fondocel.webp);
         background-attachment: scroll;
     }
 }

@@ -36,7 +36,7 @@ body {
     overflow-x: hidden;
     font-family: Arial, sans-serif;
     padding: clamp(8px, 2.6vw, 16px) clamp(12px, 4vw, 24px) clamp(28px, 6vw, 48px);
-    background-image: url("../../Data/fondopc.jpg");
+    background-image: url("../../Data/fondopc.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -281,7 +281,7 @@ img {
 
 @media (max-width: 768px) {
     body {
-        background-image: url("../../Data/fondocel.png");
+        background-image: url("../../Data/fondocel.webp");
         background-attachment: scroll;
     }
 }

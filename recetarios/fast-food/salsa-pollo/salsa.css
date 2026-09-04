@@ -36,7 +36,7 @@ body {
     font-size: clamp(0.95rem, 1.8vw, 1.15rem);
     line-height: 1.7;
     color: var(--text);
-    background-image: url("../../../Data/fondopc.jpg");
+    background-image: url("../../../Data/fondopc.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -271,7 +271,7 @@ em {
 
 @media (max-width: 768px) {
     body {
-        background-image: url("../../../Data/fondocel.png");
+        background-image: url("../../../Data/fondocel.webp");
         background-attachment: scroll;
         padding: 52px clamp(8px, 3vw, 16px) clamp(20px, 4vw, 32px);
     }

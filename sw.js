@@ -27,8 +27,8 @@ const APP_SHELL = [
     "./image-fallback.js?v=b3fa0ebf",
     "./Data/favicon.png",
     "./Data/logos/logoprincipal.webp",
-    "./Data/fondopc.jpg",
-    "./Data/fondocel.png",
+    "./Data/fondopc.webp",
+    "./Data/fondocel.webp",
     
     "./Data/PWA/icon-192.png",
     "./Data/PWA/icon-512.png"

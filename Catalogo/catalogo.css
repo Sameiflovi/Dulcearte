@@ -47,7 +47,7 @@ body {
     min-width: 0;
     min-height: 100vh;
     overflow-x: hidden;
-    background-image: url("../Data/fondopc.jpg");
+    background-image: url("Data/media/fondopc.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -622,9 +622,18 @@ header p {
 
 @media (max-width: 768px) {
     body {
-        background-image: url("../Data/fondocel.png");
+        background-image: url("Data/media/fondocel.webp");
         background-attachment: scroll;
     }
+}
+
+@media (max-width: 360px) {
+    body { padding-inline: 8px; }
+}
+
+@media (max-width: 320px) {
+    body { padding-inline: 6px; }
+
 }
 
 @media (max-width: 600px) {
