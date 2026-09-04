@@ -124,16 +124,13 @@ self.addEventListener("fetch", event => {
     const url = new URL(request.url);
     const pathname = url.pathname;
     
-    // No cachear solicitudes externas (excepto Firebase si es necesario)
-    if (!pathname.startsWith('/')) {
+    // Solo procesar solicitudes del mismo origen.
+    // Las solicitudes externas (CDN, APIs, etc.) pasan directamente a la red.
+    if (url.origin !== self.location.origin) {
         return;
     }
   
     // ✅ ESTRATEGIA 0: RESPETAR "no-store"
-    // Si la página pide explícitamente no usar caché (por ejemplo,
-    // offline-banner.js comprobando si hay internet de verdad), la
-    // dejamos pasar directo a la red sin que ninguna estrategia de
-    // abajo le devuelva una respuesta guardada.
     if (request.cache === "no-store") {
         console.log(`[DulceArte][SW] 🚫 no-store, directo a la red: ${pathname}`);
         event.respondWith(fetch(request));
@@ -141,7 +138,6 @@ self.addEventListener("fetch", event => {
 }
 
     // ✅ ESTRATEGIA 1: HTML (NETWORK FIRST)
-    // Siempre buscar primero en internet
     if (PAGES.some(page => pathname.includes(page)) || 
         request.destination === 'document' ||
         pathname.endsWith('.html')) {
@@ -151,7 +147,6 @@ self.addEventListener("fetch", event => {
         event.respondWith(
             fetch(request)
                 .then(response => {
-                    // Si la respuesta es válida, guardarla en caché
                     if (response.status === 200) {
                         const responseClone = response.clone();
                         caches.open(CACHE_NAME)
@@ -162,7 +157,6 @@ self.addEventListener("fetch", event => {
                     return response;
                 })
                 .catch(() => {
-                    // Si no hay internet, buscar en caché
                     console.log(`[DulceArte][SW] 📦 Usando caché para: ${pathname}`);
                     return caches.match(request);
                 })
@@ -171,7 +165,6 @@ self.addEventListener("fetch", event => {
     }
     
     // ✅ ESTRATEGIA 2: CSS y JS (CACHE FIRST + REVALIDATE)
-    // Usar caché primero, pero traer versión nueva en background
     if (request.destination === 'style' || request.destination === 'script') {
         
         console.log(`[DulceArte][SW] 📦 Cache First: ${pathname}`);
@@ -180,7 +173,6 @@ self.addEventListener("fetch", event => {
             caches.match(request)
                 .then(response => {
                     if (response) {
-                        // Traer versión nueva en background (silenciosamente)
                         fetch(request)
                             .then(freshResponse => {
                                 if (freshResponse.status === 200) {
@@ -191,14 +183,11 @@ self.addEventListener("fetch", event => {
                                         });
                                 }
                             })
-                            .catch(() => {
-                                // Silencioso si falla
-                            });
+                            .catch(() => {});
                         
                         return response;
                     }
                     
-                    // Si no está en caché, descargar
                     return fetch(request)
                         .then(response => {
                             if (response.status === 200) {
@@ -208,17 +197,13 @@ self.addEventListener("fetch", event => {
                             }
                             return response;
                         })
-                        .catch(() => {
-                            console.warn(`[DulceArte][SW] ❌ Error al cargar: ${pathname}`);
-                            return new Response("Archivo no disponible", { status: 404 });
-                        });
+                        .catch(() => new Response("Archivo no disponible", { status: 404 }));
                 })
         );
         return;
     }
     
     // ✅ ESTRATEGIA 3: IMÁGENES (STALE WHILE REVALIDATE)
-    // Servir desde caché mientras descargar versión nueva en background
     if (request.destination === 'image' || 
         IMAGE_EXTENSIONS.some(ext => pathname.endsWith(ext))) {
         
@@ -229,7 +214,6 @@ self.addEventListener("fetch", event => {
                 .then(cache => {
                     return cache.match(request)
                         .then(response => {
-                            // Traer versión nueva en background
                             const fetchPromise = fetch(request)
                                 .then(freshResponse => {
                                     if (freshResponse.status === 200) {
@@ -238,18 +222,12 @@ self.addEventListener("fetch", event => {
                                     }
                                     return freshResponse;
                                 })
-                                .catch(() => {
-                                    // Silencioso si falla la descarga
-                                });
+                                .catch(() => {});
                             
-                            // Retornar caché si existe, sino esperar fetch
                             return response || fetchPromise;
                         });
                 })
-                .catch(() => {
-                    // Si falla abrir caché, descargar directamente
-                    return fetch(request);
-                })
+                .catch(() => fetch(request))
         );
         return;
     }
@@ -260,9 +238,7 @@ self.addEventListener("fetch", event => {
     event.respondWith(
         caches.match(request)
             .then(response => {
-                if (response) {
-                    return response;
-                }
+                if (response) return response;
                 
                 return fetch(request)
                     .then(freshResponse => {
@@ -273,14 +249,10 @@ self.addEventListener("fetch", event => {
                         }
                         return freshResponse;
                     })
-                    .catch(() => {
-                        console.warn(`[DulceArte][SW] ❌ Sin conexión y sin caché: ${pathname}`);
-                        // No devolver nada si no hay caché ni conexión
-                        return new Response("Contenido no disponible offline", { 
-                            status: 503,
-                            statusText: "Service Unavailable"
-                        });
-                    });
+                    .catch(() => new Response("Contenido no disponible offline", { 
+                        status: 503,
+                        statusText: "Service Unavailable"
+                    }));
             })
     );
 });
@@ -294,7 +266,6 @@ self.addEventListener("message", event => {
     const { type, data } = event.data;
     
     if (type === "CHECK_VERSION") {
-        // La página pregunta si hay nueva versión
         event.ports[0].postMessage({
             type: "VERSION_INFO",
             currentVersion: VERSION
@@ -302,7 +273,6 @@ self.addEventListener("message", event => {
     }
     
     if (type === "CLEAR_CACHE") {
-        // Limpiar caché manualmente
         caches.delete(CACHE_NAME)
             .then(() => {
                 console.log("[DulceArte][SW] ✅ Caché limpiada");
@@ -310,30 +280,5 @@ self.addEventListener("message", event => {
             });
     }
 });
-
-// ======================================================
-// RESUMEN DE ESTRATEGIAS
-// ======================================================
-/*
-1. NETWORK FIRST (HTML)
-   - Siempre buscar en internet primero
-   - Si no hay conexión, usar caché
-   - Actualiza automáticamente
-
-2. CACHE FIRST + REVALIDATE (CSS, JS)
-   - Mostrar desde caché al instante
-   - Traer versión nueva en background
-   - Usuario nunca espera
-
-3. STALE WHILE REVALIDATE (Imágenes)
-   - Mostrar versión cacheada
-   - Actualizar en background
-   - El usuario siempre ve algo
-
-4. CACHE FIRST (Otros)
-   - Mostrar desde caché si existe
-   - Descargar si no está
-   - Guardar para próxima vez
-*/
 
 console.log(`[DulceArte][SW] ✅ Service Worker listo. Versión: ${VERSION}`);
