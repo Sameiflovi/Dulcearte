@@ -2,4 +2,5 @@
 .github/
 .qodo/
 .stfolder/
-.continue/
+.continue/__pycache__/
+*.pyc
