@@ -1,33 +1,316 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="es">
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Page Not Found</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#f7ecd9">
+    <title>404 - Página no encontrada | DulceArte</title>
+    <meta name="description" content="Oops, esta página no existe. Vuelve a donde estabas o regresa a la portada de DulceArte.">
+    <meta property="og:title" content="404 - Página no encontrada | DulceArte">
+    <meta property="og:description" content="Oops, esta página no existe.">
+    <meta property="og:url" content="https://sameiflovi.github.io/Dulcearte/404.html">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px 16px; border-radius: 3px; }
-      #message h3 { color: #888; font-weight: normal; font-size: 16px; margin: 16px 0 12px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
+        :root {
+            --warm-sand: #f5d9b0;
+            --warm-gold: #f1c47a;
+            --warm-amber: #e9a85f;
+            --warm-coffee: #58372d;
+            --warm-cream: #f7ecd9;
+            --boton-bg: #ef7d5d;
+            --boton-bg-hover: #e96d4c;
+            --boton-bg-active: #d85e3d;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, var(--warm-cream) 0%, var(--warm-gold) 100%);
+            color: var(--warm-coffee);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: max(16px, env(safe-area-inset-bottom));
+            padding-top: max(20px, env(safe-area-inset-top));
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 12px 32px rgba(88, 55, 45, 0.16);
+            padding: clamp(24px, 6vw, 48px);
+            text-align: center;
+            animation: fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .icon {
+            font-size: clamp(60px, 15vw, 120px);
+            margin-bottom: 16px;
+            display: block;
+            filter: drop-shadow(0 4px 8px rgba(88, 55, 45, 0.12));
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--warm-amber) 0%, var(--warm-coffee) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: clamp(1.1rem, 4vw, 1.3rem);
+            color: var(--warm-coffee);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .description {
+            font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+            color: #777;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .referrer-info {
+            font-size: clamp(0.85rem, 3vw, 0.95rem);
+            color: #999;
+            margin-bottom: 24px;
+            padding: 12px 16px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            word-break: break-all;
+            font-family: "Monaco", "Courier New", monospace;
+            border-left: 3px solid var(--warm-amber);
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: clamp(12px, 3vw, 16px) clamp(20px, 5vw, 32px);
+            font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.2, 1);
+            text-decoration: none;
+            text-align: center;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--boton-bg);
+            color: white;
+            box-shadow: 0 4px 12px rgba(239, 125, 93, 0.3);
+        }
+
+        .btn-primary:active {
+            background: var(--boton-bg-active);
+            transform: scale(0.95);
+            box-shadow: 0 2px 6px rgba(239, 125, 93, 0.2);
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .btn-primary:hover {
+                background: var(--boton-bg-hover);
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(239, 125, 93, 0.35);
+            }
+        }
+
+        .btn-primary:focus-visible {
+            outline: 3px solid rgba(239, 125, 93, 0.4);
+            outline-offset: 2px;
+        }
+
+        .btn-secondary {
+            background: var(--warm-cream);
+            color: var(--warm-coffee);
+            border: 2px solid var(--warm-amber);
+            box-shadow: 0 2px 8px rgba(88, 55, 45, 0.08);
+        }
+
+        .btn-secondary:active {
+            background: var(--warm-amber);
+            color: white;
+            transform: scale(0.95);
+            box-shadow: 0 2px 6px rgba(88, 55, 45, 0.12);
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .btn-secondary:hover {
+                background: var(--warm-gold);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(88, 55, 45, 0.12);
+            }
+        }
+
+        .btn-secondary:focus-visible {
+            outline: 3px solid rgba(88, 55, 45, 0.2);
+            outline-offset: 2px;
+        }
+
+        .btn-icon {
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 12px;
+                padding: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right));
+            }
+
+            h1 {
+                margin-bottom: 4px;
+            }
+
+            .button-group {
+                margin-top: 24px;
+                gap: 10px;
+            }
+
+            .referrer-info {
+                font-size: 0.8rem;
+                padding: 10px 12px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        .powered-by {
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+            color: #aaa;
+        }
+
+        .powered-by a {
+            color: var(--warm-amber);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .powered-by a:hover {
+            color: var(--warm-coffee);
+        }
     </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>404</h2>
-      <h1>Page Not Found</h1>
-      <p>The specified file was not found on this website. Please check the URL for mistakes and try again.</p>
-      <h3>Why am I seeing this?</h3>
-      <p>This page was generated by the Firebase Command-Line Interface. To modify it, edit the <code>404.html</code> file in your project's configured <code>public</code> directory.</p>
+</head>
+<body>
+    <div class="container">
+        <span class="icon">🎂</span>
+        <h1>404</h1>
+        <div class="subtitle">Página no encontrada</div>
+        <p class="description">
+            Oops, parece que esta receta se perdió entre los ingredientes.<br>
+            La página que buscas no existe o fue movida.
+        </p>
+        
+        <div class="referrer-info" id="referrerInfo" style="display: none;">
+            <strong>Viniste de:</strong> <span id="referrerText"></span>
+        </div>
+
+        <div class="button-group">
+            <button class="btn btn-primary" id="backBtn" onclick="window.history.back();">
+                <span class="btn-icon">←</span>
+                Volver atrás
+            </button>
+            <a href="/" class="btn btn-secondary">
+                <span class="btn-icon">🏠</span>
+                Volver a la portada
+            </a>
+        </div>
+
+        <div class="powered-by">
+            Hecho con ❤️ por <a href="https://sameiflovi.github.io/Dulcearte/">DulceArte</a>
+        </div>
     </div>
-  </body>
+
+    <script>
+        // Detectar de dónde vino el usuario
+        (function() {
+            const referrer = document.referrer;
+            const referrerInfo = document.getElementById('referrerInfo');
+            const referrerText = document.getElementById('referrerText');
+            const backBtn = document.getElementById('backBtn');
+
+            if (referrer && referrer.length > 0) {
+                // Mostrar el referrer
+                try {
+                    const url = new URL(referrer);
+                    const display = url.pathname + url.search;
+                    referrerText.textContent = display.length > 0 ? display : referrer;
+                } catch {
+                    referrerText.textContent = referrer;
+                }
+                referrerInfo.style.display = 'block';
+            } else {
+                // Si no hay referrer, deshabilitar el botón "Volver atrás"
+                backBtn.disabled = true;
+                backBtn.style.opacity = '0.6';
+                backBtn.style.cursor = 'not-allowed';
+                backBtn.title = 'No hay página anterior en el historial';
+            }
+
+            // Verificar si hay historial disponible (fallback)
+            if (history.length <= 1) {
+                backBtn.disabled = true;
+                backBtn.style.opacity = '0.6';
+                backBtn.style.cursor = 'not-allowed';
+            }
+        })();
+
+        // Log para debugging (visible en la consola)
+        console.log('[DulceArte][404]', {
+            timestamp: new Date().toISOString(),
+            requestedURL: window.location.href,
+            referrer: document.referrer || 'sin referrer',
+            historyLength: history.length,
+        });
+    </script>
+</body>
 </html>
