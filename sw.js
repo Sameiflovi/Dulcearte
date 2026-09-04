@@ -1,10 +1,10 @@
 // ======================================================
 // DulceArte Service Worker - Versión Profesional
 // ======================================================
-// Sistema de caché específica con estrategias inteligentes
+// Caché específica con estrategias inteligentes
 // ======================================================
 
-const VERSION = "26.9.3";
+const VERSION = "26.9.4";
 const CACHE_NAME = `dulcearte-${VERSION}`;
 
 const APP_SHELL = [
@@ -22,14 +22,8 @@ self.addEventListener("install", event => {
     console.log(`[DulceArte][SW] Instalando Service Worker v${VERSION}...`);
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then(cache => {
-                console.log("[DulceArte][SW] Guardando App Shell en caché");
-                return cache.addAll(APP_SHELL);
-            })
-            .then(() => {
-                console.log("[DulceArte][SW] ✅ App Shell listo");
-                return self.skipWaiting();
-            })
+            .then(cache => cache.addAll(APP_SHELL))
+            .then(() => self.skipWaiting())
             .catch(error => {
                 console.error("[DulceArte][SW] ❌ No se pudo instalar el App Shell:", error);
                 throw error;
@@ -75,6 +69,7 @@ self.addEventListener("fetch", event => {
         return;
     }
 
+    // CSS y JS: Network First. La caché solo es respaldo offline.
     if (request.destination === "style" || request.destination === "script") {
         event.respondWith(
             fetch(request)
@@ -124,9 +119,7 @@ self.addEventListener("message", event => {
         event.ports[0]?.postMessage({ type: "VERSION_INFO", currentVersion: VERSION });
     }
     if (type === "CLEAR_CACHE") {
-        caches.delete(CACHE_NAME).then(() => {
-            event.ports[0]?.postMessage({ type: "CACHE_CLEARED" });
-        });
+        caches.delete(CACHE_NAME).then(() => event.ports[0]?.postMessage({ type: "CACHE_CLEARED" }));
     }
 });
 
