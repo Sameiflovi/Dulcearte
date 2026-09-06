@@ -31,7 +31,7 @@
 
     logEvent("Se cargó la página del curso", { courseKey });
 
-    if (localStorage.getItem("usuarioActivo") !== "true" || !allowedCourses.includes(courseKey)) {
+    if (dbStorage.get("usuarioActivo") !== "true" || !allowedCourses.includes(courseKey)) {
         logWarning("Acceso denegado al curso", { courseKey, allowedCourses });
         if (gate) gate.textContent = "No tienes acceso a este curso. Redirigiendo...";
         window.setTimeout(redirectToCourses, 250);
