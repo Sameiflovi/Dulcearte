@@ -3,20 +3,14 @@
 
     function logEvent(message, detail) {
         if (typeof console === "undefined") return;
-        if (detail === undefined) {
-            console.log(`${DEBUG_PREFIX} ${message}`);
-        } else {
-            console.log(`${DEBUG_PREFIX} ${message}`, detail);
-        }
+        if (detail === undefined) console.log(`${DEBUG_PREFIX} ${message}`);
+        else console.log(`${DEBUG_PREFIX} ${message}`, detail);
     }
 
     function logWarning(message, detail) {
         if (typeof console === "undefined") return;
-        if (detail === undefined) {
-            console.warn(`${DEBUG_PREFIX} ${message}`);
-        } else {
-            console.warn(`${DEBUG_PREFIX} ${message}`, detail);
-        }
+        if (detail === undefined) console.warn(`${DEBUG_PREFIX} ${message}`);
+        else console.warn(`${DEBUG_PREFIX} ${message}`, detail);
     }
 
     logEvent("Se cargó la pantalla de cursos");
@@ -46,20 +40,17 @@
     });
 
     const activeLink = document.querySelector(".nav-link.active");
-    if (activeLink) {
-        moverIndicador(activeLink);
-    }
+    if (activeLink) moverIndicador(activeLink);
 
-    if (localStorage.getItem("usuarioActivo") !== "true") {
+    if (dbStorage.get("usuarioActivo") !== "true") {
         logWarning("El usuario intentó entrar a mis cursos sin sesión activa");
         window.location.href = "index.html";
         return;
     }
 
     const cursosPermitidos = (() => {
-        const raw = localStorage.getItem("cursosPermitidos");
+        const raw = dbStorage.get("cursosPermitidos");
         if (!raw || raw === "undefined" || raw === "null") return [];
-
         try {
             const parsed = JSON.parse(raw);
             return Array.isArray(parsed) ? parsed : [];
@@ -90,16 +81,12 @@
 
     tarjetasCursos.forEach((tarjeta) => {
         const cursosContainer = tarjeta.closest("#seccion-cursos .courses");
-        if (cursosContainer) {
-            cursosContainer.appendChild(tarjeta);
-        }
+        if (cursosContainer) cursosContainer.appendChild(tarjeta);
     });
 
     tarjetasRecetarios.forEach((tarjeta) => {
         const recetariosContainer = tarjeta.closest("#seccion-recetarios .recetario-list");
-        if (recetariosContainer) {
-            recetariosContainer.appendChild(tarjeta);
-        }
+        if (recetariosContainer) recetariosContainer.appendChild(tarjeta);
     });
 
     const aplicarControlAcceso = (tarjeta, permiteRedireccion = true) => {
@@ -132,9 +119,7 @@
                     event.preventDefault();
                     logEvent("Usuario intentó abrir un curso permitido", { curso, href: tarjeta.href });
                     mostrarToastOK(2);
-                    if (window.redirectTimer) {
-                        window.clearTimeout(window.redirectTimer);
-                    }
+                    if (window.redirectTimer) window.clearTimeout(window.redirectTimer);
                     window.redirectTimer = window.setTimeout(() => {
                         logEvent("Redirigiendo al curso", { curso, href: tarjeta.href });
                         window.location.href = tarjeta.href;
@@ -144,13 +129,8 @@
         }
     };
 
-    tarjetasCursos.forEach((tarjeta) => {
-        aplicarControlAcceso(tarjeta, true);
-    });
-
-    tarjetasRecetarios.forEach((tarjeta) => {
-        aplicarControlAcceso(tarjeta, true);
-    });
+    tarjetasCursos.forEach((tarjeta) => aplicarControlAcceso(tarjeta, true));
+    tarjetasRecetarios.forEach((tarjeta) => aplicarControlAcceso(tarjeta, true));
 
     function ocultarToast(toastId, timerName) {
         const toast = document.getElementById(toastId);
@@ -174,9 +154,7 @@
         }
         toast.classList.add("show");
         window.clearTimeout(window.toastTimer);
-        window.toastTimer = window.setTimeout(() => {
-            toast.classList.remove("show");
-        }, DURATION_ERR * 1000);
+        window.toastTimer = window.setTimeout(() => toast.classList.remove("show"), DURATION_ERR * 1000);
         logEvent("Toast de acceso denegado mostrado");
     }
 
@@ -192,9 +170,7 @@
         }
         toast.classList.add("show");
         window.clearTimeout(window.toastOkTimer);
-        window.toastOkTimer = window.setTimeout(() => {
-            toast.classList.remove("show");
-        }, duration * 1000);
+        window.toastOkTimer = window.setTimeout(() => toast.classList.remove("show"), duration * 1000);
         logEvent("Toast de acceso concedido mostrado", { duration });
     }
 
@@ -203,28 +179,15 @@
         const closeButton = toast.querySelector(".toast-close");
         let startX = 0;
         let startY = 0;
-
         const cerrar = () => ocultarToast(toastId, timerName);
-        closeButton?.addEventListener("click", (event) => {
-            event.stopPropagation();
-            cerrar();
-        });
-
-        toast.addEventListener("pointerdown", (event) => {
-            startX = event.clientX;
-            startY = event.clientY;
-        });
-
+        closeButton?.addEventListener("click", (event) => { event.stopPropagation(); cerrar(); });
+        toast.addEventListener("pointerdown", (event) => { startX = event.clientX; startY = event.clientY; });
         toast.addEventListener("pointerup", (event) => {
             const movedX = event.clientX - startX;
             const movedY = event.clientY - startY;
             const interactive = event.target.closest("a, button");
-
-            if (Math.abs(movedX) > 70 || movedY < -55) {
-                cerrar();
-            } else if (!interactive && Math.abs(movedX) < 12 && Math.abs(movedY) < 12) {
-                cerrar();
-            }
+            if (Math.abs(movedX) > 70 || movedY < -55) cerrar();
+            else if (!interactive && Math.abs(movedX) < 12 && Math.abs(movedY) < 12) cerrar();
         });
     }
 
@@ -233,11 +196,8 @@
         habilitarCierreToast(document.getElementById("toast-ok"), "toast-ok", "toastOkTimer");
     }
 
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", inicializarCierresToast, { once: true });
-    } else {
-        inicializarCierresToast();
-    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", inicializarCierresToast, { once: true });
+    else inicializarCierresToast();
 
     document.addEventListener("keydown", (event) => {
         if (event.key === "Escape" || event.key === "Esc") {
