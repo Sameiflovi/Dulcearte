@@ -50,13 +50,22 @@ function logError(message, error) {
 }
 
 function initFirebase() {
+  const app = initializeApp(firebaseConfig);
+  
+  // Firestore primero (crítico para el login)
   try {
-    const app = initializeApp(firebaseConfig);
-    analyticsInstance = getAnalytics(app);
     db = getFirestore(app);
-    logEvent("Firebase inicializado correctamente", { projectId: firebaseConfig.projectId });
+    logEvent("Firestore inicializado", { projectId: firebaseConfig.projectId });
   } catch (error) {
-    logError("No se pudo inicializar Firebase", error);
+    logError("No se pudo inicializar Firestore", error);
+  }
+  
+  // Analytics después (lo bueno es tener, no es obligatorio)
+  try {
+    analyticsInstance = getAnalytics(app);
+    logEvent("Analytics inicializado");
+  } catch (error) {
+    logWarning("Analytics no disponible (posible bloqueador de rastreo)", error);
   }
 }
 
@@ -741,18 +750,3 @@ function initializeAppShell() {
   initLoginFlow();
 }
 
-initFirebase();
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initializeAppShell);
-} else {
-  initializeAppShell();
-}
-
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker
-            .register("./sw.js")
-            .then(() => console.log("✅ Service Worker registrado"))
-            .catch(err => console.error("❌ Error:", err));
-    });
-}

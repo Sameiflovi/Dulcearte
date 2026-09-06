@@ -14,6 +14,10 @@
  * Uso (desde la raíz del repo, antes de cada git push):
  *   node bump-version.js
  * ------------------------------------------------------------
+ * # Cambiar v26.9.2 por la versión que quieras (ej: v26.9.5)
+NUEVA_VERSION="26.9.5"
+find . -name "*.html" -not -path "./.git/*" -exec sed -i "s|<div class=\"version\">v[^<]*</div>|<div class=\"version\">v${NUEVA_VERSION}</div>|g" {} \;
+echo "✅ Versión actualizada a v${NUEVA_VERSION}"
  */
 
 const fs = require("fs");
@@ -45,6 +49,8 @@ const ARCHIVOS_VERSIONADOS = [
   "recetarios/fast-food/seccion-fast-food.css",
   "recetarios/fast-food/pollo-broaster/pollo-broaster.css",
   "recetarios/fast-food/salsa-pollo/salsa.css",
+  "localStorage-safe.js",
+  "Catalogo/catalogo-index.js",
 ];
 
 // Dónde buscar referencias a esos archivos: todos los .html + sw.js

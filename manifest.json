@@ -1,7 +1,7 @@
 {
   "name": "DulceArte",
   "short_name": "DulceArte",
-  "description": "Cursos de virtuales en arte, cocina y reposteria. Aprende a tu ritmo con nuestros cursos en línea.",
+  "description": "Cursos virtuales en arte, cocina y reposteria. Aprende a tu ritmo con nuestros cursos en línea.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

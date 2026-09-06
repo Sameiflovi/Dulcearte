@@ -274,7 +274,7 @@
         // de conectividad (por ejemplo, offline -> online -> offline).
         if (currentVersion !== stateVersion) return;
 
-        if (conectado || navigator.onLine !== false) {
+        if (conectado) {
           userDismissed = false;
           ocultarBanner();
         } else if (!userDismissed) {

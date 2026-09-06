@@ -1,7 +1,7 @@
 /**
  * [DulceArte][LocalStorage] Wrapper seguro para localStorage
  * Protege contra errores silenciosos en modo privado, iPhone viejos, etc.
- * Si localStorage falla, avisa al usuario de forma clara.
+ * Si localStorage falla, se loguea pero no rompe nada.
  */
 
 const dbStorage = (() => {
@@ -15,10 +15,8 @@ const dbStorage = (() => {
     disponible = true;
   } catch (e) {
     console.warn("[DulceArte][LocalStorage] No disponible:", e.message);
-    mostrarError(
-      "Tu navegador está en modo privado o no permite guardar datos. Puedes usar la página, pero no podrás guardar tu clave.",
-      "warn"
-    );
+    // localStorage bloqueado (modo privado, extensiones, políticas de navegador)
+    // El sitio sigue funcionando sin poder persistir datos localmente
   }
 
   return {
@@ -29,7 +27,6 @@ const dbStorage = (() => {
         return true;
       } catch (e) {
         console.error(`[DulceArte][LocalStorage] Error al guardar ${key}:`, e.message);
-        mostrarError(`No se pudo guardar la clave. Intenta desactivar modo privado.`, "error");
         return false;
       }
     },

@@ -18,7 +18,7 @@
     const redirectToCourses = () => { window.location.replace("../../mis-cursos.html"); };
 
     const allowedCourses = (() => {
-        const raw = localStorage.getItem("cursosPermitidos");
+        const raw = dbStorage.get("cursosPermitidos");
         if (!raw || raw === "undefined" || raw === "null") return [];
         try {
             const parsed = JSON.parse(raw);

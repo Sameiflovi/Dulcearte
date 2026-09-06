@@ -8,3 +8,6 @@
 __pycache__/
 *.pyc
 .firebase/
+__pycache__/
+*.pyc
+.firebase/

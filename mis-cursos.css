@@ -343,10 +343,7 @@ main {
     z-index: 1;
 }
 
-/* Imagen específica para empanadas */
-.course-media.course-empanadas {
-    background-image: url("Data/empanadas.png");
-}
+
 
 .course-title {
     position: absolute;

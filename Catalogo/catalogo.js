@@ -69,7 +69,7 @@ const productImageMap = {
         'Data/cubiertos_japon/cubiertos_4.webp',
         'Data/cubiertos_japon/cubiertos_5.webp',
     ],
-    'cuchara-wellner': [
+    'cucharas-wellner': [
         'Data/cuchara_wellner/cuchara_1.webp',
         'Data/cuchara_wellner/cuchara_2.webp',
     ],
@@ -308,7 +308,7 @@ if (productoId) {
     if (productoSolicitado) {
         abrirPopupPorProducto(productoSolicitado);
     } else {
-        logWarning('El producto solicitado no existe en el catÃ¡logo', { productoId });
+        logWarning('El producto solicitado no existe en el catálogo', { productoId });
     }
 }
 
