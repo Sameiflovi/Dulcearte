@@ -4,11 +4,11 @@
 // Caché específica con estrategias inteligentes
 // ======================================================
 
-const VERSION = "26.9.7";
+const VERSION = "26.9.8";
 const CACHE_NAME = `dulcearte-${VERSION}`;
 
 const APP_SHELL = [
-    "./", "./index.html", "./style.css?v=6f82cae9", "./script.js?v=a124ca79",
+    "./", "./index.html", "./style.css", "./script.js",
     "./manifest.json", "./sw.js", "./offline-banner.js?v=dcf86e9f",
     "./image-fallback.js?v=aeffec89", "./Data/favicon.png",
     "./Data/logos/logoprincipal.webp", "./Data/fondopc.webp", "./Data/fondocel.webp",

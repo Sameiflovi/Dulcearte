@@ -750,3 +750,6 @@ function initializeAppShell() {
   initLoginFlow();
 }
 
+initFirebase();
+initializeAppShell();
+
