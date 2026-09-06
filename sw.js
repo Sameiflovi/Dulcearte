@@ -8,9 +8,9 @@ const VERSION = "26.9.4";
 const CACHE_NAME = `dulcearte-${VERSION}`;
 
 const APP_SHELL = [
-    "./", "./index.html", "./style.css?v=7d29cb21", "./script.js?v=edb997c5",
-    "./manifest.json", "./sw.js", "./offline-banner.js?v=1b40e1ee",
-    "./image-fallback.js?v=b3fa0ebf", "./Data/favicon.png",
+    "./", "./index.html", "./style.css?v=6f82cae9", "./script.js?v=a124ca79",
+    "./manifest.json", "./sw.js", "./offline-banner.js?v=dcf86e9f",
+    "./image-fallback.js?v=aeffec89", "./Data/favicon.png",
     "./Data/logos/logoprincipal.webp", "./Data/fondopc.webp", "./Data/fondocel.webp",
     "./Data/PWA/icon-192.png", "./Data/PWA/icon-512.png"
 ];
