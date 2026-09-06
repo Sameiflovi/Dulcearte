@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="light">
     <title>Mis cursos - DulceArte</title>
     <link rel="stylesheet" href="mis-cursos.css?v=48204e84">
     <link rel="icon" href="Data/favicon.png" type="image/png">
@@ -25,6 +24,8 @@
     <link rel="canonical" href="https://sameiflovi.github.io/Dulcearte/mis-cursos.html">
     <meta property="og:locale" content="es_ES">
     <meta name="twitter:card" content="summary_large_image">
+    <script src="localStorage-safe.js?v=b8fbe754"></script>
+    <script src="mis-cursos.js?v=2b8c3b21"></script>
 </head>
 <body>
     <header class="inicio">
@@ -45,120 +46,56 @@
         <section id="seccion-cursos">
             <h2 class="categoria-titulo" id="cursos">🎂 Cursos</h2>
             <section class="courses" aria-label="Listado de cursos">
-                <!-- Tarjeta de curso: para cambiar la imagen, sustituye o añade un archivo en Data/ y cambia la ruta en HTML o CSS -->
                 <a class="course-card" data-curso="pizzas" href="cursos/pizzas/pizzas.html" aria-label="Ir al curso de pizzas">
-                    <div class="course-image">
-                        <div class="course-media">
-                            <img src="Data/Fondos-Archivos de DulceArte/pizzas 8x8.png" alt="Curso de pizzas">
-                        </div>
-                    </div>
+                    <div class="course-image"><div class="course-media"><img src="Data/Fondos-Archivos de DulceArte/pizzas 8x8.png" alt="Curso de pizzas"></div></div>
                     <div class="course-title">Curso de pizzas</div>
                 </a>
-
                 <a class="course-card" data-curso="comida-mexicana" href="cursos/comida-mexicana/comida-m.html" aria-label="Ir al curso de comida mexicana">
-                    <div class="course-image">
-                        <div class="course-media">
-                            <img src="Data/Fondos-Archivos de DulceArte/tacos 8x8.png" alt="Comida mexicana">
-                        </div>
-                    </div>
+                    <div class="course-image"><div class="course-media"><img src="Data/Fondos-Archivos de DulceArte/tacos 8x8.png" alt="Comida mexicana"></div></div>
                     <div class="course-title">Comida mexicana</div>
                 </a>
-
                 <a class="course-card" data-curso="empanadas" href="cursos/empanadas/empanadas.html" aria-label="Ir al curso de empanadas">
-                    <div class="course-image">
-                        <div class="course-media">
-                            <img src="Data/Fondos-Archivos de DulceArte/empanadas.png" alt="Empanadas">
-                        </div>
-                    </div>
+                    <div class="course-image"><div class="course-media"><img src="Data/Fondos-Archivos de DulceArte/empanadas.png" alt="Empanadas"></div></div>
                     <div class="course-title">Empanadas</div>
                 </a>
-
                 <a class="course-card" data-curso="proximo" href="#" aria-label="Próximo curso">
-                    <div class="course-image">
-                        <div class="course-media placeholder" style="background-color:#f3c4b8"></div>
-                    </div>
+                    <div class="course-image"><div class="course-media placeholder" style="background-color:#f3c4b8"></div></div>
                     <div class="course-title">Próximo curso</div>
                 </a>
             </section>
         </section>
-<!-- RECETARIO -->
         <section id="seccion-recetarios">
             <h2 class="categoria-titulo" id="recetarios">📖 Recetarios</h2>
             <section class="courses recetario-list" aria-label="Listado de recetarios">
-                
-                <!-- Recetario de comida rapida -->
                 <a class="course-card recetario-card" data-curso="fast-food" href="recetarios/fast-food/seccion-fast-food.html" aria-label="Recetario de comida rápida">
-                    <div class="course-image">
-                        <div class="course-media">
-                            <img src="recetarios/fast-food/fast-food.webp" alt="Recetario de comida rapida">
-                        </div>
-                    </div>
+                    <div class="course-image"><div class="course-media"><img src="recetarios/fast-food/fast-food.webp" alt="Recetario de comida rapida"></div></div>
                     <div class="course-title">Recetario de comida rapida</div>
                 </a>
-
-                
             </section>
         </section>
     </main>
 
     <ul class="samei-social-bar">
-        <li style="--softclr:#7ea6ff; --sideclr:#5f84d8; --bottomclr:#4f74c7; --clr1:#1877f2; --clr2:#0d5fd1;">
-            <a href="https://www.facebook.com/profile.php?id=61590101863806" target="_blank" rel="noopener noreferrer">
-                <i class="fa-brands fa-facebook-f"></i>
-            </a>
-        </li>
-        <li style="--softclr:#ff8fc2; --sideclr:#e56ba3; --bottomclr:#cc4f89; --clr1:#ff2f92; --clr2:#ff006a;">
-            <a href="https://www.instagram.com/dulcearteig/" target="_blank" rel="noopener noreferrer">
-                <i class="fa-brands fa-instagram"></i>
-            </a>
-        </li>
-        <li style="--softclr:#7ce9a5; --sideclr:#5ccc85; --bottomclr:#41b66f; --clr1:#25d366; --clr2:#17b653;">
-            <a href="https://wa.me/59170724244" target="_blank" rel="noopener noreferrer">
-                <i class="fa-brands fa-whatsapp"></i>
-            </a>
-        </li>
-        <li style="--softclr:#858484; --sideclr:#5e5d5d; --bottomclr:#5a5a5a; --clr1:#ff0050; --clr2:#00f2ea;">
-            <a href="https://www.tiktok.com/@dulcearte55" target="_blank" rel="noopener noreferrer">
-                <i class="fa-brands fa-tiktok"></i>
-            </a>
-        </li>
+        <li style="--softclr:#7ea6ff; --sideclr:#5f84d8; --bottomclr:#4f74c7; --clr1:#1877f2; --clr2:#0d5fd1;"><a href="https://www.facebook.com/profile.php?id=61590101863806" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook-f"></i></a></li>
+        <li style="--softclr:#ff8fc2; --sideclr:#e56ba3; --bottomclr:#cc4f89; --clr1:#ff2f92; --clr2:#ff006a;"><a href="https://www.instagram.com/dulcearteig/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a></li>
+        <li style="--softclr:#7ce9a5; --sideclr:#5ccc85; --bottomclr:#41b66f; --clr1:#25d366; --clr2:#17b653;"><a href="https://wa.me/59170724244" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i></a></li>
+        <li style="--softclr:#858484; --sideclr:#5e5d5d; --bottomclr:#5a5a5a; --clr1:#ff0050; --clr2:#00f2ea;"><a href="https://www.tiktok.com/@dulcearte55" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok"></i></a></li>
     </ul>
-
-   
-    <script src="mis-cursos.js?v=2b8c3b21"></script>
 
     <div id="toast" class="toast" role="alert" aria-live="assertive">
         <button class="toast-close" type="button" aria-label="Cerrar notificación de acceso denegado">×</button>
         <div class="toast-icon error" aria-hidden="true">✖</div>
-        <div class="toast-content">
-            <h4>Acceso denegado</h4>
-            <p>No tienes acceso a este curso.</p>
-            <a class="toast-support" href="https://wa.me/59170724244" target="_blank" rel="noopener noreferrer">
-                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
-                ¿Crees que es un error? Escríbenos
-            </a>
-        </div>
+        <div class="toast-content"><h4>Acceso denegado</h4><p>No tienes acceso a este curso.</p><a class="toast-support" href="https://wa.me/59170724244" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> ¿Crees que es un error? Escríbenos</a></div>
         <div class="toast-progress"></div>
     </div>
-
     <div id="toast-ok" class="toast-ok" role="status" aria-live="polite">
         <button class="toast-close" type="button" aria-label="Cerrar notificación de acceso concedido">×</button>
-        <div class="toast-icon-ok" aria-hidden="true">
-            <i class="fa-solid fa-lock-open"></i>
-        </div>
-        <div class="toast-content">
-            <div class="toast-title">Acceso concedido</div>
-            <div class="toast-message">Puedes ingresar a este curso.</div>
-        </div>
+        <div class="toast-icon-ok" aria-hidden="true"><i class="fa-solid fa-lock-open"></i></div>
+        <div class="toast-content"><div class="toast-title">Acceso concedido</div><div class="toast-message">Puedes ingresar a este curso.</div></div>
         <div class="toast-progress"></div>
     </div>
     <div class="version">v26.9.7</div>
-<script src="offline-banner.js?v=dcf86e9f"></script>
-<script src="image-fallback.js?v=aeffec89"></script>
-<script src="localStorage-safe.js?v=b8fbe754"></script>
+    <script src="offline-banner.js?v=dcf86e9f"></script>
+    <script src="image-fallback.js?v=aeffec89"></script>
 </body>
 </html>
-
-
-
-
