@@ -1128,6 +1128,29 @@ img, svg {
 /* ================================================================
    10. CATÁLOGO (vitrina en la página de inicio)
    ================================================================ */
+
+/* Estilo para enlace de recargar página (igual a faq-whatsapp-link pero sin tooltip) */
+.reload-page-link {
+    position: relative;
+    display: inline-block;
+    color: #a85f3e;
+    font-weight: 800;
+    text-decoration-color: rgba(168, 95, 62, 0.45);
+    text-underline-offset: 3px;
+    cursor: pointer;
+    transition: color 150ms ease;
+}
+
+.reload-page-link:focus-visible {
+    color: #7d432c;
+    outline: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .reload-page-link:hover {
+    color: #7d432c;
+  }
+}
 .btn-catalogo {
     display: flex;
     align-items: center;
@@ -1566,4 +1589,435 @@ img, svg {
     .faq-header { padding: 0 8px; }
     .faq-header > p:last-child { font-size: 0.88rem; }
     .faq-item summary { min-height: 48px; }
+    
+    /* Bug Reporter Responsive */
+    .btn-reportar-bug { padding: 10px 12px; font-size: 0.85rem; margin-top: 8px; }
+    .btn-reportar-bug .btn-text { display: none; }
+    .btn-reportar-bug::before { content: 'Reportar'; }
+    .bug-edit-banner { font-size: 0.85rem; padding: 8px 6px; }
+    .bug-form-content { width: 95%; max-width: none; margin: 20px; }
+    .bug-form-textarea { font-size: 16px; min-height: 80px; }
+}
+
+
+/* ================================================================
+   12. SISTEMA INTEGRADO DE REPORTE DE BUGS CON TELEGRAM
+   ================================================================ */
+
+/* Botón principal de reportar bug */
+.btn-reportar-bug {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 20px;
+    background: linear-gradient(135deg, #ef7d5d 0%, #e96d4c 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 12px rgba(239, 125, 93, 0.3);
+    margin-top: 10px;
+    letter-spacing: 0.3px;
+}
+
+.btn-reportar-bug:hover {
+    background: linear-gradient(135deg, #e96d4c 0%, #d85e3d 100%);
+    box-shadow: 0 6px 18px rgba(239, 125, 93, 0.45);
+    transform: translateY(-2px);
+}
+
+.btn-reportar-bug:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(239, 125, 93, 0.25);
+}
+
+.btn-reportar-bug:focus-visible {
+    outline: 2px solid #a85f3e;
+    outline-offset: 2px;
+}
+
+.btn-reportar-bug i {
+    font-size: 1.05rem;
+}
+
+/* Banner de instrucciones durante dibujo */
+.bug-edit-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(90deg, #583724 0%, #6b4732 100%);
+    color: #ffffff;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    z-index: 9998;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bug-edit-banner i {
+    color: #f5d9b0;
+    margin-right: 4px;
+}
+
+.btn-cancel-draw {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 150ms ease;
+    margin-left: auto;
+}
+
+.btn-cancel-draw:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Caja de resaltado rojo (recuadro dibujable) */
+.bug-highlight-box {
+    position: absolute;
+    border: 3px solid #ff3b30;
+    background: rgba(255, 59, 48, 0.08);
+    box-shadow: inset 0 0 0 1px rgba(255, 59, 48, 0.3),
+                0 0 0 1px rgba(255, 59, 48, 0.2);
+    pointer-events: none;
+    z-index: 9997;
+    border-radius: 2px;
+}
+
+/* Botones flotantes de confirmación/cancelación */
+.bug-action-floaters {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    z-index: 9999;
+    animation: slideInUp 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.btn-float {
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 150ms ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 140px;
+    justify-content: center;
+}
+
+.btn-confirm {
+    background: linear-gradient(135deg, #25d366 0%, #1fbe57 100%);
+    color: #ffffff;
+}
+
+.btn-confirm:hover {
+    background: linear-gradient(135deg, #1fbe57 0%, #1a9d4a 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.35);
+}
+
+.btn-cancel {
+    background: #ffffff;
+    color: #58372d;
+    border: 2px solid #e8d4c4;
+}
+
+.btn-cancel:hover {
+    background: #f9f3ed;
+    border-color: #d4b8a8;
+    transform: translateY(-2px);
+}
+
+/* Modal del formulario de descripción */
+.bug-form-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    backdrop-filter: blur(2px);
+    padding: 20px;
+    animation: fadeIn 200ms ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.bug-form-content {
+    background: linear-gradient(135deg, #fff9f3 0%, #fffbf7 100%);
+    border: 2px solid #f5d9b0;
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(88, 55, 45, 0.1);
+    animation: scaleIn 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.bug-form-content h3 {
+    margin: 0 0 14px 0;
+    color: #58372d;
+    font-size: 1.1rem;
+}
+
+.bug-form-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border: 2px solid #e8d4c4;
+    border-radius: 6px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.95rem;
+    color: #58372d;
+    background: #ffffff;
+    resize: vertical;
+    transition: all 150ms ease;
+    box-sizing: border-box;
+}
+
+.bug-form-textarea:focus {
+    outline: none;
+    border-color: #ef7d5d;
+    box-shadow: 0 0 0 3px rgba(239, 125, 93, 0.15);
+}
+
+.bug-form-textarea::placeholder {
+    color: #a89080;
+}
+
+/* Información auxiliar del formulario */
+.bug-form-info {
+    margin: 12px 0;
+    padding: 8px 10px;
+    background: rgba(239, 125, 93, 0.08);
+    border-left: 3px solid #ef7d5d;
+    border-radius: 3px;
+    font-size: 0.85rem;
+    color: #58372d;
+}
+
+.bug-form-info i {
+    color: #ef7d5d;
+    margin-right: 4px;
+}
+
+/* Acciones del formulario (botones) */
+.bug-form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.btn-cancel-report,
+.btn-send-report {
+    flex: 1;
+    padding: 11px 14px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 150ms ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-cancel-report {
+    background: #e8d4c4;
+    color: #58372d;
+    border: 1px solid #d4b8a8;
+}
+
+.btn-cancel-report:hover {
+    background: #d9bfac;
+    border-color: #c0a090;
+}
+
+.btn-send-report {
+    background: linear-gradient(135deg, #ef7d5d 0%, #e96d4c 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(239, 125, 93, 0.3);
+}
+
+.btn-send-report:hover {
+    background: linear-gradient(135deg, #e96d4c 0%, #d85e3d 100%);
+    box-shadow: 0 6px 16px rgba(239, 125, 93, 0.4);
+    transform: translateY(-1px);
+}
+
+.btn-send-report:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Estado del reporte (cargando, éxito, error) */
+.bug-report-status {
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: slideDown 200ms ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.bug-report-status.loading {
+    background: #fef3c7;
+    color: #92400e;
+    border-left: 3px solid #fcd34d;
+}
+
+.bug-report-status.success {
+    background: #dcfce7;
+    color: #166534;
+    border-left: 3px solid #86efac;
+}
+
+.bug-report-status.error {
+    background: #fee2e2;
+    color: #991b1b;
+    border-left: 3px solid #fca5a5;
+}
+
+/* Responsive para tablets */
+@media (max-width: 768px) {
+    .btn-reportar-bug {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+    
+    .bug-form-content {
+        max-width: 95%;
+        padding: 20px;
+    }
+    
+    .bug-edit-banner {
+        flex-wrap: wrap;
+        padding: 10px 12px;
+    }
+    
+    .btn-cancel-draw {
+        margin-top: 8px;
+        width: 100%;
+    }
+    
+    .bug-action-floaters {
+        bottom: 15px;
+        right: 15px;
+        gap: 8px;
+    }
+    
+    .btn-float {
+        padding: 10px 14px;
+        font-size: 0.85rem;
+        min-width: 120px;
+    }
+}
+
+/* Responsive para móviles pequeños */
+@media (max-width: 480px) {
+    .btn-reportar-bug {
+        width: 100%;
+        padding: 12px 14px;
+        font-size: 0.88rem;
+        justify-content: center;
+    }
+    
+    .bug-form-content {
+        max-width: 100%;
+        padding: 18px;
+        margin: 16px;
+    }
+    
+    .bug-form-textarea {
+        min-height: 90px;
+        font-size: 16px; /* Previene zoom en iOS */
+    }
+    
+    .bug-edit-banner {
+        font-size: 0.8rem;
+        padding: 10px 8px;
+    }
+    
+    .bug-action-floaters {
+        bottom: 10px;
+        right: 10px;
+        flex-direction: row;
+        gap: 6px;
+        width: calc(100% - 20px);
+        left: 10px;
+        right: auto;
+    }
+    
+    .btn-float {
+        flex: 1;
+        min-width: auto;
+        padding: 9px 10px;
+        font-size: 0.8rem;
+        gap: 4px;
+    }
+    
+    .btn-float i {
+        font-size: 0.9rem;
+    }
 }

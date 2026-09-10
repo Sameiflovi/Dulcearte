@@ -117,50 +117,75 @@
 
         <div class="faq-list">
             <details class="faq-item">
+                <!-- FAQ 1 -->
                 <summary><span class="faq-label">¿Qué hago si aparece “No pudimos comprobar la clave por la conexión”?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
-                <div class="faq-answer"><p>Ese mensaje significa que la página no pudo consultar la base de datos. Revisa tu conexión a internet, espera unos segundos y vuelve a intentarlo, tambien prueba con recargar la pagina. La clave no se marca como incorrecta cuando el problema es la conexión.</p></div>
+                <div class="faq-answer"><p>Ese mensaje significa que la página no pudo consultar la base de datos. Revisa tu conexión a internet, espera unos segundos y vuelve a intentarlo, tambien <a href="#" class="reload-page-link">prueba con recargar la página</a>. La clave no se marca como incorrecta cuando el problema es la conexión.</p></div>
+            </details>
+            
+                <!-- FAQ 2 -->
+
+<details class="faq-item">
+                <summary><span class="faq-label">¿Por qué aparece “Clave incorrecta, por favor vuelve a intentar”?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
+                <div class="faq-answer"><p>La claveque te dimos no la colocaste tal y como es, Escríbela exactamente como te la entregamos, sin espacios al inicio ni al final, y vuelve a intentarlo, si persiste este error <a class="faq-whatsapp-link" href="https://wa.me/59170724244">contactanos</a>.</p></div>
             </details>
 
-            <details class="faq-item">
-                <summary><span class="faq-label">¿Por qué aparece “Clave incorrecta, por favor vuelve a intentar”?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
-                <div class="faq-answer"><p>La clave no coincidió con una clave activa registrada. Escríbela exactamente como te la entregaron, sin espacios al inicio ni al final, y vuelve a intentarlo, si persiste este error <a class="faq-whatsapp-link" href="https://wa.me/59170724244">contactanos</a>.</p></div>
-            </details>
+            <!-- FAQ 3 -->
 
             <details class="faq-item">
                 <summary><span class="faq-label">¿Qué significa “Verificando tu clave”?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
-                <div class="faq-answer"><p>La página está consultando el servidor. Mientras aparece este mensaje, los controles se desactivan para evitar intentos duplicados. Si la conexión está lenta, verás un aviso de reintento automático.</p></div>
+                <div class="faq-answer"><p>La página está verificando algunas cosas. esto puede tardar un poco y mucho mas si no tienes buen internet, Si la conexión está lenta, verás un aviso de reintento automático.</p></div>
             </details>
+
+            <!-- FAQ 4 -->
 
             <details class="faq-item">
                 <summary><span class="faq-label">¿Qué hace la opción “Recordar acceso”?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
-                <div class="faq-answer"><p>Guarda la clave en este dispositivo para que puedas usarla más fácilmente la próxima vez. Si no deseas conservarla, desmarca la opción o elige no guardar la clave cuando la página lo pregunte.</p></div>
+                <div class="faq-answer"><p>Guarda la clave <strong>en este dispositivo</strong> para que puedas usarla más fácilmente la próxima vez. Si no deseas conservarla, desmarca la opción o elige no guardar la clave cuando la página lo pregunte.</p></div>
             </details>
 
+            <!-- FAQ 5 -->
+            
             <details class="faq-item">
                 <summary><span class="faq-label">¿Qué hago si olvidé la clave o no puedo entrar?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
                 <div class="faq-answer"><p>Contacta a <a class="faq-whatsapp-link" href="https://wa.me/59170724244" target="_blank" rel="noopener noreferrer">DulceArte</a> por WhatsApp desde los enlaces de contacto de la página para verificar tu acceso y solicitar ayuda con tu clave.</p></div>
             </details>
 
+            <!-- FAQ 6 -->
+
             <details class="faq-item">
                 <summary><span class="faq-label">¿Por qué una foto o imagen no carga?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
-                <div class="faq-answer"><p>Puede pasar por una conexión lenta o inestable. Recarga la página; si el problema sigue, contáctanos por WhatsApp para avisarnos.</p></div>
+                <div class="faq-answer"><p>Puede pasar por una conexión lenta o inestable. <a href="#" class="reload-page-link">Recarga la página</a>; si el problema sigue, contáctanos por WhatsApp para avisarnos y solucionar el problema lo antes posible.</p></div>
             </details>
+
 
             <details class="faq-item">
                 <summary><span class="faq-label">Apareció un aviso de "Nueva versión disponible", ¿qué hago?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
-                <div class="faq-answer"><p>Actualizamos la página con mejoras. Solo toca el botón para recargar y tendrás la versión más reciente, sin perder tu clave guardada.</p></div>
+                <div class="faq-answer">
+                    <p>Actualizamos la página con mejoras. Solo toca el botón para recargar y tendrás la versión más reciente, sin perder tu clave guardada.</p>
+                    <p style="margin-top: 12px; font-size: 0.95rem; color: #58372d;">Si encuentras algún error o algo no se ve bien, nos ayudas un montón reportándolo aquí:</p>
+                    <button type="button" id="btnReportarBug" class="btn-reportar-bug" aria-label="Reportar error con captura de pantalla">
+                        <i class="fa-solid fa-camera"></i> <span class="btn-text">Resaltar error y reportar</span>
+                    </button>
+                    <div id="bugReportStatus" class="bug-report-status" style="display: none;" role="status" aria-live="polite"></div>
+                </div>
             </details>
-
+            
+           <!-- FAQ 8 -->
+           
             <details class="faq-item">
                 <summary><span class="faq-label">¿Puedo usar mi clave en varios celulares o computadoras?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
-                <div class="faq-answer"><p>Sí, tu clave funciona en cualquier dispositivo. Eso sí, "Recordar acceso" guarda la clave solo en el dispositivo donde la activaste, no se comparte automáticamente entre tus equipos.</p></div>
+                <div class="faq-answer"><p>Sí, tu clave funciona en cualquier dispositivo. Eso sí, "Recordar acceso" guarda la clave <strong> solo en el dispositivo donde la activaste</strong>, no se comparte automáticamente entre tus equipos.</p></div>
             </details>
-
+           
+            <!-- FAQ 9 -->
+           
             <details class="faq-item">
                 <summary><span class="faq-label">Antes podía entrar y ahora no, ¿qué pasó?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
-                <div class="faq-answer"><p>Tu clave pudo haber sido desactivada o el acceso a ese curso cambió. Contáctanos por WhatsApp para revisar tu caso.</p></div>
+                <div class="faq-answer"><p>Contactanos lo antes posible a nuesto equipo para poder soluconar este problema que tienes,  <a class="faq-whatsapp-link" href="https://wa.me/59170724244" target="_blank" rel="noopener noreferrer">Contactate por Whatsapp con DulceArte</a></p></div>
             </details>
-
+           
+            <!-- FAQ 10 -->
+           
             <details class="faq-item">
                 <summary><span class="faq-label">¿Es seguro escribir mi clave en esta página?</span><span class="faq-toggle" aria-hidden="true"></span></summary>
                 <div class="faq-answer"><p>Tu clave solo se usa para verificar acceso a los cursos, no se comparte con terceros. Igual, evita compartirla con personas fuera de tu confianza — es personal.</p></div>
@@ -191,5 +216,340 @@
     <script src="offline-banner.js?v=dcf86e9f"></script>
     <script src="image-fallback.js?v=aeffec89"></script>
     <script src="localStorage-safe.js?v=b8fbe754"></script>
+    
+    <!-- Sistema de reporte de bugs con captura de pantalla y dibujo de área problemática -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <script>
+        // Manejar clics en los enlaces de recargar página con hard refresh (Ctrl+Shift+R)
+        document.querySelectorAll('.reload-page-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('¿Quieres recargar la página?')) {
+                    // Hard refresh - borra el cache
+                    location.reload(true);
+                }
+            });
+        });
+
+        // ========== SISTEMA INTEGRADO DE REPORTE DE BUGS ==========
+        const TELEGRAM_BOT_TOKEN = '8778670374:AAGWwpsu-IYB__NgMrhx8NU6XlVXvzkG7ME';
+        const TELEGRAM_CHAT_ID = '1006727206';
+        
+        let isDrawingMode = false;
+        let isDrawing = false;
+        let startX = 0, startY = 0;
+        let highlightBox = null;
+        let capturedCanvas = null;
+
+        // Detectar dispositivo automáticamente sin preguntar al usuario
+        async function detectDeviceModel() {
+            try {
+                if (navigator.userAgentData) {
+                    const hints = await navigator.userAgentData.getHighEntropyValues([
+                        'model', 'platform', 'platformVersion'
+                    ]);
+                    const model = hints.model || hints.platform || 'Dispositivo desconocido';
+                    const version = hints.platformVersion || '';
+                    return `${model}${version ? ` (${version})` : ''}`;
+                }
+            } catch (e) {
+                console.log('Client Hints no disponible, usando fallback');
+            }
+            
+            // Fallback: parsear User-Agent
+            const ua = navigator.userAgent;
+            
+            if (ua.includes('iPhone') || ua.includes('iPad')) {
+                const screenRes = `${window.screen.width}x${window.screen.height}`;
+                return `iPhone/iPad (${screenRes})`;
+            }
+            if (ua.includes('Android')) {
+                return 'Android Device';
+            }
+            return 'Dispositivo desconocido';
+        }
+
+        // Obtener LocalStorage formateado
+        function getFormattedLocalStorage() {
+            const storage = {};
+            for (let key in localStorage) {
+                if (localStorage.hasOwnProperty(key)) {
+                    const value = localStorage.getItem(key);
+                    // No incluir datos muy sensibles, pero sí información útil
+                    if (!key.includes('password') && !key.includes('token')) {
+                        storage[key] = value.substring(0, 50);
+                    }
+                }
+            }
+            return Object.keys(storage).length > 0 ? storage : { 'Sin datos guardados': true };
+        }
+
+        function getEventPosition(e) {
+            const touch = e.touches ? e.touches[0] : e;
+            return {
+                x: touch.clientX + window.scrollX,
+                y: touch.clientY + window.scrollY
+            };
+        }
+
+        function showInstructionBanner() {
+            const banner = document.createElement('div');
+            banner.className = 'bug-edit-banner';
+            banner.id = 'bugEditBanner';
+            banner.innerHTML = `<div style="display: flex; align-items: center; gap: 10px; font-size: 0.95rem;"><i class="fa-solid fa-hand-pointer" style="font-size: 1.2rem;"></i><span><strong>Dibuja un rectángulo</strong> sobre el área con el problema</span><button type="button" id="cancelDrawMode" class="btn-cancel-draw" aria-label="Cancelar dibujo"><i class="fa-solid fa-xmark"></i> Cancelar</button></div>`;
+            document.body.appendChild(banner);
+            
+            document.getElementById('cancelDrawMode').addEventListener('click', exitDrawingMode);
+        }
+
+        function handleDrawStart(e) {
+            if (!isDrawingMode) return;
+            e.preventDefault();
+            isDrawing = true;
+            const rect = getEventPosition(e);
+            startX = rect.x;
+            startY = rect.y;
+            
+            if (highlightBox) highlightBox.remove();
+            highlightBox = document.createElement('div');
+            highlightBox.className = 'bug-highlight-box';
+            highlightBox.id = 'bugHighlightBox';
+            document.body.appendChild(highlightBox);
+        }
+
+        function handleDrawMove(e) {
+            if (!isDrawing || !highlightBox) return;
+            e.preventDefault();
+            const rect = getEventPosition(e);
+            const width = Math.abs(rect.x - startX);
+            const height = Math.abs(rect.y - startY);
+            const left = Math.min(startX, rect.x);
+            const top = Math.min(startY, rect.y);
+            
+            highlightBox.style.left = left + 'px';
+            highlightBox.style.top = top + 'px';
+            highlightBox.style.width = width + 'px';
+            highlightBox.style.height = height + 'px';
+        }
+
+        function handleDrawEnd(e) {
+            if (!isDrawing) return;
+            isDrawing = false;
+            
+            if (highlightBox && highlightBox.offsetWidth > 10 && highlightBox.offsetHeight > 10) {
+                showFloatingActions();
+            }
+        }
+
+        function showFloatingActions() {
+            if (document.getElementById('bugActionFloaters')) return;
+            
+            const floaters = document.createElement('div');
+            floaters.id = 'bugActionFloaters';
+            floaters.className = 'bug-action-floaters';
+            floaters.innerHTML = `<button type="button" class="btn-float btn-confirm" id="confirmDraw" aria-label="Confirmar y enviar"><i class="fa-solid fa-check"></i> Enviar reporte</button><button type="button" class="btn-float btn-cancel" id="redrawDraw" aria-label="Volver a dibujar"><i class="fa-solid fa-redo"></i> Redibujar</button>`;
+            document.body.appendChild(floaters);
+            
+            document.getElementById('confirmDraw').addEventListener('click', captureAndReportBug);
+            document.getElementById('redrawDraw').addEventListener('click', () => {
+                highlightBox?.remove();
+                document.getElementById('bugActionFloaters')?.remove();
+            });
+        }
+
+        async function captureAndReportBug() {
+            console.log('[BugReport] Iniciando captura de pantalla...');
+            const floaters = document.getElementById('bugActionFloaters');
+            const banner = document.getElementById('bugEditBanner');
+            
+            // Esconder elementos antes de capturar
+            if (floaters) floaters.style.display = 'none';
+            if (banner) banner.style.display = 'none';
+            
+            try {
+                // Capturar pantalla
+                capturedCanvas = await html2canvas(document.body, {
+                    backgroundColor: null,
+                    scale: window.devicePixelRatio || 1,
+                    useCORS: true,
+                    allowTaint: true,
+                    logging: false
+                });
+                
+                console.log('[BugReport] Captura completada');
+                
+                // Restaurar elementos
+                if (floaters) floaters.style.display = '';
+                if (banner) banner.style.display = '';
+                
+                showReportForm();
+                cleanupDrawingMode();
+            } catch (error) {
+                console.error('[BugReport] Error en captura:', error);
+                alert('Error al capturar la pantalla. Por favor intenta de nuevo.');
+                if (floaters) floaters.style.display = '';
+                if (banner) banner.style.display = '';
+            }
+        }
+
+        function showReportForm() {
+            console.log('[BugReport] Mostrando formulario');
+            if (document.getElementById('bugFormModal')) return;
+            
+            const modal = document.createElement('div');
+            modal.id = 'bugFormModal';
+            modal.className = 'bug-form-modal';
+            modal.innerHTML = `<div class="bug-form-content"><h3 style="margin: 0 0 12px 0; color: #58372d; font-size: 1.1rem;"><i class="fa-solid fa-comment"></i> Cuéntanos qué pasó</h3><textarea id="bugDescription" class="bug-form-textarea" placeholder="Describe brevemente el problema que encontraste..." maxlength="500" aria-label="Descripción del problema"></textarea><div class="bug-form-info"><small><i class="fa-solid fa-info-circle"></i> La información de tu dispositivo se enviará automáticamente</small></div><div class="bug-form-actions"><button type="button" id="cancelReport" class="btn-cancel-report" aria-label="Cancelar">Cancelar</button><button type="button" id="sendReport" class="btn-send-report" aria-label="Enviar reporte"><i class="fa-solid fa-paper-plane"></i> Enviar</button></div></div>`;
+            document.body.appendChild(modal);
+            
+            document.getElementById('cancelReport').addEventListener('click', () => {
+                modal.remove();
+                exitDrawingMode();
+            });
+            
+            document.getElementById('sendReport').addEventListener('click', sendToTelegram);
+            
+            setTimeout(() => document.getElementById('bugDescription')?.focus(), 100);
+        }
+
+        async function sendToTelegram() {
+            console.log('[BugReport] Iniciando envío a Telegram');
+            const description = document.getElementById('bugDescription').value || 'Sin descripción';
+            const btnReportarBug = document.getElementById('btnReportarBug');
+            const statusDiv = btnReportarBug ? document.getElementById('bugReportStatus') : null;
+            const sendBtn = document.getElementById('sendReport');
+            
+            if (statusDiv) {
+                statusDiv.textContent = '⏳ Enviando...';
+                statusDiv.className = 'bug-report-status loading';
+                statusDiv.style.display = 'block';
+            }
+            if (sendBtn) sendBtn.disabled = true;
+            
+            try {
+                if (!capturedCanvas) {
+                    throw new Error('No hay captura de pantalla disponible');
+                }
+                
+                // Obtener información del dispositivo
+                const deviceModel = await detectDeviceModel();
+                const localStorage = getFormattedLocalStorage();
+                
+                console.log('[BugReport] Convertiendo canvas a blob...');
+                
+                capturedCanvas.toBlob(async (blob) => {
+                    if (!blob) {
+                        throw new Error('No se pudo crear el blob de la imagen');
+                    }
+                    
+                    try {
+                        const formData = new FormData();
+                        formData.append('chat_id', TELEGRAM_CHAT_ID);
+                        formData.append('photo', blob, 'bug_report.png');
+                        
+                        const caption = `🚨 **¡Nuevo Reporte de Bug!**\n\n📝 **Problema:**\n${description}\n\n📱 **Modelo:**\n${deviceModel}\n\n🔑 **LocalStorage:**\n\`\`\`json\n${JSON.stringify(localStorage, null, 2)}\n\`\`\``;
+                        
+                        formData.append('caption', caption);
+                        formData.append('parse_mode', 'Markdown');
+                        
+                        console.log('[BugReport] Enviando a Telegram API...');
+                        
+                        const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        console.log('[BugReport] Respuesta:', response.status);
+                        
+                        if (response.ok) {
+                            console.log('[BugReport] ¡Enviado exitosamente!');
+                            if (statusDiv) {
+                                statusDiv.textContent = '✅ ¡Reporte enviado! Gracias por ayudarnos';
+                                statusDiv.className = 'bug-report-status success';
+                            }
+                            document.getElementById('bugFormModal').style.display = 'none';
+                            setTimeout(() => {
+                                document.getElementById('bugFormModal')?.remove();
+                                if (btnReportarBug) btnReportarBug.style.display = '';
+                                cleanupDrawingMode();
+                            }, 2000);
+                        } else {
+                            const error = await response.text();
+                            console.error('[BugReport] Error Telegram:', error);
+                            throw new Error(`Telegram respondió con: ${response.status}`);
+                        }
+                    } catch (error) {
+                        console.error('[BugReport] Error en envío:', error);
+                        if (statusDiv) {
+                            statusDiv.textContent = '❌ No se pudo enviar. Intenta de nuevo';
+                            statusDiv.className = 'bug-report-status error';
+                        }
+                        if (sendBtn) sendBtn.disabled = false;
+                    }
+                }, 'image/png', 0.92);
+            } catch (error) {
+                console.error('[BugReport] Error general:', error);
+                if (statusDiv) {
+                    statusDiv.textContent = '❌ Error: ' + error.message;
+                    statusDiv.className = 'bug-report-status error';
+                }
+                if (sendBtn) sendBtn.disabled = false;
+            }
+        }
+
+        function exitDrawingMode() {
+            isDrawingMode = false;
+            document.body.style.cursor = 'auto';
+            document.removeEventListener('mousedown', handleDrawStart);
+            document.removeEventListener('mousemove', handleDrawMove);
+            document.removeEventListener('mouseup', handleDrawEnd);
+            document.removeEventListener('touchstart', handleDrawStart);
+            document.removeEventListener('touchmove', handleDrawMove);
+            document.removeEventListener('touchend', handleDrawEnd);
+            cleanupDrawingMode();
+        }
+
+        function cleanupDrawingMode() {
+            document.getElementById('bugHighlightBox')?.remove();
+            document.getElementById('bugEditBanner')?.remove();
+            document.getElementById('bugActionFloaters')?.remove();
+        }
+
+        // Inicializar cuando el DOM esté listo
+        function initBugReporter() {
+            const btnReportarBug = document.getElementById('btnReportarBug');
+            if (!btnReportarBug) {
+                console.warn('[BugReport] Botón no encontrado. Reintentando...');
+                setTimeout(initBugReporter, 500);
+                return;
+            }
+            
+            console.log('[BugReport] Sistema inicializado');
+            btnReportarBug.addEventListener('click', function() {
+                console.log('[BugReport] Botón clickeado');
+                isDrawingMode = true;
+                this.style.display = 'none';
+                
+                showInstructionBanner();
+                document.body.style.cursor = 'crosshair';
+                
+                document.addEventListener('mousedown', handleDrawStart);
+                document.addEventListener('mousemove', handleDrawMove);
+                document.addEventListener('mouseup', handleDrawEnd);
+                
+                document.addEventListener('touchstart', handleDrawStart, { passive: false });
+                document.addEventListener('touchmove', handleDrawMove, { passive: false });
+                document.addEventListener('touchend', handleDrawEnd);
+            });
+        }
+
+        // Esperar a que el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initBugReporter);
+        } else {
+            initBugReporter();
+        }
+    </script>
 </body>
 </html>
