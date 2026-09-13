@@ -1,0 +1,70 @@
+diff --git a/script.js b/script.js
+index be7d881..3b83a7e 100644
+--- a/script.js
++++ b/script.js
+@@ -229,6 +229,7 @@ function initModal() {
+     }
+ 
+     modal.setAttribute("aria-hidden", "false");
++    document.body.classList.add("modal-abierto");
+     logEvent("Modal abierto", { title });
+     try {
+       carruselModal.dispatchEvent(new CustomEvent("pause-carousel", { detail: "modal" }));
+@@ -241,6 +242,7 @@ function initModal() {
+ 
+   function cerrarElModal() {
+     modal.setAttribute("aria-hidden", "true");
++    document.body.classList.remove("modal-abierto");
+     logEvent("Modal cerrado");
+     try {
+       carruselModal.dispatchEvent(new CustomEvent("resume-carousel", { detail: "modal" }));
+diff --git a/style.css b/style.css
+index ec7d9ac..f686f7d 100644
+--- a/style.css
++++ b/style.css
+@@ -679,6 +679,10 @@ img, svg {
+     display: flex;
+ }
+ 
++body.modal-abierto {
++    overflow: hidden;
++}
++
+ .modal-inner {
+     background: #fff;
+     padding: 18px 20px;
+@@ -702,8 +706,8 @@ img, svg {
+     cursor: pointer;
+ }
+ 
+-/* Botón X dentro del carrusel: redondo, rojo, con efecto hover */
+-.carousel .modal-close {
++/* Botón X del modal: redondo, rojo, con efecto hover */
++.modal .modal-close {
+     background: #e74c3c;
+     color: #fff;
+     width: 40px;
+@@ -712,6 +716,8 @@ img, svg {
+     align-items: center;
+     justify-content: center;
+     border-radius: 50%;
++    border: none;
++    outline: none;
+     font-size: 20px;
+     line-height: 1;
+     box-shadow: 0 6px 18px rgba(231, 76, 60, 0.12);
+@@ -720,12 +726,12 @@ img, svg {
+ /* Solo en dispositivos con mouse/hover real: en táctil, este bloque
+    nunca se activa, así que no puede quedar "pegado". */
+ @media (hover: hover) and (pointer: fine) {
+-  .carousel .modal-close:hover {
++  .modal .modal-close:hover {
+     transform: scale(1.08);
+     box-shadow: 0 0 20px rgba(231, 76, 60, 0.32), 0 8px 18px rgba(0, 0, 0, 0.06);
+   }
+ }
+-.carousel .modal-close:active {
++.modal .modal-close:active {
+     transform: scale(0.98) translateY(1px);
+ }
+ 

@@ -229,6 +229,7 @@ function initModal() {
     }
 
     modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-abierto");
     logEvent("Modal abierto", { title });
     try {
       carruselModal.dispatchEvent(new CustomEvent("pause-carousel", { detail: "modal" }));
@@ -241,6 +242,7 @@ function initModal() {
 
   function cerrarElModal() {
     modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-abierto");
     logEvent("Modal cerrado");
     try {
       carruselModal.dispatchEvent(new CustomEvent("resume-carousel", { detail: "modal" }));
