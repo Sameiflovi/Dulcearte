@@ -1600,7 +1600,7 @@ body.modal-abierto {
     .btn-reportar-bug { padding: 10px 12px; font-size: 0.85rem; margin-top: 8px; }
     .btn-reportar-bug .btn-text { display: none; }
     .btn-reportar-bug::before { content: 'Reportar'; }
-    .bug-edit-banner { font-size: 0.85rem; padding: 8px 6px; }
+    .bug-annotate-topbar { font-size: 0.8rem; }
     .bug-form-content { width: 95%; max-width: none; margin: 20px; }
     .bug-form-textarea { font-size: 16px; min-height: 80px; }
 }
@@ -1649,117 +1649,59 @@ body.modal-abierto {
     font-size: 1.05rem;
 }
 
-/* Banner de instrucciones durante dibujo */
-.bug-edit-banner {
+/* Overlay para marcar en amarillo sobre la captura ya tomada */
+.bug-annotate-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(90deg, #583724 0%, #6b4732 100%);
-    color: #ffffff;
-    padding: 12px 16px;
-    font-size: 0.95rem;
-    z-index: 9998;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    inset: 0;
+    background: rgba(20, 12, 8, 0.94);
+    z-index: 10000;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.bug-edit-banner i {
-    color: #f5d9b0;
-    margin-right: 4px;
-}
-
-.btn-cancel-draw {
-    background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 6px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: all 150ms ease;
-    margin-left: auto;
-}
-
-.btn-cancel-draw:hover {
-    background: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.5);
-}
-
-/* Caja de resaltado rojo (recuadro dibujable) */
-.bug-highlight-box {
-    position: absolute;
-    border: 3px solid #ff3b30;
-    background: rgba(255, 59, 48, 0.08);
-    box-shadow: inset 0 0 0 1px rgba(255, 59, 48, 0.3),
-                0 0 0 1px rgba(255, 59, 48, 0.2);
-    pointer-events: none;
-    z-index: 9997;
-    border-radius: 2px;
-}
-
-/* Botones flotantes de confirmación/cancelación */
-.bug-action-floaters {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
-    gap: 10px;
     flex-direction: column;
-    z-index: 9999;
-    animation: slideInUp 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    padding: 12px;
+    gap: 10px;
 }
 
-@keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.btn-float {
-    padding: 12px 16px;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
+.bug-annotate-topbar {
+    color: #fff8ef;
     font-size: 0.9rem;
+    text-align: center;
     display: flex;
     align-items: center;
-    gap: 6px;
-    transition: all 150ms ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    min-width: 140px;
     justify-content: center;
+    gap: 8px;
 }
 
-.btn-confirm {
-    background: linear-gradient(135deg, #25d366 0%, #1fbe57 100%);
-    color: #ffffff;
+.bug-annotate-topbar i {
+    color: #FFD400;
 }
 
-.btn-confirm:hover {
-    background: linear-gradient(135deg, #1fbe57 0%, #1a9d4a 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.35);
+.bug-annotate-canvas-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    min-height: 0;
 }
 
-.btn-cancel {
-    background: #ffffff;
-    color: #58372d;
-    border: 2px solid #e8d4c4;
+#bugAnnotateCanvas {
+    max-width: 100%;
+    max-height: 100%;
+    touch-action: none;
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    cursor: crosshair;
 }
 
-.btn-cancel:hover {
-    background: #f9f3ed;
-    border-color: #d4b8a8;
-    transform: translateY(-2px);
+.bug-annotate-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.bug-annotate-actions button {
+    flex: 1;
+    min-width: 100px;
 }
 
 /* Modal del formulario de descripción */
@@ -1957,26 +1899,8 @@ body.modal-abierto {
         padding: 20px;
     }
     
-    .bug-edit-banner {
-        flex-wrap: wrap;
-        padding: 10px 12px;
-    }
-    
-    .btn-cancel-draw {
-        margin-top: 8px;
-        width: 100%;
-    }
-    
-    .bug-action-floaters {
-        bottom: 15px;
-        right: 15px;
-        gap: 8px;
-    }
-    
-    .btn-float {
-        padding: 10px 14px;
-        font-size: 0.85rem;
-        min-width: 120px;
+    .bug-annotate-topbar {
+        padding: 0 6px;
     }
 }
 
@@ -2000,30 +1924,15 @@ body.modal-abierto {
         font-size: 16px; /* Previene zoom en iOS */
     }
     
-    .bug-edit-banner {
+    .bug-annotate-topbar {
         font-size: 0.8rem;
-        padding: 10px 8px;
     }
-    
-    .bug-action-floaters {
-        bottom: 10px;
-        right: 10px;
-        flex-direction: row;
-        gap: 6px;
-        width: calc(100% - 20px);
-        left: 10px;
-        right: auto;
+
+    .bug-annotate-actions {
+        flex-direction: column;
     }
-    
-    .btn-float {
-        flex: 1;
-        min-width: auto;
-        padding: 9px 10px;
-        font-size: 0.8rem;
-        gap: 4px;
-    }
-    
-    .btn-float i {
-        font-size: 0.9rem;
+
+    .bug-annotate-actions button {
+        min-width: 0;
     }
 }

@@ -8,7 +8,7 @@ const VERSION = "26.9.8";
 const CACHE_NAME = `dulcearte-${VERSION}`;
 
 const APP_SHELL = [
-    "./", "./index.html", "./style.css", "./script.js",
+    "./", "./index.html", "./style.css?v=97258f49", "./script.js?v=02abb9a4",
     "./manifest.json", "./sw.js", "./offline-banner.js?v=dcf86e9f",
     "./image-fallback.js?v=aeffec89", "./Data/favicon.png",
     "./Data/logos/logoprincipal.webp", "./Data/fondopc.webp", "./Data/fondocel.webp",

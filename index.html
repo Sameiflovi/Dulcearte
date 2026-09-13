@@ -13,7 +13,7 @@
     <link rel="icon" href="Data/favicon.png" type="image/png">
     <link rel="alternate icon" href="Data/favicon.png" type="image/png">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="style.css?v=97258f49">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -164,9 +164,8 @@
                     <p>Actualizamos la página con mejoras. Solo toca el botón para recargar y tendrás la versión más reciente, sin perder tu clave guardada.</p>
                     <p style="margin-top: 12px; font-size: 0.95rem; color: #58372d;">Si encuentras algún error o algo no se ve bien, nos ayudas un montón reportándolo aquí:</p>
                     <button type="button" id="btnReportarBug" class="btn-reportar-bug" aria-label="Reportar error con captura de pantalla">
-                        <i class="fa-solid fa-camera"></i> <span class="btn-text">Resaltar error y reportar</span>
+                        <i class="fa-solid fa-camera"></i> <span class="btn-text">Reportar error</span>
                     </button>
-                    <div id="bugReportStatus" class="bug-report-status" style="display: none;" role="status" aria-live="polite"></div>
                 </div>
             </details>
             
@@ -211,7 +210,7 @@
     <div class="version">v26.9.7</div>
 
     <script type="module" src="catalogo-index.js"></script>
-    <script type="module" src="script.js?v=a124ca79"></script>
+    <script type="module" src="script.js?v=02abb9a4"></script>
     <script src="./pwa-init.js?v=4730eea4"></script>
     <script src="offline-banner.js?v=dcf86e9f"></script>
     <script src="image-fallback.js?v=aeffec89"></script>
@@ -233,318 +232,265 @@
         });
 
         // ========== SISTEMA INTEGRADO DE REPORTE DE BUGS ==========
-        const TELEGRAM_BOT_TOKEN = '8778670374:AAGWwpsu-IYB__NgMrhx8NU6XlVXvzkG7ME';
-        const TELEGRAM_CHAT_ID = '1006727206';
-        
-        let isDrawingMode = false;
-        let isDrawing = false;
-        let startX = 0, startY = 0;
-        let highlightBox = null;
-        let capturedCanvas = null;
+        // Flujo: 1) el usuario escribe qué pasó  2) se toma la captura de TODA la pantalla
+        // automáticamente  3) puede marcar en amarillo la zona del problema encima de esa
+        // foto ya tomada (ya no se dibuja sobre la página real)  4) se envía a Telegram.
+        // El token del bot YA NO vive aquí. Lo maneja el Worker (ver /cloudflare/bug-report-proxy.js)
+        const BUG_REPORT_WORKER_URL = 'https://REEMPLAZA-CON-TU-URL.workers.dev';
 
-        // Detectar dispositivo automáticamente sin preguntar al usuario
+        let capturedCanvas = null;
+        let bugDescription = '';
+
+        function getFormattedLocalStorage() {
+            const data = {};
+            for (let key in window.localStorage) {
+                if (Object.prototype.hasOwnProperty.call(window.localStorage, key)) {
+                    const value = window.localStorage.getItem(key) || '';
+                    if (!key.toLowerCase().includes('password') && !key.toLowerCase().includes('token')) {
+                        data[key] = value.substring(0, 50);
+                    }
+                }
+            }
+            return Object.keys(data).length > 0 ? data : { 'Sin datos guardados': true };
+        }
+
         async function detectDeviceModel() {
             try {
                 if (navigator.userAgentData) {
-                    const hints = await navigator.userAgentData.getHighEntropyValues([
-                        'model', 'platform', 'platformVersion'
-                    ]);
+                    const hints = await navigator.userAgentData.getHighEntropyValues(['model', 'platform', 'platformVersion']);
                     const model = hints.model || hints.platform || 'Dispositivo desconocido';
                     const version = hints.platformVersion || '';
                     return `${model}${version ? ` (${version})` : ''}`;
                 }
             } catch (e) {
-                console.log('Client Hints no disponible, usando fallback');
+                console.log('[BugReport] Client Hints no disponible, usando fallback');
             }
-            
-            // Fallback: parsear User-Agent
             const ua = navigator.userAgent;
-            
             if (ua.includes('iPhone') || ua.includes('iPad')) {
-                const screenRes = `${window.screen.width}x${window.screen.height}`;
-                return `iPhone/iPad (${screenRes})`;
+                return `iPhone/iPad (${window.screen.width}x${window.screen.height})`;
             }
-            if (ua.includes('Android')) {
-                return 'Android Device';
-            }
+            if (ua.includes('Android')) return 'Android Device';
             return 'Dispositivo desconocido';
         }
 
-        // Obtener LocalStorage formateado
-        function getFormattedLocalStorage() {
-            const storage = {};
-            for (let key in localStorage) {
-                if (localStorage.hasOwnProperty(key)) {
-                    const value = localStorage.getItem(key);
-                    // No incluir datos muy sensibles, pero sí información útil
-                    if (!key.includes('password') && !key.includes('token')) {
-                        storage[key] = value.substring(0, 50);
-                    }
-                }
-            }
-            return Object.keys(storage).length > 0 ? storage : { 'Sin datos guardados': true };
-        }
-
-        function getEventPosition(e) {
-            const touch = e.touches ? e.touches[0] : e;
-            return {
-                x: touch.clientX + window.scrollX,
-                y: touch.clientY + window.scrollY
-            };
-        }
-
-        function showInstructionBanner() {
-            const banner = document.createElement('div');
-            banner.className = 'bug-edit-banner';
-            banner.id = 'bugEditBanner';
-            banner.innerHTML = `<div style="display: flex; align-items: center; gap: 10px; font-size: 0.95rem;"><i class="fa-solid fa-hand-pointer" style="font-size: 1.2rem;"></i><span><strong>Dibuja un rectángulo</strong> sobre el área con el problema</span><button type="button" id="cancelDrawMode" class="btn-cancel-draw" aria-label="Cancelar dibujo"><i class="fa-solid fa-xmark"></i> Cancelar</button></div>`;
-            document.body.appendChild(banner);
-            
-            document.getElementById('cancelDrawMode').addEventListener('click', exitDrawingMode);
-        }
-
-        function handleDrawStart(e) {
-            if (!isDrawingMode) return;
-            e.preventDefault();
-            isDrawing = true;
-            const rect = getEventPosition(e);
-            startX = rect.x;
-            startY = rect.y;
-            
-            if (highlightBox) highlightBox.remove();
-            highlightBox = document.createElement('div');
-            highlightBox.className = 'bug-highlight-box';
-            highlightBox.id = 'bugHighlightBox';
-            document.body.appendChild(highlightBox);
-        }
-
-        function handleDrawMove(e) {
-            if (!isDrawing || !highlightBox) return;
-            e.preventDefault();
-            const rect = getEventPosition(e);
-            const width = Math.abs(rect.x - startX);
-            const height = Math.abs(rect.y - startY);
-            const left = Math.min(startX, rect.x);
-            const top = Math.min(startY, rect.y);
-            
-            highlightBox.style.left = left + 'px';
-            highlightBox.style.top = top + 'px';
-            highlightBox.style.width = width + 'px';
-            highlightBox.style.height = height + 'px';
-        }
-
-        function handleDrawEnd(e) {
-            if (!isDrawing) return;
-            isDrawing = false;
-            
-            if (highlightBox && highlightBox.offsetWidth > 10 && highlightBox.offsetHeight > 10) {
-                showFloatingActions();
-            }
-        }
-
-        function showFloatingActions() {
-            if (document.getElementById('bugActionFloaters')) return;
-            
-            const floaters = document.createElement('div');
-            floaters.id = 'bugActionFloaters';
-            floaters.className = 'bug-action-floaters';
-            floaters.innerHTML = `<button type="button" class="btn-float btn-confirm" id="confirmDraw" aria-label="Confirmar y enviar"><i class="fa-solid fa-check"></i> Enviar reporte</button><button type="button" class="btn-float btn-cancel" id="redrawDraw" aria-label="Volver a dibujar"><i class="fa-solid fa-redo"></i> Redibujar</button>`;
-            document.body.appendChild(floaters);
-            
-            document.getElementById('confirmDraw').addEventListener('click', captureAndReportBug);
-            document.getElementById('redrawDraw').addEventListener('click', () => {
-                highlightBox?.remove();
-                document.getElementById('bugActionFloaters')?.remove();
-            });
-        }
-
-        async function captureAndReportBug() {
-            console.log('[BugReport] Iniciando captura de pantalla...');
-            const floaters = document.getElementById('bugActionFloaters');
-            const banner = document.getElementById('bugEditBanner');
-            
-            // Esconder elementos antes de capturar
-            if (floaters) floaters.style.display = 'none';
-            if (banner) banner.style.display = 'none';
-            
-            try {
-                // Capturar pantalla
-                capturedCanvas = await html2canvas(document.body, {
-                    backgroundColor: null,
-                    scale: window.devicePixelRatio || 1,
-                    useCORS: true,
-                    allowTaint: true,
-                    logging: false
-                });
-                
-                console.log('[BugReport] Captura completada');
-                
-                // Restaurar elementos
-                if (floaters) floaters.style.display = '';
-                if (banner) banner.style.display = '';
-                
-                showReportForm();
-                cleanupDrawingMode();
-            } catch (error) {
-                console.error('[BugReport] Error en captura:', error);
-                alert('Error al capturar la pantalla. Por favor intenta de nuevo.');
-                if (floaters) floaters.style.display = '';
-                if (banner) banner.style.display = '';
-            }
-        }
-
-        function showReportForm() {
-            console.log('[BugReport] Mostrando formulario');
+        // ---------- Paso 1: botón -> pop up para escribir el problema ----------
+        function openDescriptionModal() {
             if (document.getElementById('bugFormModal')) return;
-            
+
+            const btnReportarBug = document.getElementById('btnReportarBug');
+            if (btnReportarBug) btnReportarBug.style.display = 'none';
+
             const modal = document.createElement('div');
             modal.id = 'bugFormModal';
             modal.className = 'bug-form-modal';
-            modal.innerHTML = `<div class="bug-form-content"><h3 style="margin: 0 0 12px 0; color: #58372d; font-size: 1.1rem;"><i class="fa-solid fa-comment"></i> Cuéntanos qué pasó</h3><textarea id="bugDescription" class="bug-form-textarea" placeholder="Describe brevemente el problema que encontraste..." maxlength="500" aria-label="Descripción del problema"></textarea><div class="bug-form-info"><small><i class="fa-solid fa-info-circle"></i> La información de tu dispositivo se enviará automáticamente</small></div><div class="bug-form-actions"><button type="button" id="cancelReport" class="btn-cancel-report" aria-label="Cancelar">Cancelar</button><button type="button" id="sendReport" class="btn-send-report" aria-label="Enviar reporte"><i class="fa-solid fa-paper-plane"></i> Enviar</button></div></div>`;
+            modal.innerHTML = `<div class="bug-form-content"><h3><i class="fa-solid fa-comment"></i> Cuéntanos qué pasó</h3><textarea id="bugDescriptionInput" class="bug-form-textarea" placeholder="Describe brevemente el problema que encontraste..." maxlength="500" aria-label="Descripción del problema"></textarea><div class="bug-form-info"><small><i class="fa-solid fa-info-circle"></i> Al continuar se tomará una foto de toda tu pantalla</small></div><div class="bug-form-actions"><button type="button" id="cancelReport" class="btn-cancel-report" aria-label="Cancelar">Cancelar</button><button type="button" id="continueReport" class="btn-send-report" aria-label="Tomar captura de pantalla"><i class="fa-solid fa-camera"></i> Tomar captura</button></div></div>`;
             document.body.appendChild(modal);
-            
-            document.getElementById('cancelReport').addEventListener('click', () => {
-                modal.remove();
-                exitDrawingMode();
-            });
-            
-            document.getElementById('sendReport').addEventListener('click', sendToTelegram);
-            
-            setTimeout(() => document.getElementById('bugDescription')?.focus(), 100);
+
+            document.getElementById('cancelReport').addEventListener('click', closeBugReporter);
+            document.getElementById('continueReport').addEventListener('click', onDescriptionConfirmed);
+
+            setTimeout(() => document.getElementById('bugDescriptionInput')?.focus(), 100);
         }
 
-        async function sendToTelegram() {
-            console.log('[BugReport] Iniciando envío a Telegram');
-            const description = document.getElementById('bugDescription').value || 'Sin descripción';
-            const btnReportarBug = document.getElementById('btnReportarBug');
-            const statusDiv = btnReportarBug ? document.getElementById('bugReportStatus') : null;
-            const sendBtn = document.getElementById('sendReport');
-            
+        // ---------- Paso 2: cerrar el pop up y capturar la pantalla completa ----------
+        async function onDescriptionConfirmed() {
+            bugDescription = document.getElementById('bugDescriptionInput')?.value.trim() || 'Sin descripción';
+            const modal = document.getElementById('bugFormModal');
+            const continueBtn = document.getElementById('continueReport');
+            if (continueBtn) continueBtn.disabled = true;
+
+            // Se oculta (no se elimina) para que el pop up no salga en la foto
+            if (modal) modal.style.display = 'none';
+
+            try {
+                console.log('[BugReport] Tomando captura de pantalla completa...');
+                capturedCanvas = await html2canvas(document.body, {
+                    backgroundColor: null,
+                    scale: Math.min(window.devicePixelRatio || 1, 2),
+                    useCORS: true,
+                    logging: false,
+                    x: window.scrollX,
+                    y: window.scrollY,
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                    windowWidth: document.documentElement.scrollWidth,
+                    windowHeight: document.documentElement.scrollHeight
+                });
+                modal?.remove();
+                openAnnotationPreview();
+            } catch (error) {
+                console.error('[BugReport] Error al capturar pantalla:', error);
+                if (modal) modal.style.display = 'flex';
+                if (continueBtn) continueBtn.disabled = false;
+                alert('No se pudo tomar la captura de pantalla. Intenta de nuevo.');
+            }
+        }
+
+        // ---------- Paso 3: marcar (opcional) en amarillo sobre la foto ya tomada ----------
+        function openAnnotationPreview() {
+            if (!capturedCanvas) return;
+
+            const overlay = document.createElement('div');
+            overlay.id = 'bugAnnotateOverlay';
+            overlay.className = 'bug-annotate-overlay';
+            overlay.innerHTML = `<div class="bug-annotate-topbar"><i class="fa-solid fa-pen"></i> Si quieres, marca en amarillo la zona del problema (opcional)</div><div class="bug-annotate-canvas-wrap"><canvas id="bugAnnotateCanvas"></canvas></div><div id="bugReportStatus" class="bug-report-status" style="display:none;" role="status" aria-live="polite"></div><div class="bug-annotate-actions"><button type="button" id="btnCancelAnnotate" class="btn-cancel-report" aria-label="Cancelar">Cancelar</button><button type="button" id="btnClearAnnotate" class="btn-cancel-report" aria-label="Borrar marca"><i class="fa-solid fa-eraser"></i> Borrar marca</button><button type="button" id="btnSendAnnotated" class="btn-send-report" aria-label="Enviar reporte"><i class="fa-solid fa-paper-plane"></i> Enviar reporte</button></div>`;
+            document.body.appendChild(overlay);
+
+            const canvas = document.getElementById('bugAnnotateCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = capturedCanvas.width;
+            canvas.height = capturedCanvas.height;
+            ctx.drawImage(capturedCanvas, 0, 0);
+
+            let drawing = false;
+            let sx = 0, sy = 0;
+            let lastRect = null;
+
+            function toCanvasCoords(e) {
+                const rect = canvas.getBoundingClientRect();
+                const touch = e.touches && e.touches.length ? e.touches[0] : e;
+                return {
+                    x: (touch.clientX - rect.left) * (canvas.width / rect.width),
+                    y: (touch.clientY - rect.top) * (canvas.height / rect.height)
+                };
+            }
+
+            function redrawBase() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(capturedCanvas, 0, 0);
+            }
+
+            function start(e) {
+                e.preventDefault();
+                drawing = true;
+                const p = toCanvasCoords(e);
+                sx = p.x; sy = p.y;
+            }
+
+            function move(e) {
+                if (!drawing) return;
+                e.preventDefault();
+                const p = toCanvasCoords(e);
+                const x = Math.min(sx, p.x), y = Math.min(sy, p.y);
+                const w = Math.abs(p.x - sx), h = Math.abs(p.y - sy);
+                redrawBase();
+                ctx.strokeStyle = '#FFD400';
+                ctx.lineWidth = Math.max(4, canvas.width * 0.004);
+                ctx.strokeRect(x, y, w, h);
+                lastRect = { x, y, w, h };
+            }
+
+            function end() {
+                if (!drawing) return;
+                drawing = false;
+                if (lastRect && (lastRect.w < 6 || lastRect.h < 6)) {
+                    redrawBase();
+                    lastRect = null;
+                }
+            }
+
+            canvas.addEventListener('mousedown', start);
+            canvas.addEventListener('mousemove', move);
+            window.addEventListener('mouseup', end);
+            canvas.addEventListener('touchstart', start, { passive: false });
+            canvas.addEventListener('touchmove', move, { passive: false });
+            canvas.addEventListener('touchend', end);
+
+            document.getElementById('btnClearAnnotate').addEventListener('click', () => {
+                lastRect = null;
+                redrawBase();
+            });
+            document.getElementById('btnCancelAnnotate').addEventListener('click', closeBugReporter);
+            document.getElementById('btnSendAnnotated').addEventListener('click', () => sendToTelegram(canvas));
+
+            overlay._cleanup = function () {
+                canvas.removeEventListener('mousedown', start);
+                canvas.removeEventListener('mousemove', move);
+                window.removeEventListener('mouseup', end);
+                canvas.removeEventListener('touchstart', start);
+                canvas.removeEventListener('touchmove', move);
+                canvas.removeEventListener('touchend', end);
+            };
+        }
+
+        // ---------- Paso 4: enviar la foto ya marcada (o sin marcar) a Telegram ----------
+        async function sendToTelegram(finalCanvas) {
+            const statusDiv = document.getElementById('bugReportStatus');
+            const sendBtn = document.getElementById('btnSendAnnotated');
+
             if (statusDiv) {
                 statusDiv.textContent = '⏳ Enviando...';
                 statusDiv.className = 'bug-report-status loading';
-                statusDiv.style.display = 'block';
+                statusDiv.style.display = 'flex';
             }
             if (sendBtn) sendBtn.disabled = true;
-            
+
             try {
-                if (!capturedCanvas) {
-                    throw new Error('No hay captura de pantalla disponible');
-                }
-                
-                // Obtener información del dispositivo
                 const deviceModel = await detectDeviceModel();
-                const localStorage = getFormattedLocalStorage();
-                
-                console.log('[BugReport] Convertiendo canvas a blob...');
-                
-                capturedCanvas.toBlob(async (blob) => {
-                    if (!blob) {
-                        throw new Error('No se pudo crear el blob de la imagen');
-                    }
-                    
-                    try {
-                        const formData = new FormData();
-                        formData.append('chat_id', TELEGRAM_CHAT_ID);
-                        formData.append('photo', blob, 'bug_report.png');
-                        
-                        const caption = `🚨 **¡Nuevo Reporte de Bug!**\n\n📝 **Problema:**\n${description}\n\n📱 **Modelo:**\n${deviceModel}\n\n🔑 **LocalStorage:**\n\`\`\`json\n${JSON.stringify(localStorage, null, 2)}\n\`\`\``;
-                        
-                        formData.append('caption', caption);
-                        formData.append('parse_mode', 'Markdown');
-                        
-                        console.log('[BugReport] Enviando a Telegram API...');
-                        
-                        const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
-                            method: 'POST',
-                            body: formData
-                        });
-                        
-                        console.log('[BugReport] Respuesta:', response.status);
-                        
-                        if (response.ok) {
-                            console.log('[BugReport] ¡Enviado exitosamente!');
-                            if (statusDiv) {
-                                statusDiv.textContent = '✅ ¡Reporte enviado! Gracias por ayudarnos';
-                                statusDiv.className = 'bug-report-status success';
-                            }
-                            document.getElementById('bugFormModal').style.display = 'none';
-                            setTimeout(() => {
-                                document.getElementById('bugFormModal')?.remove();
-                                if (btnReportarBug) btnReportarBug.style.display = '';
-                                cleanupDrawingMode();
-                            }, 2000);
-                        } else {
-                            const error = await response.text();
-                            console.error('[BugReport] Error Telegram:', error);
-                            throw new Error(`Telegram respondió con: ${response.status}`);
-                        }
-                    } catch (error) {
-                        console.error('[BugReport] Error en envío:', error);
-                        if (statusDiv) {
-                            statusDiv.textContent = '❌ No se pudo enviar. Intenta de nuevo';
-                            statusDiv.className = 'bug-report-status error';
-                        }
-                        if (sendBtn) sendBtn.disabled = false;
-                    }
-                }, 'image/png', 0.92);
-            } catch (error) {
-                console.error('[BugReport] Error general:', error);
+                const storageData = getFormattedLocalStorage();
+
+                const blob = await new Promise((resolve, reject) => {
+                    finalCanvas.toBlob((b) => {
+                        if (b) resolve(b);
+                        else reject(new Error('No se pudo generar la imagen'));
+                    }, 'image/png');
+                });
+
+                const formData = new FormData();
+                formData.append('photo', blob, 'bug_report.png');
+                const caption = `🚨 *Nuevo Reporte de Bug*\n\n📝 *Problema:*\n${bugDescription}\n\n📱 *Modelo:*\n${deviceModel}\n\n🔑 *LocalStorage:*\n\`\`\`\n${JSON.stringify(storageData, null, 2)}\n\`\`\``;
+                formData.append('caption', caption);
+
+                console.log('[BugReport] Enviando al Worker...');
+                const response = await fetch(BUG_REPORT_WORKER_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errText = await response.text();
+                    throw new Error(`El servidor respondió ${response.status}: ${errText}`);
+                }
+
+                console.log('[BugReport] ¡Enviado con éxito!');
                 if (statusDiv) {
-                    statusDiv.textContent = '❌ Error: ' + error.message;
+                    statusDiv.textContent = '✅ ¡Reporte enviado! Gracias por ayudarnos';
+                    statusDiv.className = 'bug-report-status success';
+                }
+                setTimeout(closeBugReporter, 1800);
+            } catch (error) {
+                console.error('[BugReport] Error al enviar:', error);
+                if (statusDiv) {
+                    statusDiv.textContent = '❌ No se pudo enviar. Intenta de nuevo';
                     statusDiv.className = 'bug-report-status error';
                 }
                 if (sendBtn) sendBtn.disabled = false;
             }
         }
 
-        function exitDrawingMode() {
-            isDrawingMode = false;
-            document.body.style.cursor = 'auto';
-            document.removeEventListener('mousedown', handleDrawStart);
-            document.removeEventListener('mousemove', handleDrawMove);
-            document.removeEventListener('mouseup', handleDrawEnd);
-            document.removeEventListener('touchstart', handleDrawStart);
-            document.removeEventListener('touchmove', handleDrawMove);
-            document.removeEventListener('touchend', handleDrawEnd);
-            cleanupDrawingMode();
+        // ---------- Cerrar/limpiar todo (cancelar en cualquier paso, o al terminar) ----------
+        function closeBugReporter() {
+            document.getElementById('bugFormModal')?.remove();
+            const overlay = document.getElementById('bugAnnotateOverlay');
+            if (overlay) {
+                overlay._cleanup?.();
+                overlay.remove();
+            }
+            capturedCanvas = null;
+            bugDescription = '';
+            const btnReportarBug = document.getElementById('btnReportarBug');
+            if (btnReportarBug) btnReportarBug.style.display = '';
         }
 
-        function cleanupDrawingMode() {
-            document.getElementById('bugHighlightBox')?.remove();
-            document.getElementById('bugEditBanner')?.remove();
-            document.getElementById('bugActionFloaters')?.remove();
-        }
-
-        // Inicializar cuando el DOM esté listo
         function initBugReporter() {
             const btnReportarBug = document.getElementById('btnReportarBug');
             if (!btnReportarBug) {
-                console.warn('[BugReport] Botón no encontrado. Reintentando...');
-                setTimeout(initBugReporter, 500);
+                console.warn('[BugReport] Botón no encontrado en esta página.');
                 return;
             }
-            
-            console.log('[BugReport] Sistema inicializado');
-            btnReportarBug.addEventListener('click', function() {
-                console.log('[BugReport] Botón clickeado');
-                isDrawingMode = true;
-                this.style.display = 'none';
-                
-                showInstructionBanner();
-                document.body.style.cursor = 'crosshair';
-                
-                document.addEventListener('mousedown', handleDrawStart);
-                document.addEventListener('mousemove', handleDrawMove);
-                document.addEventListener('mouseup', handleDrawEnd);
-                
-                document.addEventListener('touchstart', handleDrawStart, { passive: false });
-                document.addEventListener('touchmove', handleDrawMove, { passive: false });
-                document.addEventListener('touchend', handleDrawEnd);
-            });
+            btnReportarBug.addEventListener('click', openDescriptionModal);
         }
 
-        // Esperar a que el DOM esté listo
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initBugReporter);
         } else {
