@@ -97,9 +97,18 @@ index 0000000..5d06ab4
 +main = "bug-report-proxy.js"
 +compatibility_date = "2026-01-01"
 diff --git a/index.html b/index.html
-index c914084..fa54796 100644
+index c914084..0e6253d 100644
 --- a/index.html
 +++ b/index.html
+@@ -13,7 +13,7 @@
+     <link rel="icon" href="Data/favicon.png" type="image/png">
+     <link rel="alternate icon" href="Data/favicon.png" type="image/png">
+     <link rel="manifest" href="manifest.json">
+-    <link rel="stylesheet" href="style.css?v=6">
++    <link rel="stylesheet" href="style.css?v=e53d5a67">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+     <meta name="apple-mobile-web-app-capable" content="yes">
+     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 @@ -164,9 +164,8 @@
                      <p>Actualizamos la página con mejoras. Solo toca el botón para recargar y tendrás la versión más reciente, sin perder tu clave guardada.</p>
                      <p style="margin-top: 12px; font-size: 0.95rem; color: #58372d;">Si encuentras algún error o algo no se ve bien, nos ayudas un montón reportándolo aquí:</p>
@@ -111,7 +120,26 @@ index c914084..fa54796 100644
                  </div>
              </details>
              
-@@ -233,318 +232,265 @@
+@@ -211,14 +210,14 @@
+     <div class="version">v26.9.7</div>
+ 
+     <script type="module" src="catalogo-index.js"></script>
+-    <script type="module" src="script.js?v=a124ca79"></script>
+-    <script src="./pwa-init.js?v=4730eea4"></script>
++    <script type="module" src="script.js?v=9d4f792c"></script>
++    <script src="./pwa-init.js?v=f6dab138"></script>
+     <script src="offline-banner.js?v=dcf86e9f"></script>
+-    <script src="image-fallback.js?v=aeffec89"></script>
++    <script src="image-fallback.js?v=1eadcc28"></script>
+     <script src="localStorage-safe.js?v=b8fbe754"></script>
+     
+     <!-- Sistema de reporte de bugs con captura de pantalla y dibujo de área problemática -->
+-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
++
+     
+     <script>
+         // Manejar clics en los enlaces de recargar página con hard refresh (Ctrl+Shift+R)
+@@ -233,318 +232,300 @@
          });
  
          // ========== SISTEMA INTEGRADO DE REPORTE DE BUGS ==========
@@ -216,7 +244,7 @@ index c914084..fa54796 100644
 +            const modal = document.createElement('div');
 +            modal.id = 'bugFormModal';
 +            modal.className = 'bug-form-modal';
-+            modal.innerHTML = `<div class="bug-form-content"><h3><i class="fa-solid fa-comment"></i> Cuéntanos qué pasó</h3><textarea id="bugDescriptionInput" class="bug-form-textarea" placeholder="Describe brevemente el problema que encontraste..." maxlength="500" aria-label="Descripción del problema"></textarea><div class="bug-form-info"><small><i class="fa-solid fa-info-circle"></i> Al continuar se tomará una foto de toda tu pantalla</small></div><div class="bug-form-actions"><button type="button" id="cancelReport" class="btn-cancel-report" aria-label="Cancelar">Cancelar</button><button type="button" id="continueReport" class="btn-send-report" aria-label="Tomar captura de pantalla"><i class="fa-solid fa-camera"></i> Tomar captura</button></div></div>`;
++            modal.innerHTML = `<div class="bug-form-content"><h3><i class="fa-solid fa-comment"></i> Cuéntanos qué pasó</h3><textarea id="bugDescriptionInput" class="bug-form-textarea" placeholder="Describe brevemente el problema que encontraste..." maxlength="500" aria-label="Descripción del problema"></textarea><div class="bug-form-info"><small><i class="fa-solid fa-info-circle"></i> Al continuar el navegador te pedirá que selecciones esta pestaña para tomar la captura</small></div><div class="bug-form-actions"><button type="button" id="cancelReport" class="btn-cancel-report" aria-label="Cancelar">Cancelar</button><button type="button" id="continueReport" class="btn-send-report" aria-label="Tomar captura de pantalla"><i class="fa-solid fa-camera"></i> Tomar captura</button></div></div>`;
 +            document.body.appendChild(modal);
  
 -        function handleDrawStart(e) {
@@ -260,12 +288,24 @@ index c914084..fa54796 100644
 -                showFloatingActions();
 -            }
 -        }
-+        // ---------- Paso 2: cerrar el pop up y capturar la pantalla completa ----------
++        // ---------- Paso 2: el navegador pide permiso y toma la captura ----------
++        // Usamos getDisplayMedia() — igual que Gemini — porque html2canvas falla
++        // si el CSS del sitio tiene propiedades que no sabe parsear.
++        // getDisplayMedia le pide al navegador que capture directamente lo que ves,
++        // sin tocar ni leer el CSS. Solo necesita que selecciones esta pestaña.
 +        async function onDescriptionConfirmed() {
 +            bugDescription = document.getElementById('bugDescriptionInput')?.value.trim() || 'Sin descripción';
 +            const modal = document.getElementById('bugFormModal');
 +            const continueBtn = document.getElementById('continueReport');
 +            if (continueBtn) continueBtn.disabled = true;
++
++            // Ocultamos el modal ANTES de abrir el diálogo de captura,
++            // para que no aparezca en la foto final.
++            if (modal) modal.style.display = 'none';
++
++            let stream = null;
++            try {
++                console.log('[BugReport] Solicitando captura de pantalla al navegador...');
  
 -        function showFloatingActions() {
 -            if (document.getElementById('bugActionFloaters')) return;
@@ -282,8 +322,12 @@ index c914084..fa54796 100644
 -                document.getElementById('bugActionFloaters')?.remove();
 -            });
 -        }
-+            // Se oculta (no se elimina) para que el pop up no salga en la foto
-+            if (modal) modal.style.display = 'none';
++                // preferCurrentTab: true le dice a Chrome/Brave que pre-seleccione
++                // esta pestaña en el diálogo, para que el usuario no tenga que buscarla.
++                stream = await navigator.mediaDevices.getDisplayMedia({
++                    video: { displaySurface: 'browser', preferCurrentTab: true },
++                    audio: false
++                });
  
 -        async function captureAndReportBug() {
 -            console.log('[BugReport] Iniciando captura de pantalla...');
@@ -294,23 +338,24 @@ index c914084..fa54796 100644
 -            if (floaters) floaters.style.display = 'none';
 -            if (banner) banner.style.display = 'none';
 -            
-             try {
+-            try {
 -                // Capturar pantalla
-+                console.log('[BugReport] Tomando captura de pantalla completa...');
-                 capturedCanvas = await html2canvas(document.body, {
-                     backgroundColor: null,
+-                capturedCanvas = await html2canvas(document.body, {
+-                    backgroundColor: null,
 -                    scale: window.devicePixelRatio || 1,
-+                    scale: Math.min(window.devicePixelRatio || 1, 2),
-                     useCORS: true,
+-                    useCORS: true,
 -                    allowTaint: true,
 -                    logging: false
-+                    logging: false,
-+                    x: window.scrollX,
-+                    y: window.scrollY,
-+                    width: window.innerWidth,
-+                    height: window.innerHeight,
-+                    windowWidth: document.documentElement.scrollWidth,
-+                    windowHeight: document.documentElement.scrollHeight
++                // El stream llega como video; esperamos a que el primer frame esté listo.
++                const video = document.createElement('video');
++                video.srcObject = stream;
++                video.muted = true;
++
++                await new Promise((resolve, reject) => {
++                    video.onloadedmetadata = () => video.play().then(resolve).catch(reject);
++                    video.onerror = reject;
++                    // Si en 8 segundos no arranca, algo salió mal.
++                    setTimeout(() => reject(new Error('Tiempo de espera agotado')), 8000);
                  });
 -                
 -                console.log('[BugReport] Captura completada');
@@ -321,17 +366,39 @@ index c914084..fa54796 100644
 -                
 -                showReportForm();
 -                cleanupDrawingMode();
++
++                // Pequeña pausa para que el frame se pinte completamente.
++                await new Promise(r => setTimeout(r, 150));
++
++                // Dibujamos ese frame en un canvas — ese es nuestro screenshot.
++                capturedCanvas = document.createElement('canvas');
++                capturedCanvas.width = video.videoWidth;
++                capturedCanvas.height = video.videoHeight;
++                capturedCanvas.getContext('2d').drawImage(video, 0, 0);
++
++                // Paramos el stream de inmediato (ya no necesitamos grabar más).
++                stream.getTracks().forEach(t => t.stop());
++
 +                modal?.remove();
 +                openAnnotationPreview();
++
              } catch (error) {
 -                console.error('[BugReport] Error en captura:', error);
 -                alert('Error al capturar la pantalla. Por favor intenta de nuevo.');
 -                if (floaters) floaters.style.display = '';
 -                if (banner) banner.style.display = '';
++                // Si el usuario canceló el diálogo de selección de pestaña,
++                // error.name === 'NotAllowedError'. No es un error grave, solo canceló.
++                if (stream) stream.getTracks().forEach(t => t.stop());
 +                console.error('[BugReport] Error al capturar pantalla:', error);
 +                if (modal) modal.style.display = 'flex';
 +                if (continueBtn) continueBtn.disabled = false;
-+                alert('No se pudo tomar la captura de pantalla. Intenta de nuevo.');
++
++                if (error.name === 'NotAllowedError' || error.name === 'AbortError') {
++                    alert('Cancelaste la selección. Para reportar el bug debes seleccionar esta pestaña cuando el navegador te lo pida.');
++                } else {
++                    alert('No se pudo tomar la captura. Intenta de nuevo.');
++                }
              }
          }
  
