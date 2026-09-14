@@ -60,9 +60,13 @@
     <!-- Carrusel de imágenes -->
     <div class="carousel" id="carrusel">
         <div class="slides">
-            <div class="diapositiva active" data-title="Curso de Pizzas" data-desc="Aprende a crear pizzas perfectas desde cero." data-whatsapp="59170724244" data-phone="+59170724244"><img src="Data/pizzas 8x8.webp" alt="Pizzas 8x8"></div>
+            <!--Seccion 1-->
+            <div class="diapositiva active" data-title="Recetario de comida rapida" data-desc="Aprende a preparar una variedad de comidas rapidas desde cero." data-whatsapp="59170724244" data-phone="+59170724244"><img src="recetarios/fast-food/fast-food.webp" alt="Recetario de Comida rapida"></div>
+            <!--Seccion 2-->
             <div class="diapositiva" data-title="Queques Profesionales" data-desc="Aprende técnicas para queques profesionales." data-whatsapp="59170724244" data-phone="+59170724244"><img src="Data/queques 8x8.webp" alt="Queques"></div>
+            <!--Seccion 3-->
             <div class="diapositiva" data-title="Comida Mexicana" data-desc="Aprende técnicas auténticas de la cocina mexicana." data-whatsapp="59170724244" data-phone="+59170724244"><img src="Data/tacos 8x8.webp" alt="Comida Mexicana"></div>
+            <!--Seccion 4-->
             <div class="diapositiva" data-title="Curso de Empanadas" data-desc="Domina el arte de hacer empanadas crujientes y sabrosas." data-whatsapp="59170724244" data-phone="+59170724244"><img src="Data/empanadas.webp" alt="Curso de Empanadas"></div>
         </div>
         <button class="carousel-btn anterior" aria-label="Anterior">&#10094;</button>
@@ -217,7 +221,7 @@
     <script src="localStorage-safe.js?v=b8fbe754"></script>
     
     <!-- Sistema de reporte de bugs con captura de pantalla y dibujo de área problemática -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
     
     <script>
         // Manejar clics en los enlaces de recargar página con hard refresh (Ctrl+Shift+R)
@@ -236,7 +240,7 @@
         // automáticamente  3) puede marcar en amarillo la zona del problema encima de esa
         // foto ya tomada (ya no se dibuja sobre la página real)  4) se envía a Telegram.
         // El token del bot YA NO vive aquí. Lo maneja el Worker (ver /cloudflare/bug-report-proxy.js)
-        const BUG_REPORT_WORKER_URL = 'https://REEMPLAZA-CON-TU-URL.workers.dev';
+        const BUG_REPORT_WORKER_URL = 'https://dulcearte-bugreport.bessie-viberossa.workers.dev';
 
         let capturedCanvas = null;
         let bugDescription = '';
@@ -283,7 +287,7 @@
             const modal = document.createElement('div');
             modal.id = 'bugFormModal';
             modal.className = 'bug-form-modal';
-            modal.innerHTML = `<div class="bug-form-content"><h3><i class="fa-solid fa-comment"></i> Cuéntanos qué pasó</h3><textarea id="bugDescriptionInput" class="bug-form-textarea" placeholder="Describe brevemente el problema que encontraste..." maxlength="500" aria-label="Descripción del problema"></textarea><div class="bug-form-info"><small><i class="fa-solid fa-info-circle"></i> Al continuar se tomará una foto de toda tu pantalla</small></div><div class="bug-form-actions"><button type="button" id="cancelReport" class="btn-cancel-report" aria-label="Cancelar">Cancelar</button><button type="button" id="continueReport" class="btn-send-report" aria-label="Tomar captura de pantalla"><i class="fa-solid fa-camera"></i> Tomar captura</button></div></div>`;
+            modal.innerHTML = `<div class="bug-form-content"><h3><i class="fa-solid fa-comment"></i> Cuéntanos qué pasó</h3><textarea id="bugDescriptionInput" class="bug-form-textarea" placeholder="Describe brevemente el problema que encontraste..." maxlength="500" aria-label="Descripción del problema"></textarea><div class="bug-form-info"><small><i class="fa-solid fa-info-circle"></i> Al continuar el navegador te pedirá que selecciones esta pestaña para tomar la captura</small></div><div class="bug-form-actions"><button type="button" id="cancelReport" class="btn-cancel-report" aria-label="Cancelar">Cancelar</button><button type="button" id="continueReport" class="btn-send-report" aria-label="Tomar captura de pantalla"><i class="fa-solid fa-camera"></i> Tomar captura</button></div></div>`;
             document.body.appendChild(modal);
 
             document.getElementById('cancelReport').addEventListener('click', closeBugReporter);
@@ -292,37 +296,72 @@
             setTimeout(() => document.getElementById('bugDescriptionInput')?.focus(), 100);
         }
 
-        // ---------- Paso 2: cerrar el pop up y capturar la pantalla completa ----------
+                // ---------- Paso 2: el navegador pide permiso y toma la captura ----------
+        // Usamos getDisplayMedia() — igual que Gemini — porque html2canvas falla
+        // si el CSS del sitio tiene propiedades que no sabe parsear.
+        // getDisplayMedia le pide al navegador que capture directamente lo que ves,
+        // sin tocar ni leer el CSS. Solo necesita que selecciones esta pestaña.
         async function onDescriptionConfirmed() {
             bugDescription = document.getElementById('bugDescriptionInput')?.value.trim() || 'Sin descripción';
             const modal = document.getElementById('bugFormModal');
             const continueBtn = document.getElementById('continueReport');
             if (continueBtn) continueBtn.disabled = true;
 
-            // Se oculta (no se elimina) para que el pop up no salga en la foto
+            // Ocultamos el modal ANTES de abrir el diálogo de captura,
+            // para que no aparezca en la foto final.
             if (modal) modal.style.display = 'none';
 
+            let stream = null;
             try {
-                console.log('[BugReport] Tomando captura de pantalla completa...');
-                capturedCanvas = await html2canvas(document.body, {
-                    backgroundColor: null,
-                    scale: Math.min(window.devicePixelRatio || 1, 2),
-                    useCORS: true,
-                    logging: false,
-                    x: window.scrollX,
-                    y: window.scrollY,
-                    width: window.innerWidth,
-                    height: window.innerHeight,
-                    windowWidth: document.documentElement.scrollWidth,
-                    windowHeight: document.documentElement.scrollHeight
+                console.log('[BugReport] Solicitando captura de pantalla al navegador...');
+
+                // preferCurrentTab: true le dice a Chrome/Brave que pre-seleccione
+                // esta pestaña en el diálogo, para que el usuario no tenga que buscarla.
+                stream = await navigator.mediaDevices.getDisplayMedia({
+                    video: { displaySurface: 'browser', preferCurrentTab: true },
+                    audio: false
                 });
+
+                // El stream llega como video; esperamos a que el primer frame esté listo.
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.muted = true;
+
+                await new Promise((resolve, reject) => {
+                    video.onloadedmetadata = () => video.play().then(resolve).catch(reject);
+                    video.onerror = reject;
+                    // Si en 8 segundos no arranca, algo salió mal.
+                    setTimeout(() => reject(new Error('Tiempo de espera agotado')), 8000);
+                });
+
+                // Pequeña pausa para que el frame se pinte completamente.
+                await new Promise(r => setTimeout(r, 150));
+
+                // Dibujamos ese frame en un canvas — ese es nuestro screenshot.
+                capturedCanvas = document.createElement('canvas');
+                capturedCanvas.width = video.videoWidth;
+                capturedCanvas.height = video.videoHeight;
+                capturedCanvas.getContext('2d').drawImage(video, 0, 0);
+
+                // Paramos el stream de inmediato (ya no necesitamos grabar más).
+                stream.getTracks().forEach(t => t.stop());
+
                 modal?.remove();
                 openAnnotationPreview();
+
             } catch (error) {
+                // Si el usuario canceló el diálogo de selección de pestaña,
+                // error.name === 'NotAllowedError'. No es un error grave, solo canceló.
+                if (stream) stream.getTracks().forEach(t => t.stop());
                 console.error('[BugReport] Error al capturar pantalla:', error);
                 if (modal) modal.style.display = 'flex';
                 if (continueBtn) continueBtn.disabled = false;
-                alert('No se pudo tomar la captura de pantalla. Intenta de nuevo.');
+
+                if (error.name === 'NotAllowedError' || error.name === 'AbortError') {
+                    alert('Cancelaste la selección. Para reportar el bug debes seleccionar esta pestaña cuando el navegador te lo pida.');
+                } else {
+                    alert('No se pudo tomar la captura. Intenta de nuevo.');
+                }
             }
         }
 
