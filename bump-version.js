@@ -35,6 +35,7 @@ const ARCHIVOS_VERSIONADOS = [
   "offline-banner.js",
   "image-fallback.js",
   "pwa-init.js",
+  "debug-console.js",
   "Catalogo/catalogo.js",
   "Catalogo/catalogo.css",
   "mis-cursos.js",
