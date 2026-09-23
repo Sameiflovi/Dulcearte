@@ -269,6 +269,41 @@ if (isInStandaloneMode()) {
     console.log("[DulceArte][PWA] 🌐 Ejecutándose en navegador web");
 }
 
+const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+function showIOSInstallTip() {
+    if (document.getElementById("dulcearte-ios-tip")) return;
+    const tip = document.createElement("div");
+    tip.id = "dulcearte-ios-tip";
+    tip.style.cssText = `
+        position: fixed; bottom: 20px; left: 20px; right: 20px;
+        background: linear-gradient(135deg, #E8A87C 0%, #D4936B 100%);
+        color: white; padding: 14px 18px; border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.2); z-index: 9999;
+        display: flex; gap: 12px; align-items: center;
+        font-family: 'Georgia', serif; max-width: 500px;
+    `;
+    tip.innerHTML = `
+        <div style="flex: 1; font-size: 14px;">
+            📱 Para instalar DulceArte: toca <strong>Compartir</strong>
+            (el ícono □↑) y luego <strong>"Agregar a inicio"</strong>.
+        </div>
+        <button id="dulcearte-ios-tip-cerrar" style="
+            background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4);
+            color: white; width: 28px; height: 28px; border-radius: 50%;
+            cursor: pointer; font-size: 16px; line-height: 1; flex-shrink: 0;
+        ">×</button>
+    `;
+    document.body.appendChild(tip);
+    document.getElementById("dulcearte-ios-tip-cerrar").addEventListener("click", () => tip.remove());
+}
+
+window.addEventListener("load", () => {
+    if (esIOS && !isInStandaloneMode()) {
+        showIOSInstallTip();
+    }
+});
 // ======================================================
 // 5. DEBUG INFO
 // ======================================================
