@@ -1,20 +1,14 @@
-// Proxy de Cloudflare Worker para el reporte de bugs de DulceArte.
-// El token del bot y el chat_id viven SOLO aquí, como secrets del Worker,
-// nunca en el HTML/JS que descarga el navegador del visitante.
-//
-// Despliegue (desde esta carpeta):
-//   npm install -g wrangler          (si no lo tienes)
-//   wrangler login
-//   wrangler secret put TELEGRAM_BOT_TOKEN
-//   wrangler secret put TELEGRAM_CHAT_ID
-//   wrangler deploy
-//
-// Eso te da una URL tipo https://dulcearte-bugreport.<tu-subdominio>.workers.dev
-// Esa URL va en BUG_REPORT_WORKER_URL dentro de index.html.
+
 
 const ALLOWED_ORIGINS = [
     'https://dulcearte-29.web.app',
-    'https://sameiflovi.github.io'
+    'https://sameiflovi.github.io',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:3002',
+    'http://127.0.0.1:5500',
+    'https://dulcearte.bessie-viberossa.workers.dev',
+    'https://dulcearte29.netlify.app/'
 ];
 
 function corsHeaders(origin) {
