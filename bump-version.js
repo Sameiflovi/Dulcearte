@@ -46,12 +46,12 @@ const ARCHIVOS_VERSIONADOS = [
   "cursos/empanadas/empanadas.css",
   "cursos/pizzas/pizzas.js",
   "cursos/pizzas/pizzas.css",
-  "recetarios/fast-food/seccion-fast-food.js",
+  //"recetarios/fast-food/seccion-fast-food.js",
   "recetarios/fast-food/seccion-fast-food.css",
   "recetarios/fast-food/pollo-broaster/pollo-broaster.css",
   "recetarios/fast-food/salsa-pollo/salsa.css",
   "localStorage-safe.js",
-  "Catalogo/catalogo-index.js",
+  "catalogo-index.js",
 ];
 
 // Dónde buscar referencias a esos archivos: todos los .html + sw.js

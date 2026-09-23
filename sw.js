@@ -4,7 +4,7 @@
 // Caché específica con estrategias inteligentes
 // ======================================================
 
-const VERSION = "26.9.1";
+const VERSION = "26.9.2";
 const CACHE_NAME = `dulcearte-${VERSION}`;
 
 const APP_SHELL = [
