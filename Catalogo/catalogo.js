@@ -327,12 +327,19 @@ let vieneDeInicio = false;
 if (document.referrer) {
     const refUrl = new URL(document.referrer);
     const refSinBarraFinal = (refUrl.origin + refUrl.pathname).replace(/\/$/, '');
-// Un nivel arriba de Catalogo/catalogo.html está index.html,sin importar
-// si el sitio vive en la raíz del dominio (Firebase) o en una subcarpeta
-// (GitHub Pages: sameiflovi.github.io/Dulcearte/).
+    // Un nivel arriba de Catalogo/catalogo.html está index.html, sin importar
+    // si el sitio vive en la raíz del dominio (Firebase) o en una subcarpeta
+    // (GitHub Pages: sameiflovi.github.io/Dulcearte/).
     const inicioCarpeta = new URL('../', location.href);
     const inicioCarpetaStr = (inicioCarpeta.origin + inicioCarpeta.pathname).replace(/\/$/, '');
     const inicioExplicito = new URL('../index.html', location.href);
     vieneDeInicio = refSinBarraFinal === inicioCarpetaStr ||
         refUrl.origin + refUrl.pathname === inicioExplicito.origin + inicioExplicito.pathname;
- }
+}
+
+if (vieneDeInicio) {
+    backBtn.style.display = 'inline-block';
+    logEvent('Botón de regreso mostrado');
+} else {
+    logEvent('Botón de regreso oculto o no aplicable');
+}
