@@ -1,5 +1,5 @@
 .vscode/
-.github/
+.github/skills/
 .qodo/
 .stfolder/
 .continue/__pycache__/
@@ -11,3 +11,8 @@ __pycache__/
 __pycache__/
 *.pyc
 .firebase/
+# Firebase Agent Skills (local)
+.agents/
+.claude/
+.continue/
+skills-lock.json
