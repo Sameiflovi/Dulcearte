@@ -402,6 +402,81 @@ img, svg {
     box-shadow: 0 10px 18px rgba(146, 100, 51, 0.08);
 }
 
+.clave-save-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 20000;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    overflow-y: auto;
+    background: rgba(45, 31, 24, 0.56);
+    backdrop-filter: blur(4px);
+}
+
+.clave-save-dialog {
+    width: min(100%, 28rem);
+    max-height: calc(100vh - 2rem);
+    max-height: calc(100dvh - 2rem);
+    padding: clamp(1.25rem, 5vw, 1.75rem);
+    border: 1px solid rgba(184, 107, 75, 0.2);
+    border-radius: 22px;
+    background: #fffaf6;
+    box-shadow: 0 24px 70px rgba(35, 23, 15, 0.28);
+    color: #6f4c3a;
+    text-align: center;
+    overflow-y: auto;
+}
+
+.clave-save-dialog__title {
+    margin: 0 0 0.65rem;
+    color: #9b5b3e;
+    font-size: clamp(1.2rem, 5vw, 1.55rem);
+}
+
+.clave-save-dialog__description {
+    margin: 0;
+    line-height: 1.55;
+}
+
+.clave-save-dialog__timeout {
+    margin: 0.75rem 0 0;
+    color: #80695c;
+    font-size: 0.88rem;
+    font-weight: 500;
+    line-height: 1.45;
+}
+
+.clave-save-dialog__actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+}
+
+.clave-save-dialog__button {
+    min-height: 44px;
+    padding: 0.65rem 1rem;
+}
+
+.clave-save-dialog__button--secondary {
+    color: #6f4c3a;
+    background: linear-gradient(135deg, #f7e8d5 0%, #f3d4aa 100%);
+    border: 1px solid rgba(111, 76, 58, 0.18);
+    box-shadow: 0 10px 18px rgba(146, 100, 51, 0.08);
+}
+
+@media (max-width: 420px) {
+    .clave-save-dialog__actions {
+        flex-direction: column-reverse;
+    }
+
+    .clave-save-dialog__button {
+        width: 100%;
+    }
+}
+
 .clave-message.error { color: #e74c3c; }
 .clave-message.info  { color: #2ecc71; }
 .clave-message.warn  { color: #b86b4b; }

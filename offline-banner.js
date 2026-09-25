@@ -12,6 +12,7 @@
 
   const INTERVALO_REVISION_MS = 20000;
   const TIMEOUT_PROBE_MS = 6000;
+  const UMBRAL_INTERNET_LENTO_MS = 3000;
 
   const STYLE = `
     #db-offline-banner {
@@ -199,9 +200,37 @@
     return banner;
   }
 
-  function mostrarBanner() {
+  function mostrarBanner(estado = "offline") {
     const banner = crearBanner();
     if (!banner || userDismissed) return;
+
+    const title = banner.querySelector(".db-text strong");
+    const description = banner.querySelector(".db-text span");
+    const items = banner.querySelectorAll(".db-text li");
+
+    if (estado === "slow") {
+      title.textContent = "Tu internet está lento";
+      description.textContent = "Seguimos con una copia guardada para que puedas continuar. Algunas cosas pueden tardar o no funcionar:";
+      [
+        "Entrar con tu clave necesita internet.",
+        "Las novedades o páginas que aún no abriste pueden no estar guardadas.",
+        "Los productos destacados pueden tardar en aparecer."
+      ].forEach((text, index) => {
+        if (items[index]) items[index].textContent = text;
+      });
+    } else {
+      title.textContent = "No hay conexión a internet";
+      description.textContent = "Te mostramos lo que ya guardamos. Para estas cosas necesitas internet:";
+      [
+        "Entrar con tu clave.",
+        "Ver novedades o páginas que aún no abriste.",
+        "Cargar los productos destacados."
+      ].forEach((text, index) => {
+        if (items[index]) items[index].textContent = text;
+      });
+    }
+
+    banner.dataset.networkStatus = estado;
     banner.hidden = false;
     banner.classList.add("db-show");
   }
@@ -218,7 +247,7 @@
     // fuente definitiva porque puede quedar desactualizado en algunos
     // WebView/entornos móviles.
     if (!SCRIPT_URL) {
-      return navigator.onLine !== false;
+      return { status: navigator.onLine === false ? "offline" : "good", durationMs: 0 };
     }
 
     const controller = typeof AbortController === "function"
@@ -226,6 +255,7 @@
       : null;
 
     let timeoutId = null;
+    const startedAt = Date.now();
 
     if (controller) {
       timeoutId = window.setTimeout(() => controller.abort(), TIMEOUT_PROBE_MS);
@@ -244,19 +274,27 @@
 
       if (!controller) {
         const timeoutPromise = new Promise((_, reject) => {
-          window.setTimeout(() => reject(new Error("Timeout de comprobación de red")), TIMEOUT_PROBE_MS);
+          timeoutId = window.setTimeout(() => reject(new Error("Timeout de comprobación de red")), TIMEOUT_PROBE_MS);
         });
         const response = await Promise.race([
           fetch(SCRIPT_URL, requestOptions),
           timeoutPromise
         ]);
-        return response.ok;
+        const durationMs = Date.now() - startedAt;
+        return {
+          status: !response.ok ? "offline" : durationMs >= UMBRAL_INTERNET_LENTO_MS ? "slow" : "good",
+          durationMs
+        };
       }
 
       const response = await fetch(SCRIPT_URL, requestOptions);
-      return response.ok;
+      const durationMs = Date.now() - startedAt;
+      return {
+        status: !response.ok ? "offline" : durationMs >= UMBRAL_INTERNET_LENTO_MS ? "slow" : "good",
+        durationMs
+      };
     } catch (error) {
-      return false;
+      return { status: "offline", durationMs: Date.now() - startedAt };
     } finally {
       if (timeoutId !== null) {
         window.clearTimeout(timeoutId);
@@ -264,45 +302,47 @@
     }
   }
 
-  function actualizarEstado() {
-    if (probeInFlight) return probeInFlight;
+  function actualizarEstado(forzar = false) {
+    if (probeInFlight && !forzar) return probeInFlight;
 
     const currentVersion = ++stateVersion;
-    probeInFlight = hayConexionReal()
+    const currentProbe = hayConexionReal()
       .then((conectado) => {
         // Ignorar resultados antiguos si durante el probe hubo otro cambio
         // de conectividad (por ejemplo, offline -> online -> offline).
         if (currentVersion !== stateVersion) return;
 
-        if (conectado) {
+        if (conectado.status === "good") {
           userDismissed = false;
           ocultarBanner();
         } else if (!userDismissed) {
-          mostrarBanner();
+          mostrarBanner(conectado.status);
         }
       })
       .catch(() => {
         if (currentVersion === stateVersion && !userDismissed) {
-          mostrarBanner();
+          mostrarBanner("offline");
         }
       })
       .finally(() => {
-        probeInFlight = null;
+        if (probeInFlight === currentProbe) {
+          probeInFlight = null;
+        }
       });
 
-    return probeInFlight;
+    probeInFlight = currentProbe;
+    return currentProbe;
   }
 
   function manejarOnline() {
-    stateVersion += 1;
     userDismissed = false;
-    actualizarEstado();
+    actualizarEstado(true);
   }
 
   function manejarOffline() {
     stateVersion += 1;
     userDismissed = false;
-    mostrarBanner();
+    mostrarBanner("offline");
   }
 
   window.addEventListener("online", manejarOnline);

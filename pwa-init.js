@@ -1,18 +1,17 @@
 // ======================================================
 // DulceArte PWA - Inicialización
 // ======================================================
-// - Registro del Service Worker
 // - Botón instalar personalizado
-// - Notificaciones de actualización
+// - El registro del Service Worker y sus avisos viven en service-worker-update.js
 // ======================================================
 
 console.log("[DulceArte][PWA] Inicializando PWA...");
 
 // ======================================================
-// 1. REGISTRAR SERVICE WORKER
+// Registro de respaldo si no se cargó el comprobador principal
 // ======================================================
 
-if ("serviceWorker" in navigator) {
+if ("serviceWorker" in navigator && !window.__DULCEARTE_SW_UPDATER_ACTIVE__) {
     window.addEventListener("load", () => {
         navigator.serviceWorker
             .register("./sw.js")
@@ -36,7 +35,7 @@ if ("serviceWorker" in navigator) {
                 console.error("[DulceArte][PWA] ❌ Error al registrar SW:", error);
             });
     });
-} else {
+} else if (!("serviceWorker" in navigator)) {
     console.warn("[DulceArte][PWA] ⚠️ Service Workers no soportados en este navegador");
 }
 

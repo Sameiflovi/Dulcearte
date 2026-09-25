@@ -462,6 +462,109 @@ function initLoginFlow() {
     });
   }
 
+  function preguntarSiGuardarClaveEnPopup() {
+    return new Promise((resolve) => {
+      const overlay = document.createElement("div");
+      overlay.className = "clave-save-overlay";
+
+      const dialog = document.createElement("section");
+      dialog.className = "clave-save-dialog";
+      dialog.setAttribute("role", "dialog");
+      dialog.setAttribute("aria-modal", "true");
+      dialog.setAttribute("aria-labelledby", "clave-save-title");
+      dialog.setAttribute("aria-describedby", "clave-save-description clave-save-timeout");
+      dialog.tabIndex = -1;
+
+      const title = document.createElement("h2");
+      title.id = "clave-save-title";
+      title.className = "clave-save-dialog__title";
+      title.textContent = "¿Quieres guardar esta clave?";
+
+      const description = document.createElement("p");
+      description.id = "clave-save-description";
+      description.className = "clave-save-dialog__description";
+      description.textContent = "DulceArte la guardará en este dispositivo para que puedas entrar con un clic la próxima vez.";
+
+      const timeoutMessage = document.createElement("p");
+      timeoutMessage.id = "clave-save-timeout";
+      timeoutMessage.className = "clave-save-dialog__timeout";
+      timeoutMessage.textContent = "Si no eliges, continuaremos sin guardar la clave en 15 segundos.";
+
+      const actions = document.createElement("div");
+      actions.className = "clave-save-dialog__actions";
+
+      const cancelButton = document.createElement("button");
+      cancelButton.type = "button";
+      cancelButton.className = "botonClave clave-save-dialog__button clave-save-dialog__button--secondary";
+      cancelButton.textContent = "No guardar y continuar";
+
+      const saveButton = document.createElement("button");
+      saveButton.type = "button";
+      saveButton.className = "botonClave clave-save-dialog__button";
+      saveButton.textContent = "Guardar clave";
+
+      actions.append(cancelButton, saveButton);
+      dialog.append(title, description, timeoutMessage, actions);
+      overlay.appendChild(dialog);
+
+      let settled = false;
+      let timeoutId = null;
+      let countdownId = null;
+      let secondsLeft = 15;
+      const previousFocus = document.activeElement;
+      const previousBodyOverflow = document.body.style.overflow;
+
+      function finish(shouldSave) {
+        if (settled) return;
+        settled = true;
+        if (timeoutId !== null) window.clearTimeout(timeoutId);
+        if (countdownId !== null) window.clearInterval(countdownId);
+        document.removeEventListener("keydown", handleKeydown);
+        overlay.remove();
+        document.body.style.overflow = previousBodyOverflow;
+        if (previousFocus instanceof HTMLElement && previousFocus.isConnected && !previousFocus.disabled) {
+          previousFocus.focus({ preventScroll: true });
+        }
+        resolve(shouldSave);
+      }
+
+      function handleKeydown(event) {
+        if (event.key === "Escape") {
+          event.preventDefault();
+          finish(false);
+          return;
+        }
+
+        if (event.key !== "Tab") return;
+        if (event.shiftKey && document.activeElement === cancelButton) {
+          event.preventDefault();
+          saveButton.focus();
+        } else if (!event.shiftKey && document.activeElement === saveButton) {
+          event.preventDefault();
+          cancelButton.focus();
+        }
+      }
+
+      cancelButton.addEventListener("click", () => finish(false));
+      saveButton.addEventListener("click", () => finish(true));
+      overlay.addEventListener("click", (event) => {
+        if (event.target === overlay) finish(false);
+      });
+      document.addEventListener("keydown", handleKeydown);
+      document.body.appendChild(overlay);
+      document.body.style.overflow = "hidden";
+      cancelButton.focus();
+      countdownId = window.setInterval(() => {
+        secondsLeft -= 1;
+        if (secondsLeft > 0) {
+          const unidad = secondsLeft === 1 ? "segundo" : "segundos";
+          timeoutMessage.textContent = `Si no eliges, continuaremos sin guardar la clave en ${secondsLeft} ${unidad}.`;
+        }
+      }, 1000);
+      timeoutId = window.setTimeout(() => finish(false), 15000);
+    });
+  }
+
   function mostrarMensaje(texto, tipo) {
     if (!mensajeClave) {
       logWarning(texto);
@@ -702,14 +805,7 @@ function initLoginFlow() {
       if (!querySnapshot.empty) {
         const usuario = querySnapshot.docs[0].data();
         const claveGuardada = value;
-        const quiereGuardar = shouldRemember || await mostrarConfirmacionEnPagina({
-          texto: "¿Quieres guardar esta clave para iniciar sesión con un clic la próxima vez?",
-          confirmarTexto: "Guardar",
-          cancelarTexto: "No guardar",
-          onCancel: () => {
-            logEvent("Usuario decidió no guardar la clave");
-          }
-        });
+        const quiereGuardar = shouldRemember || await preguntarSiGuardarClaveEnPopup();
 
         dbStorage.set("cursosPermitidos", JSON.stringify(usuario.cursos || []));
         dbStorage.set("usuarioActivo", "true");

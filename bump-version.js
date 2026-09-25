@@ -36,6 +36,8 @@ const ARCHIVOS_VERSIONADOS = [
   "image-fallback.js",
   "pwa-init.js",
   "debug-console.js",
+  "twemoji-init.js",
+  "service-worker-update.js",
   "Catalogo/catalogo.js",
   "Catalogo/catalogo.css",
   "mis-cursos.js",
