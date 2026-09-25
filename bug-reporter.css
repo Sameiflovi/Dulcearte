@@ -1,0 +1,192 @@
+.btn-reportar-bug {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 20px;
+    background: linear-gradient(135deg, #ef7d5d 0%, #e96d4c 100%);
+    color: #fff;
+    border: 0;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 12px rgba(239, 125, 93, 0.3);
+    margin-top: 10px;
+    letter-spacing: 0.3px;
+}
+
+.btn-reportar-bug:hover {
+    background: linear-gradient(135deg, #e96d4c 0%, #d85e3d 100%);
+    box-shadow: 0 6px 18px rgba(239, 125, 93, 0.45);
+    transform: translateY(-2px);
+}
+
+.btn-reportar-bug:focus-visible,
+.bug-form-modal button:focus-visible,
+.bug-annotate-overlay button:focus-visible {
+    outline: 2px solid #a85f3e;
+    outline-offset: 2px;
+}
+
+.bug-annotate-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background: rgba(20, 12, 8, 0.94);
+}
+
+.bug-annotate-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #fff8ef;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.bug-annotate-canvas-wrap {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    overflow: auto;
+}
+
+#bugAnnotateCanvas {
+    max-width: 100%;
+    max-height: 100%;
+    touch-action: none;
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    cursor: crosshair;
+}
+
+.bug-annotate-actions,
+.bug-form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.bug-annotate-actions button,
+.bug-form-actions button {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 100px;
+    padding: 11px 14px;
+    border: 0;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.bug-form-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    animation: bugReporterFadeIn 200ms ease;
+}
+
+.bug-form-content {
+    width: 100%;
+    max-width: 420px;
+    padding: 24px;
+    border: 2px solid #f5d9b0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #fff9f3 0%, #fffbf7 100%);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(88, 55, 45, 0.1);
+}
+
+.bug-form-content h3 {
+    margin: 0 0 14px;
+    color: #58372d;
+    font-size: 1.1rem;
+}
+
+.bug-form-textarea {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border: 2px solid #e8d4c4;
+    border-radius: 6px;
+    color: #58372d;
+    background: #fff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    resize: vertical;
+}
+
+.bug-form-info {
+    margin: 12px 0;
+    padding: 8px 10px;
+    border-left: 3px solid #ef7d5d;
+    border-radius: 3px;
+    color: #58372d;
+    background: rgba(239, 125, 93, 0.08);
+    font-size: 0.85rem;
+}
+
+.btn-cancel-report {
+    border: 1px solid #d4b8a8 !important;
+    color: #58372d;
+    background: #e8d4c4;
+}
+
+.btn-send-report {
+    color: #fff;
+    background: linear-gradient(135deg, #ef7d5d 0%, #e96d4c 100%);
+    box-shadow: 0 4px 12px rgba(239, 125, 93, 0.3);
+}
+
+.btn-send-report:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.bug-report-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.bug-report-status.loading { color: #92400e; background: #fef3c7; }
+.bug-report-status.success { color: #166534; background: #dcfce7; }
+.bug-report-status.error { color: #991b1b; background: #fee2e2; }
+
+@keyframes bugReporterFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (max-width: 600px) {
+    .bug-form-content { max-width: 100%; padding: 18px; }
+    .bug-form-textarea { min-height: 90px; font-size: 16px; }
+    .bug-annotate-topbar { font-size: 0.8rem; }
+    .bug-annotate-actions,
+    .bug-form-actions { flex-direction: column; }
+}

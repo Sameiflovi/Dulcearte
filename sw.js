@@ -4,7 +4,7 @@
 // Caché específica con estrategias inteligentes
 // ======================================================
 
-const VERSION = "26.9.1.8";
+const VERSION = "26.9.1.10";
 const CACHE_NAME = `dulcearte-${VERSION}`;
 const CACHE_PREFIX = "dulcearte-";
 const NAVIGATION_CACHE_DELAY_MS = 3000;
@@ -26,7 +26,9 @@ const APP_SHELL = [
     "./cursos/pizzas/pizzas.js?v=8e80b5e2",
     "./localStorage-safe.js?v=b8fbe754", "./pwa-init.js?v=9797b3fa",
     "./debug-console.js?v=710fee7a", "./offline-banner.js?v=2a00a21a",
-    "./service-worker-update.js?v=b91bb6d1", "./image-fallback.js?v=aeffec89",
+    "./service-worker-update.js?v=b91bb6d1",
+    "./bug-reporter.css?v=18baca75", "./bug-reporter.js?v=3c9d4280",
+    "./image-fallback.js?v=76de6b02",
     "./twemoji-init.js?v=e0c93cc3", "./manifest.json", "./sw.js", "./Data/favicon.png",
     "./Data/logos/logoprincipal.webp", "./Data/fondopc.webp", "./Data/fondocel.webp",
     "./Data/PWA/icon-192.png", "./Data/PWA/icon-512.png"

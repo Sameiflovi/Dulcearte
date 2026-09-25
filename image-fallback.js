@@ -34,6 +34,34 @@
       display: block;
     }
 
+    .db-img-fallback__file {
+      display: block;
+      font-size: 0.68rem;
+      opacity: 0.8;
+      overflow-wrap: anywhere;
+    }
+
+    .db-img-fallback__report {
+      margin-top: 4px;
+      padding: 6px 10px;
+      border: 1px solid #a9614e;
+      border-radius: 6px;
+      color: #fff;
+      background: #a9614e;
+      font: inherit;
+      font-size: 0.72rem;
+      cursor: pointer;
+    }
+
+    .db-img-fallback__report:hover {
+      background: #854a3b;
+    }
+
+    .db-img-fallback__report:focus-visible {
+      outline: 2px solid #58372d;
+      outline-offset: 2px;
+    }
+
     .db-img-fallback > img {
       display: none !important;
     }
@@ -41,6 +69,9 @@
 
   function marcarComoRota(img) {
     if (img.dataset.dbFallbackApplied) return;
+
+    const parent = img.parentNode;
+    if (!parent) return;
 
     img.dataset.dbFallbackApplied = "true";
 
@@ -54,9 +85,19 @@
     }
 
     const altOriginal = (img.getAttribute("alt") || "").trim();
+    const imageSource = img.currentSrc || img.getAttribute("src") || "";
+    let fileName = "";
+
+    try {
+      const imageUrl = new URL(imageSource, document.baseURI);
+      fileName = decodeURIComponent(imageUrl.pathname.split("/").pop() || "");
+    } catch (_) {
+      fileName = "";
+    }
+
     fallback.setAttribute(
       "role",
-      "img"
+      "group"
     );
     fallback.setAttribute(
       "aria-label",
@@ -74,9 +115,28 @@
 
     const text = document.createElement("span");
     text.className = "db-img-fallback__text";
-    text.textContent = "Imagen no disponible";
+    text.textContent = altOriginal || "Sin descripción disponible";
 
-    fallback.append(icon, text, img);
+    const file = document.createElement("span");
+    file.className = "db-img-fallback__file";
+    file.textContent = fileName ? `Archivo: ${fileName}` : "Archivo sin nombre";
+
+    const reportButton = document.createElement("button");
+    reportButton.type = "button";
+    reportButton.className = "db-img-fallback__report";
+    reportButton.textContent = "Reporta este error";
+    reportButton.addEventListener("click", () => {
+      const details = [
+        "Imagen no disponible",
+        `Descripción: ${altOriginal || "Sin descripción disponible"}`,
+        `Archivo: ${fileName || "Nombre no disponible"}`,
+        `Página: ${location.pathname}`
+      ].join("\n");
+
+      window.DulceArteBugReporter?.open(details);
+    });
+
+    fallback.append(icon, text, file, reportButton);
 
     img.setAttribute("aria-hidden", "true");
     img.removeAttribute("alt");
@@ -84,9 +144,8 @@
     img.removeAttribute("srcset");
     img.removeAttribute("sizes");
 
-    if (img.parentNode) {
-      img.parentNode.replaceChild(fallback, img);
-    }
+    parent.replaceChild(fallback, img);
+    fallback.append(img);
   }
 
   function prepararImagen(img) {

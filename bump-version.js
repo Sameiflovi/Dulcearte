@@ -33,6 +33,8 @@ const ARCHIVOS_VERSIONADOS = [
   "style.css",
   "script.js",
   "offline-banner.js",
+  "bug-reporter.js",
+  "bug-reporter.css",
   "image-fallback.js",
   "pwa-init.js",
   "debug-console.js",
