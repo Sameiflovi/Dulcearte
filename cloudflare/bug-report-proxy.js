@@ -12,8 +12,13 @@ const ALLOWED_ORIGINS = [
 ];
 
 function corsHeaders(origin) {
+    // Si origin está en la whitelist, usarlo. Si no, permitir localhost en desarrollo
+    const isAllowed = ALLOWED_ORIGINS.includes(origin) || 
+                      origin.includes('localhost') || 
+                      origin.includes('127.0.0.1');
+    
     return {
-        'Access-Control-Allow-Origin': ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0],
+        'Access-Control-Allow-Origin': isAllowed ? origin : ALLOWED_ORIGINS[0],
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type'
     };

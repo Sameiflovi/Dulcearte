@@ -21,10 +21,16 @@
         let bugDescription = '';
 
         function getFormattedLocalStorage() {
+            // localStorage-safe.js declara dbStorage como const global, no como window.dbStorage.
+            const storage = window.dbStorage || (typeof dbStorage !== 'undefined' ? dbStorage : null);
+            if (!storage || !storage.isAvailable()) {
+                return { 'LocalStorage no disponible': true };
+            }
+
             const data = {};
             for (let key in window.localStorage) {
                 if (Object.prototype.hasOwnProperty.call(window.localStorage, key)) {
-                    const value = window.localStorage.getItem(key) || '';
+                    const value = storage.get(key) || '';
                     if (!key.toLowerCase().includes('password') && !key.toLowerCase().includes('token')) {
                         data[key] = value.substring(0, 50);
                     }
