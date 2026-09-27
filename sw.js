@@ -114,11 +114,7 @@ self.addEventListener("fetch", event => {
                 }
             }
 
-            return new Response("Esta página no está guardada y no se pudo cargar. Revisa tu conexión e inténtalo de nuevo.", {
-                status: 503,
-                statusText: "Service Unavailable",
-                headers: { "Content-Type": "text/plain; charset=utf-8" }
-            });
+            throw new Error("offline");
         })());
         return;
     }
