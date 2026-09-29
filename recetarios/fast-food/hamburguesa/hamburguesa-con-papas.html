@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receta Profesional: Hamburguesa Épica desde Cero</title>
+    <link rel="stylesheet" href="hamburguesa.css">
+    <script src="hamburguesa.js" defer></script>
+</head>
+<body>
+
+    <a class="back-btn" href="../seccion-fast-food.html" onclick="if (history.length > 1) { event.preventDefault(); history.back(); }" aria-label="Volver a la página anterior">← Volver</a>
+
+    <h1>🍔 Hamburguesa Épica desde Cero</h1>
+    <p>Para preparar una hamburguesa deliciosa en casa debemos cuidar tres cosas: un pan suave, una carne jugosa y unas papas fritas bien crujientes. ¡Aquí aprenderás a preparar todo paso a paso! 🥖🥩🍟</p>
+
+    <section class="porciones" aria-label="Cambiar cantidad de porciones">
+        <div class="porciones-icono">🍽️</div>
+        <div class="porciones-contenido">
+            <h2>¿Cuántas porciones necesitas?</h2>
+            <p>Las cantidades cambian automáticamente al tocar los botones.</p>
+            <div class="porciones-control" aria-label="Selector de porciones">
+                <button type="button" id="porciones-menos" aria-label="Disminuir porciones">−</button>
+                <div class="porciones-numero" aria-live="polite">
+                    <strong id="porciones-valor">6</strong>
+                    <span id="porciones-label">porciones</span>
+                </div>
+                <button type="button" id="porciones-mas" aria-label="Aumentar porciones">+</button>
+            </div>
+            <p class="porciones-ayuda">💡 La receta base está calculada para 6 porciones.</p>
+        </div>
+    </section>
+
+    <!-- Imagen principal -->
+    <img src="media/hamburguesa_1.jpg" alt="Hamburguesa casera alta y jugosa con queso fundido y papas fritas rústicas servida sobre tabla de madera">
+
+    <hr>
+
+    <h2>🥖 1. El Pan Suave</h2>
+    <p>Vamos a preparar un pan suave y esponjoso. La idea es conseguir un pan que aguante bien la carne, el queso y las salsas sin romperse. 😊</p>
+
+    <h3>🧾 <span data-portions-text>Ingredientes para 6 porciones</span>:</h3>
+    <ul>
+        <li><span data-base="500" data-unit="g">500 g</span> de harina de trigo.</li>
+        <li><span data-base="10" data-unit="g">10 g</span> de levadura seca de panadería.</li>
+        <li><span data-base="250" data-unit="ml">250 ml</span> de leche tibia.</li>
+        <li><span data-base="1" data-unit="huevo">1 huevo</span>.</li>
+        <li><span data-base="50" data-unit="g">50 g</span> de mantequilla blanda.</li>
+        <li><span data-base="30" data-unit="g">30 g</span> de azúcar.</li>
+        <li><span data-base="10" data-unit="g">10 g</span> de sal.</li>
+        <li>Para pintar: 1 huevo batido con un poco de leche y semillas de sésamo.</li>
+    </ul>
+
+    <h3>Pasos:</h3>
+    <ol>
+        <li><strong>Activar:</strong> En un bol pequeño, mezcla la leche tibia con la levadura y el azúcar. Déjalo reposar 10 minutos hasta que haga espuma en la superficie.</li>
+        <li><strong>Amasar:</strong> En un bol grande, pon la harina y la sal. Haz un hueco en el centro y añade la mezcla de levadura y el huevo. Mezcla hasta integrar. Pasa la masa a la mesa y amasa por 5 minutos.</li>
+        <li><strong>La mantequilla:</strong> Abre un poco la masa, integra la mantequilla blanda y sigue amasando unos 10 minutos más. Al principio será un desastre pegajoso, ¡no te rindas ni le pongas más harina! Sigue amasando hasta que quede lisa y elástica.</li>
+        <li><strong>Primer reposo:</strong> Pon la masa en un bol engrasado con un poco de aceite, tápala y déjala reposar 1 hora (o hasta que duplique su tamaño).</li>
+        <li><strong>Formar:</strong> Desgasifica la masa (aplástala un poco con los nudillos), divídela en <span data-portions-count>6</span> porciones iguales y haz bolitas perfectas. Ponlas en una bandeja de horno con papel encerado dejando espacio entre ellas.</li>
+        <li><strong>Segundo reposo y horneado:</strong> Tapa las bolitas y déjalas reposar otros 45 minutos. Luego, píntalas suavemente con la mezcla de huevo y espolvorea sésamo. Hornea a 200°C por 15-18 minutos hasta que estén dorados.</li>
+    </ol>
+
+    <!-- Imagen de los panes -->
+    <img src="media/hamburguesa_2.jpg" alt="Panes de hamburguesa brioche recién salidos del horno dorados en rejilla metálica">
+
+    <hr>
+
+    <h2>🥩 2. La Carne Jugosa</h2>
+    <p>Una buena hamburguesa necesita carne con algo de grasa. La grasa ayuda a que la carne quede jugosa y tenga más sabor. 😋</p>
+
+    <h3>🧾 <span data-portions-text>Ingredientes para 6 porciones</span>:</h3>
+    <ul>
+        <li><span data-base="800" data-unit="g">800 g</span> de carne picada de res. <strong>El secreto:</strong> Pide un corte que tenga un 80% de carne magra y un 20% de grasa (aguja, huachalomo, o asado de tira). La grasa es lo que da la jugosidad y el sabor.</li>
+        <li>Sal gruesa y pimienta negra recién molida.</li>
+    </ul>
+
+    <h3>Pasos:</h3>
+    <ol>
+        <li><strong>Formar sin amasar:</strong> Toma porciones de unos 130-150 g de carne picada. Con las manos mojadas en agua fría, forma los medallones muy suavemente, sin apretar ni compactar demasiado la carne. Si la compactas mucho, quedará dura al morder.</li>
+        <li><strong>El truco del pulgar:</strong> Haz una ligera hendidura con tu pulgar justo en el centro de cada medallón. Al cocinarse, la carne tiende a encogerse y abombarse en el centro; esta pequeña hendidura evita que tu hamburguesa termine pareciendo una pelota.</li>
+        <li><strong>Sazonar al final:</strong> NUNCA le pongas la sal a la carne cruda antes de formar los medallones (la sal extrae la humedad y te dejará una suela de zapato). Ponle abundante sal gruesa y pimienta <strong>justo un segundo antes de ponerla en la plancha</strong>.</li>
+    </ol>
+
+    <!-- Imagen de la carne cruda -->
+    <img src="media/hamburguesa_3.jpg" alt="Manos formando medallones gruesos de carne picada fresca sobre papel encerado">
+
+    <hr>
+
+    <h2>🍟 3. Papas Fritas Crujientes</h2>
+    <p>Para que las papas queden suaves por dentro y crujientes por fuera, vamos a cocinarlas dos veces. 🥔✨</p>
+
+    <h3>Ingredientes:</h3>
+    <ul>
+        <li>Papas grandes (variedad harinosa, ideal para freír).</li>
+        <li>Abundante aceite vegetal.</li>
+        <li>Sal.</li>
+    </ul>
+
+    <h3>Pasos:</h3>
+    <ol>
+        <li><strong>Cortar y lavar:</strong> Corta las papas en bastones parejos. Sumérgelas en un bol con agua muy fría por 30 minutos. Esto quita el exceso de almidón y evita que se quemen rápido en el aceite.</li>
+        <li><strong>Secar muy bien:</strong> Escúrrelas y sécalas perfectamente con un paño limpio. El agua y el aceite caliente son enemigos explosivos.</li>
+        <li><strong>Primera fritura (pochar):</strong> Calienta el aceite a fuego medio-bajo (unos 140°C). Fríe las papas por unos 6-8 minutos. Queremos que se cocinen y ablanden por dentro, pero que NO tomen color. Sácalas y escúrrelas en una rejilla. Déjalas enfriar al menos 15 minutos (incluso las puedes congelar en este punto).</li>
+        <li><strong>Segunda fritura (el crujiente):</strong> Sube el fuego a alto (unos 190°C). Vuelve a meter las papas por 3-4 minutos hasta que estén súper doradas y crujientes. Sácalas, escurre en rejilla (no en papel para que no suden) y échales sal inmediatamente mientras siguen hirviendo de calor para que se les pegue bien.</li>
+    </ol>
+
+    <!-- Imagen de las papas friéndose -->
+    <img src="media/hamburguesa_4.jpg" alt="Papas cortadas en bastones dorándose intensamente en aceite burbujeante">
+
+    <hr>
+
+    <h2>🧀 4. Preparar la Hamburguesa</h2>
+    <ol>
+        <li><strong>El tostado (Barrera de sabor):</strong> Corta tu pan brioche por la mitad, unta las caras internas con un poquito de mantequilla y tuéstalas en una sartén caliente. Esto crea una costra impermeable para que los jugos de la carne o las salsas no desarmen tu pan.</li>
+        <li><strong>La cocción:</strong> Pon la sartén o plancha a fuego muy fuerte hasta que humee ligeramente. Coloca la carne (previamente salpimentada por la cara de arriba). Cocina 3-4 minutos para crear una costra súper caramelizada (reacción de Maillard).</li>
+        <li><strong>El queso:</strong> Dale la vuelta a la carne, salpimienta la nueva cara hacia arriba y ponle inmediatamente 1 o 2 lonchas de queso (cheddar maduro, edam o queso americano) encima. Tapa la sartén 30 segundos; el vapor hará que el queso se funda derramándose perfectamente por los bordes.</li>
+        <li><strong>Montaje ideal:</strong> Base del pan tostado ➡️ Salsa de tu preferencia (¡una crema de ajo le queda brutal!) ➡️ Lechuga fresca para dar textura ➡️ Rodajas de tomate ➡️ La carne con el queso fundido ➡️ Tapa del pan.</li>
+    </ol>
+
+    <!-- Imagen de la cocción de la hamburguesa -->
+    <img src="media/hamburguesa_5.jpg" alt="Espátula levantando medallón de carne jugoso con queso cheddar derretido en plancha caliente">
+
+</body>
+</html>
