@@ -126,14 +126,12 @@
     reportButton.className = "db-img-fallback__report";
     reportButton.textContent = "Reporta este error";
     reportButton.addEventListener("click", () => {
-      const details = [
-        "Imagen no disponible",
-        `Descripción: ${altOriginal || "Sin descripción disponible"}`,
-        `Archivo: ${fileName || "Nombre no disponible"}`,
-        `Página: ${location.pathname}`
-      ].join("\n");
-
-      window.DulceArteBugReporter?.open(details);
+      window.DulceArteBugReporter?.open({
+        tipo: "Imagen no disponible",
+        descripcion: altOriginal || "Sin descripción disponible",
+        archivo: fileName || "Nombre no disponible",
+        pagina: location.pathname
+      });
     });
 
     fallback.append(icon, text, file, reportButton);
@@ -145,7 +143,6 @@
     img.removeAttribute("sizes");
 
     parent.replaceChild(fallback, img);
-    fallback.append(img);
   }
 
   function prepararImagen(img) {

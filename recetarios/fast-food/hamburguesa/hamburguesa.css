@@ -1,27 +1,64 @@
-/* =========================================================
-   DulceArte - Receta Hamburguesa con papas
-   Este CSS está pensado para estar junto al HTML:
-   recetarios/fast-food/hamburguesa/
-========================================================= */
+:root {
+    --bg-cream: #fffaf4;
+    --paper: rgba(255, 249, 242, 0.9);
+    --card: rgba(255, 255, 255, 0.72);
+
+    --accent: #d67b3d;
+    --accent-strong: #a75420;
+    --accent-soft: #f7d7b3;
+
+    --gold: #f3c76a;
+
+    --text: #2f1e12;
+    --muted: #5e4334;
+
+    --line: rgba(108, 68, 42, 0.13);
+    --shadow: rgba(77, 47, 31, 0.14);
+
+    --green: #6a8f4e;
+
+    --radius: clamp(16px, 4vw, 26px);
+    --gap: clamp(1rem, 3vw, 2.3rem);
+}
+
+/* =========================
+   BASE
+========================= */
 
 * {
     box-sizing: border-box;
 }
 
 html {
+    color-scheme: light;
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
 }
 
 body {
     margin: 0;
+    min-width: 0;
     min-height: 100vh;
-    padding: 70px 20px 50px;
+    overflow-x: hidden;
 
-    font-family: Arial, Helvetica, sans-serif;
-    color: #5f3f2d;
-    line-height: 1.7;
+    padding:
+        clamp(58px, 7vw, 72px)
+        clamp(10px, 3.5vw, 24px)
+        clamp(28px, 5vw, 48px);
 
-    /* Fondo original de DulceArte para PC */
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    font-size: clamp(1rem, 1.8vw, 1.12rem);
+    line-height: 1.75;
+
+    color: var(--text);
+
     background-image: url("../../../Data/fondopc.webp");
     background-size: cover;
     background-position: center;
@@ -29,130 +66,227 @@ body {
     background-attachment: fixed;
 }
 
-/* Contenido principal */
+/* =========================
+   TÍTULOS
+========================= */
+
 h1,
 h2,
-h3,
-p,
-ul,
-ol,
-img,
-hr {
-    width: min(100%, 900px);
-    margin-left: auto;
-    margin-right: auto;
+h3 {
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--accent-strong);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
 }
 
 h1 {
-    margin-top: 15px;
-    margin-bottom: 22px;
+    width: min(100%, 1000px);
+    margin: 0 auto 1rem;
+
     text-align: center;
-    color: #a95e2d;
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    line-height: 1.15;
-    text-shadow: 0 2px 10px rgba(255, 220, 180, 0.75);
+
+    font-size: clamp(2rem, 5vw, 4rem);
+
+    text-shadow:
+        0 8px 22px rgba(214, 123, 61, 0.18);
 }
 
 h2 {
-    margin-top: 45px;
-    margin-bottom: 14px;
-    padding-bottom: 8px;
-    color: #a95e2d;
-    font-size: clamp(1.45rem, 3.5vw, 2.1rem);
-    border-bottom: 2px solid rgba(184, 107, 75, 0.35);
+    width: min(100%, 1000px);
+    margin: 2.7rem auto 1rem;
+
+    padding-bottom: 0.55rem;
+
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+
+    border-bottom:
+        2px solid rgba(166, 91, 44, 0.16);
 }
 
 h3 {
-    margin-top: 28px;
-    margin-bottom: 10px;
-    color: #975a30;
-    font-size: clamp(1.1rem, 2.8vw, 1.35rem);
+    width: min(100%, 900px);
+    margin: 1.6rem auto 0.8rem;
+
+    font-size: clamp(1.25rem, 2.7vw, 1.8rem);
 }
 
-p,
-ul,
-ol {
-    padding: 0;
-}
+/* =========================
+   TEXTO
+========================= */
 
 p {
-    font-size: 1.05rem;
+    width: min(100%, 900px);
+    margin: 0 auto 1.2rem;
+
+    color: var(--muted);
+
+    font-size: inherit;
+    line-height: 1.75;
 }
+
+/* Primer texto de la receta */
+body > p:first-of-type {
+    text-align: center;
+
+    max-width: 920px;
+
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
+    line-height: 1.65;
+}
+
+/* =========================
+   IMÁGENES
+========================= */
+
+img {
+    width: min(100%, 920px);
+    height: auto;
+
+    display: block;
+
+    margin: 1.6rem auto 2rem;
+
+    border-radius: 26px;
+
+    border: 4px solid rgba(255, 255, 255, 0.7);
+
+    background: rgba(255, 255, 255, 0.35);
+
+    box-shadow:
+        0 22px 48px rgba(78, 48, 26, 0.18);
+}
+
+/* =========================
+   SEPARADORES
+========================= */
+
+hr {
+    width: min(100%, 900px);
+
+    margin: 2.7rem auto;
+
+    border: none;
+
+    border-top:
+        2px dashed rgba(128, 77, 48, 0.2);
+}
+
+/* =========================
+   LISTAS
+========================= */
 
 ul,
 ol {
-    padding-left: 28px;
+    width: min(100%, 900px);
+
+    margin:
+        0 auto 1.5rem;
+
+    padding-left: 1.5rem;
+
+    display: grid;
+
+    gap: 0.8rem;
 }
 
 li {
-    margin-bottom: 10px;
+    background: var(--card);
+
+    border:
+        1px solid var(--line);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 10px 22px var(--shadow);
+
+    padding:
+        0.95rem 1rem;
+
+    color: var(--text);
+
+    backdrop-filter: blur(2px);
+
+    line-height: 1.7;
+}
+
+/* Mantener el número fuera de la tarjeta */
+ol li,
+ul li {
+    list-style-position: outside;
+}
+
+li::marker {
+    color: var(--accent-strong);
+    font-weight: 700;
 }
 
 strong {
-    color: #9d4f29;
+    color: var(--accent-strong);
+    font-weight: 700;
 }
 
-/* Imágenes de la receta */
-img {
-    display: block;
-    height: auto;
-    margin-top: 28px;
-    margin-bottom: 32px;
-    border-radius: 14px;
-    box-shadow: 0 8px 25px rgba(91, 57, 39, 0.22);
-}
+/* =========================
+   BOTÓN VOLVER
+========================= */
 
-/* Separadores */
-hr {
-    border: 0;
-    height: 2px;
-    margin-top: 45px;
-    margin-bottom: 45px;
-    background: linear-gradient(
-        to right,
-        transparent,
-        rgba(184, 107, 75, 0.45),
-        transparent
-    );
-}
-
-/* Botón volver */
 .back-btn {
     position: fixed;
-    top: 14px;
-    left: 14px;
-    z-index: 1000;
+
+    top: 12px;
+    left: 12px;
+
+    z-index: 400;
 
     display: inline-flex;
     align-items: center;
     justify-content: center;
 
     min-height: 42px;
-    padding: 9px 15px;
 
-    border: 1px solid rgba(255, 255, 255, 0.45);
-    border-radius: 12px;
+    padding:
+        8px 12px;
 
-    background: rgba(95, 63, 45, 0.82);
+    border:
+        1px solid rgba(255, 255, 255, 0.4);
+
+    border-radius: 10px;
+
+    background:
+        rgba(0, 0, 0, 0.68);
+
     color: #fff;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.95rem;
 
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    text-decoration: none;
+
+    font-weight: 700;
+
+    font-size:
+        clamp(0.85rem, 1.7vw, 1rem);
+
+    box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.18);
+
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 
     transition:
-        transform 0.2s ease,
-        background-color 0.2s ease,
-        box-shadow 0.2s ease;
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background-color 0.25s ease;
 }
 
-.back-btn:hover {
-    transform: translateY(-2px);
-    background: rgba(120, 76, 51, 0.92);
-    box-shadow: 0 9px 24px rgba(0, 0, 0, 0.23);
+/* Solo mouse real */
+@media (hover: hover) and (pointer: fine) {
+    .back-btn:hover {
+        transform: translateY(-2px);
+
+        background:
+            rgba(95, 63, 45, 0.88);
+
+        box-shadow:
+            0 10px 24px rgba(0, 0, 0, 0.22);
+    }
 }
 
 .back-btn:active {
@@ -160,93 +294,53 @@ hr {
 }
 
 .back-btn:focus-visible {
-    outline: 3px solid rgba(255, 210, 160, 0.9);
+    outline:
+        3px solid rgba(243, 199, 106, 0.9);
+
     outline-offset: 3px;
 }
 
-/* Teléfonos */
-@media (max-width: 768px) {
-    body {
-        padding: 62px 14px 38px;
-
-        /* Fondo original de DulceArte para móviles */
-        background-image: url("../../../Data/fondocel.webp");
-        background-attachment: scroll;
-    }
-
-    p,
-    li {
-        font-size: 1rem;
-    }
-
-    ul,
-    ol {
-        padding-left: 23px;
-    }
-
-    img {
-        border-radius: 11px;
-        margin-top: 22px;
-        margin-bottom: 26px;
-    }
-
-    hr {
-        margin-top: 34px;
-        margin-bottom: 34px;
-    }
-
-    .back-btn {
-        top: 9px;
-        left: 9px;
-        min-height: 40px;
-        padding: 8px 12px;
-        font-size: 0.9rem;
-        border-radius: 10px;
-    }
-}
-
-/* Teléfonos muy estrechos */
-@media (max-width: 420px) {
-    body {
-        padding-left: 12px;
-        padding-right: 12px;
-    }
-
-    h1 {
-        font-size: 1.9rem;
-    }
-
-    h2 {
-        font-size: 1.4rem;
-    }
-
-    h3 {
-        font-size: 1.08rem;
-    }
-}
-
 /* =========================
-   Selector de porciones
+   SELECTOR DE PORCIONES
 ========================= */
+
 .porciones {
     width: min(100%, 900px);
-    margin: 28px auto 38px;
-    padding: 22px;
+
+    margin:
+        1.8rem auto 2.2rem;
+
+    padding:
+        clamp(1rem, 3vw, 1.5rem);
+
     display: flex;
     align-items: center;
-    gap: 18px;
-    border-radius: 18px;
-    border: 1px solid rgba(184, 107, 75, 0.22);
-    background: rgba(255, 248, 242, 0.88);
-    box-shadow: 0 10px 28px rgba(91, 57, 39, 0.14);
-    backdrop-filter: blur(7px);
-    -webkit-backdrop-filter: blur(7px);
+
+    gap: 1rem;
+
+    background:
+        rgba(255, 249, 242, 0.9);
+
+    border:
+        1px solid rgba(108, 68, 42, 0.13);
+
+    border-radius:
+        clamp(16px, 4vw, 24px);
+
+    box-shadow:
+        0 14px 30px rgba(77, 47, 31, 0.13);
+
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .porciones-icono {
-    font-size: 2.8rem;
-    line-height: 1;
     flex-shrink: 0;
+
+    font-size:
+        clamp(2.2rem, 6vw, 3.2rem);
+
+    line-height: 1;
 }
 
 .porciones-contenido {
@@ -256,47 +350,75 @@ hr {
 
 .porciones h2 {
     width: 100%;
-    margin: 0 0 4px;
+
+    margin: 0 0 0.2rem;
+
     padding: 0;
-    border: 0;
-    font-size: clamp(1.3rem, 3vw, 1.7rem);
+
+    border: none;
+
+    font-size:
+        clamp(1.35rem, 3vw, 1.8rem);
+
+    text-align: left;
 }
 
 .porciones p {
     width: 100%;
-    margin: 0 0 12px;
-    font-size: 0.98rem;
+
+    margin: 0 0 0.8rem;
+
+    font-size:
+        clamp(0.95rem, 1.8vw, 1rem);
 }
 
 .porciones-control {
     display: flex;
+
     align-items: center;
     justify-content: center;
-    gap: 16px;
-    margin: 14px 0;
+
+    gap: 1rem;
+
+    margin:
+        1rem 0;
 }
 
 .porciones-control button {
     width: 54px;
     height: 54px;
-    border: 0;
+
+    border: none;
     border-radius: 50%;
-    background: #a95e2d;
+
+    background: var(--accent-strong);
+
     color: #fff;
+
     font-size: 2rem;
+
     line-height: 1;
+
     cursor: pointer;
-    box-shadow: 0 5px 14px rgba(91, 57, 39, 0.2);
-    transition: transform 0.15s ease, opacity 0.15s ease;
+
+    box-shadow:
+        0 6px 16px rgba(77, 47, 31, 0.2);
+
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
+
     touch-action: manipulation;
 }
 
-.porciones-control button:hover:not(:disabled) {
-    transform: scale(1.06);
+@media (hover: hover) and (pointer: fine) {
+    .porciones-control button:hover:not(:disabled) {
+        transform: scale(1.06);
+    }
 }
 
 .porciones-control button:active:not(:disabled) {
-    transform: scale(0.95);
+    transform: scale(0.94);
 }
 
 .porciones-control button:disabled {
@@ -305,63 +427,339 @@ hr {
 }
 
 .porciones-control button:focus-visible {
-    outline: 3px solid rgba(169, 94, 45, 0.35);
+    outline:
+        3px solid rgba(214, 123, 61, 0.35);
+
     outline-offset: 3px;
 }
 
 .porciones-numero {
-    min-width: 120px;
+    min-width: 115px;
+
     text-align: center;
-    color: #6f4631;
+
+    color: var(--muted);
 }
 
 .porciones-numero strong {
     display: block;
-    color: #a95e2d;
-    font-size: 2rem;
+
+    color: var(--accent-strong);
+
+    font-size:
+        clamp(2rem, 5vw, 2.5rem);
+
     line-height: 1;
 }
 
 .porciones-numero span {
     display: block;
-    margin-top: 4px;
+
+    margin-top: 0.3rem;
+
     font-size: 0.95rem;
+
     font-weight: 700;
 }
 
 .porciones-ayuda {
     text-align: center;
+
     opacity: 0.85;
-    font-size: 0.9rem !important;
 }
 
+/* Las cantidades que modifica JS */
 [data-base] {
+    color: var(--accent-strong);
+
     font-weight: 800;
-    color: #a95e2d;
+
+    transition:
+        color 0.2s ease;
 }
 
-@media (max-width: 600px) {
+/* =========================
+   EFECTO AL CAMBIAR CANTIDAD
+========================= */
+
+[data-base].cantidad-cambiada {
+    color: var(--green);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+    body {
+        padding:
+            54px
+            clamp(8px, 3vw, 16px)
+            clamp(20px, 4vw, 32px);
+
+        background-image:
+            url("../../../Data/fondocel.webp");
+
+        background-attachment:
+            scroll;
+    }
+
+    h1 {
+        font-size:
+            clamp(1.9rem, 7vw, 3rem);
+    }
+
+    h2 {
+        font-size:
+            clamp(1.5rem, 5.5vw, 2.3rem);
+
+        margin-top:
+            2rem;
+    }
+
+    h3 {
+        font-size:
+            clamp(1.2rem, 4.5vw, 1.6rem);
+    }
+
+    p {
+        font-size:
+            1rem;
+
+        line-height:
+            1.7;
+    }
+
+    body > p:first-of-type {
+        font-size:
+            1.03rem;
+    }
+
+    img {
+        margin-top: 1.2rem;
+        margin-bottom: 1.6rem;
+
+        border-radius: 18px;
+
+        border-width: 3px;
+    }
+
+    hr {
+        margin:
+            2rem auto;
+    }
+
+    ul,
+    ol {
+        padding-left:
+            1.2rem;
+
+        gap:
+            0.7rem;
+    }
+
+    li {
+        padding:
+            0.85rem 0.9rem;
+
+        border-radius:
+            13px;
+
+        line-height:
+            1.65;
+    }
+
     .porciones {
-        padding: 18px;
-        gap: 12px;
-        align-items: flex-start;
+        align-items:
+            flex-start;
+
+        padding:
+            1rem;
+
+        border-radius:
+            18px;
     }
 
     .porciones-icono {
-        font-size: 2.2rem;
+        font-size:
+            2.3rem;
     }
 
     .porciones-control {
-        gap: 12px;
+        gap:
+            0.75rem;
     }
 
     .porciones-control button {
-        width: 50px;
-        height: 50px;
-        font-size: 1.8rem;
+        width:
+            50px;
+
+        height:
+            50px;
+
+        font-size:
+            1.8rem;
     }
 
     .porciones-numero {
-        min-width: 90px;
+        min-width:
+            90px;
+    }
+
+    .back-btn {
+        top:
+            8px;
+
+        left:
+            8px;
+
+        min-height:
+            40px;
+
+        padding:
+            7px 10px;
+
+        border-radius:
+            9px;
+
+        font-size:
+            0.9rem;
+    }
+}
+
+/* =========================
+   TELÉFONOS PEQUEÑOS
+========================= */
+
+@media (max-width: 480px) {
+
+    body {
+        padding:
+            48px 10px 22px;
+    }
+
+    h1 {
+        font-size:
+            clamp(1.7rem, 8vw, 2.5rem);
+    }
+
+    h2 {
+        font-size:
+            clamp(1.35rem, 6vw, 2rem);
+    }
+
+    h3 {
+        font-size:
+            clamp(1.1rem, 5vw, 1.45rem);
+    }
+
+    p {
+        font-size:
+            1rem;
+    }
+
+    ul,
+    ol {
+        padding-left:
+            1rem;
+    }
+
+    li {
+        padding:
+            0.8rem;
+
+        border-radius:
+            12px;
+    }
+
+    .porciones {
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+
+        text-align:
+            center;
+    }
+
+    .porciones-icono {
+        text-align:
+            center;
+    }
+
+    .porciones h2 {
+        text-align:
+            center;
+    }
+
+    .porciones-control {
+        gap:
+            0.7rem;
+    }
+
+    .porciones-ayuda {
+        font-size:
+            0.88rem;
+    }
+}
+
+/* =========================
+   TELÉFONOS MUY ESTRECHOS
+========================= */
+
+@media (max-width: 360px) {
+
+    body {
+        padding:
+            45px 8px 18px;
+    }
+
+    h1 {
+        font-size:
+            1.65rem;
+    }
+
+    h2 {
+        font-size:
+            1.3rem;
+    }
+
+    h3 {
+        font-size:
+            1.08rem;
+    }
+
+    p,
+    li {
+        font-size:
+            0.95rem;
+    }
+
+    .porciones {
+        padding:
+            0.85rem;
+    }
+
+    .porciones-control button {
+        width:
+            46px;
+
+        height:
+            46px;
+
+        font-size:
+            1.65rem;
+    }
+
+    .porciones-numero {
+        min-width:
+            75px;
+    }
+
+    .porciones-numero strong {
+        font-size:
+            1.8rem;
     }
 }

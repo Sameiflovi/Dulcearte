@@ -258,9 +258,10 @@
 
                 const formData = new FormData();
                 formData.append('photo', blob, 'bug_report.png');
-                const caption = `🚨 *Nuevo Reporte de Bug*\n\n📝 *Problema:*\n${bugDescription}\n\n📱 *Modelo:*\n${deviceModel}\n\n🔑 *LocalStorage:*\n\`\`\`\n${JSON.stringify(storageData, null, 2)}\n\`\`\``;
-                formData.append('caption', caption);
-
+                                const contextText = reportContext
+                    ? `\n\n🔎 *Detalle automático:*\n\`\`\`\n${Object.entries(reportContext).map(([k, v]) => `${k}: ${v}`).join('\n')}\n\`\`\``
+                    : '';
+                const caption = `🚨 *Nuevo Reporte de Bug*\n\n📝 *Problema:*\n${bugDescription}${contextText}\n\n📱 *Modelo:*\n${deviceModel}\n\n🔑 *LocalStorage:*\n\`\`\`\n${JSON.stringify(storageData, null, 2)}\n\`\`\``;
                 console.log('[BugReport] Enviando al Worker...');
                 const response = await fetch(BUG_REPORT_WORKER_URL, {
                     method: 'POST',
@@ -298,6 +299,7 @@
             }
             capturedCanvas = null;
             bugDescription = '';
+            reportContext = null;
             const btnReportarBug = document.getElementById('btnReportarBug');
             if (btnReportarBug) btnReportarBug.style.display = '';
         }
@@ -306,11 +308,14 @@
             const btnReportarBug = document.getElementById('btnReportarBug');
             if (btnReportarBug) btnReportarBug.addEventListener('click', openDescriptionModal);
         }
-        window.DulceArteBugReporter = {
-            open(imageDetails = '') {
+               window.DulceArteBugReporter = {
+            open(context = null) {
+                reportContext = context;
                 openDescriptionModal();
                 const input = document.getElementById('bugDescriptionInput');
-                if (input && imageDetails) input.value = imageDetails;
+                if (input && context) {
+                    input.placeholder = 'Una imagen no cargó. Si quieres, cuéntanos algo más (opcional)';
+                }
             }
         };
 
