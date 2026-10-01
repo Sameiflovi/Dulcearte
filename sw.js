@@ -4,7 +4,7 @@
 // Caché específica con estrategias inteligentes
 // ======================================================
 
-const VERSION = "26.9.1.10";
+const VERSION = "26.9.1.10.1";
 const CACHE_NAME = `dulcearte-${VERSION}`;
 const CACHE_PREFIX = "dulcearte-";
 const NAVIGATION_CACHE_DELAY_MS = 3000;
@@ -19,6 +19,7 @@ const APP_SHELL = [
     "./recetarios/fast-food/pollo-broaster/pollo-broaster.css?v=50e05cea",
     "./recetarios/fast-food/salsa-pollo/salsa.css?v=af523c1e",
     "./recetarios/fast-food/seccion-fast-food.css?v=46d601f7",
+    "./recetarios/fast-food/hamburguesa/hamburguesa.css", "./recetarios/fast-food/hamburguesa/hamburguesa.js",
     "./script.js?v=c20a785e", "./catalogo-index.js?v=d12fa50a",
     "./Catalogo/catalogo.js?v=c08f8488",
     "./cursos/comida-mexicana/comida-m.js?v=8e80b5e2",
