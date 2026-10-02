@@ -52,6 +52,11 @@
 
     <h1 class="h1">La Guía Definitiva del Pollo a la Broaster Profesional</h1>
     <p class="p">El secreto de un verdadero pollo a la broaster casero o comercial no es solo sazonar la carne, sino trabajar la humedad interior y el escamado de la costra exterior.</p>
+
+<div class="portion-control" data-portion-control data-base-amount="4" data-min-amount="1" data-max-amount="20" data-step-amount="1" data-label-singular="persona" data-label-plural="personas" aria-label="Ajustar cantidad">
+    <div class="portion-heading"><span class="portion-icon" aria-hidden="true">🍗</span><div><strong>¿Para cuántas personas?</strong><span class="portion-subtitle">Las cantidades se ajustan automáticamente.</span></div></div>
+    <div class="portion-buttons"><button type="button" data-portion-minus aria-label="Reducir cantidad">−</button><div class="portion-value"><span data-portion-value>4</span> <small data-portion-label>personas</small></div><button type="button" data-portion-plus aria-label="Aumentar cantidad">+</button></div>
+</div>
     </header>
 
     <main>
@@ -67,29 +72,29 @@
 
     <h3 class="h3">1. Para la Carne y el Marinado Salmuerado</h3>
     <ul class="ul">
-        <li class="li"><strong>1 pollo entero</strong> (de 1.8 kg a 2 kg aprox.), cortado en 8 piezas tradicionales y conservando la piel.</li>
-        <li class="li"><strong>1/4 de taza de leche entera</strong> (ayuda a suavizar la fibra de la carne y neutralizar aromas).</li>
-        <li class="li"><strong>1 cucharada colmada de mostaza tradicional</strong> (actúa como emulsionante).</li>
-        <li class="li"><strong>1 cucharada de pasta de ajo fresco</strong> o ajo en polvo concentrado.</li>
-        <li class="li"><strong>1 cucharada de orégano seco</strong>, frotado con las manos.</li>
-        <li class="li"><strong>1 cucharada de salsa de soja (sillao)</strong> (aporta umami y color dorado).</li>
-        <li class="li"><strong>1 cucharada de sal fina</strong>.</li>
-        <li class="li"><strong>1/2 cucharadita de pimienta negra recién molida</strong>.</li>
+        <li class="li"><strong><span data-scale data-base="1" data-unit="pollo" data-unit-plural="pollos">1 pollo</span> entero</strong> (de 1.8 kg a 2 kg aprox.), cortado en 8 piezas tradicionales y conservando la piel.</li>
+        <li class="li"><strong><span data-scale data-base="0.25" data-unit="taza">1/4 taza</span> de leche entera</strong> (ayuda a suavizar la fibra de la carne y neutralizar aromas).</li>
+        <li class="li"><strong><span data-scale data-base="1" data-unit="cucharada">1 cucharada</span> colmada de mostaza tradicional</strong> (actúa como emulsionante).</li>
+        <li class="li"><strong><span data-scale data-base="1" data-unit="cucharada">1 cucharada</span> de pasta de ajo fresco</strong> o ajo en polvo concentrado.</li>
+        <li class="li"><strong><span data-scale data-base="1" data-unit="cucharada">1 cucharada</span> de orégano seco</strong>, frotado con las manos.</li>
+        <li class="li"><strong><span data-scale data-base="1" data-unit="cucharada">1 cucharada</span> de salsa de soja (sillao)</strong> (aporta umami y color dorado).</li>
+        <li class="li"><strong><span data-scale data-base="1" data-unit="cucharada">1 cucharada</span> de sal fina</strong>.</li>
+        <li class="li"><strong><span data-scale data-base="0.5" data-unit="cucharadita">1/2 cucharadita</span> de pimienta negra recién molida</strong>.</li>
     </ul>
 
     <h3 class="h3">2. Para el Mix de Harinas (Empanado Escamoso)</h3>
     <ul class="ul">
-        <li class="li"><strong>1 y 1/2 tazas de harina de trigo todo uso</strong>.</li>
-        <li class="li"><strong>1/2 taza de maicena (fécula de maíz) o chuño</strong> (evita que la costra quede dura).</li>
-        <li class="li"><strong>1 cucharadita de polvo de hornear</strong> (genera microburbujas de aire).</li>
-        <li class="li"><strong>1 cucharadita de pimentón dulce (paprika)</strong>.</li>
-        <li class="li"><strong>1/2 cucharadita de comino y orégano en polvo</strong> <em>(opcional)</em>.</li>
+        <li class="li"><strong><span data-scale data-base="1.5" data-unit="taza">1 1/2 tazas</span> de harina de trigo todo uso</strong>.</li>
+        <li class="li"><strong><span data-scale data-base="0.5" data-unit="taza">1/2 taza</span> de maicena (fécula de maíz) o chuño</strong> (evita que la costra quede dura).</li>
+        <li class="li"><strong><span data-scale data-base="1" data-unit="cucharadita">1 cucharadita</span> de polvo de hornear</strong> (genera microburbujas de aire).</li>
+        <li class="li"><strong><span data-scale data-base="1" data-unit="cucharadita">1 cucharadita</span> de pimentón dulce (paprika)</strong>.</li>
+        <li class="li"><strong><span data-scale data-base="0.5" data-unit="cucharadita">1/2 cucharadita</span> de comino y orégano en polvo</strong> <em>(opcional)</em>.</li>
         <li class="li"><strong>Sal y pimienta negra al gusto</strong>.</li>
     </ul>
 
     <h3 class="h3">3. Para la Fritura Profunda</h3>
     <ul class="ul">
-        <li class="li"><strong>1.5 a 2 litros de aceite vegetal neutro</strong>.</li>
+        <li class="li"><strong><span data-scale-range data-base-min="1.5" data-base-max="2" data-unit="litros">1.5–2 litros</span> de aceite vegetal neutro</strong>.</li>
     </ul>
 
     <hr>
@@ -141,6 +146,7 @@
     </ol>
     </section>
     </main>
+    <script src="../../../recetarios/fast-food/ajustar-porciones.js"></script>
     <script src="../../../service-worker-update.js?v=b91bb6d1"></script>
     <script src="../../../offline-banner.js?v=2a00a21a"></script>
     <script src="../../../bug-reporter.js?v=3c9d4280"></script>
