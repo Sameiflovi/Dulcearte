@@ -138,7 +138,7 @@ body > p:first-of-type {
    IMÁGENES
 ========================= */
 
-img {
+img:not(.emoji) {
     width: min(100%, 920px);
     height: auto;
 
