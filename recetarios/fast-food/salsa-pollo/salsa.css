@@ -74,9 +74,9 @@ img {
 }
 
 .back-btn {
-    position: fixed;
-    top: 12px;
-    left: 12px;
+    position: fixed !important;
+    top: max(10px, env(safe-area-inset-top));
+    left: max(10px, env(safe-area-inset-left));
     z-index: 400;
     display: inline-flex;
     align-items: center;
