@@ -54,6 +54,7 @@ const ARCHIVOS_VERSIONADOS = [
   "recetarios/fast-food/seccion-fast-food.css",
   "recetarios/fast-food/pollo-broaster/pollo-broaster.css",
   "recetarios/fast-food/salsa-pollo/salsa.css",
+  "recetarios/fast-food/ajustar-porciones.js",
   "localStorage-safe.js",
   "catalogo-index.js",
 ];
